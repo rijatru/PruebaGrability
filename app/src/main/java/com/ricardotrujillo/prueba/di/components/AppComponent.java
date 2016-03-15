@@ -4,10 +4,9 @@ import com.ricardotrujillo.prueba.App;
 import com.ricardotrujillo.prueba.MainActivity;
 import com.ricardotrujillo.prueba.di.modules.NetModule;
 import com.ricardotrujillo.prueba.di.modules.SchoolModule;
+import com.ricardotrujillo.prueba.di.scopes.AppScope;
 
-import javax.inject.Singleton;
-
-@Singleton
+@AppScope
 @dagger.Component(modules = {SchoolModule.class, NetModule.class})
 public interface AppComponent {
 

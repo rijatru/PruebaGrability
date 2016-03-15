@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.ricardotrujillo.prueba.model.Store;
+import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.workers.DbWorker;
 import com.ricardotrujillo.prueba.workers.LogWorker;
 import com.ricardotrujillo.prueba.workers.NetWorker;
@@ -19,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
     LogWorker logWorker;
     @Inject
     DbWorker dbWorker;
-
+    @Inject
+    StoreManager storeManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +30,28 @@ public class MainActivity extends AppCompatActivity {
 
         inject();
 
-        getSavedData();
+        checkForConnectivity();
+    }
 
-        getData(Constants.URL);
+    void checkForConnectivity() {
+
+        netWorker.isNetworkAvailable(this, new NetWorker.ConnectionStatusListener() {
+
+            @Override
+            public void onResult(boolean connected) {
+
+                logWorker.log("Network State: " + connected);
+
+                if (connected) {
+
+                    getData(Constants.URL);
+
+                } else {
+
+                    getSavedData();
+                }
+            }
+        });
     }
 
     void getSavedData() {
@@ -39,11 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (store != null) {
 
-            for (Store.Feed.Entry entry : store.feed.entry) {
+            storeManager.addStore(store);
 
-                //logWorker.log("saved label: " + entry.name.label);
-                //logWorker.log("saved image: " + entry.image[0].label);
-            }
+            logWorker.log("Saved Store: " + storeManager.getStore().feed.author.name.label);
         }
     }
 
@@ -61,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     //logWorker.log("image: " + entry.image[0].label);
                 }
 
-                logWorker.log("Network State: " + netWorker.isNetworkAvailable(MainActivity.this));
+                storeManager.addStore(store);
 
                 dbWorker.saveObject(MainActivity.this, store);
             }

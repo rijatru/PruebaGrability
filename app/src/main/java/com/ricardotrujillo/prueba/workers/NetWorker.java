@@ -3,6 +3,7 @@ package com.ricardotrujillo.prueba.workers;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -16,9 +17,18 @@ import com.android.volley.toolbox.Volley;
 import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.model.Measurements;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import javax.inject.Inject;
 
 public class NetWorker {
+
+    public interface ConnectionStatusListener {
+
+        void onResult(boolean connected);
+    }
 
     private Measurements measurements = new Measurements();
     private RequestQueue queue;
@@ -28,13 +38,16 @@ public class NetWorker {
 
     }
 
-    public boolean isNetworkAvailable(Context context) {
+    public void isNetworkAvailable(Context context, final ConnectionStatusListener listener) {
 
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        new CheckConnectivity(context, new ConnectionStatusListener() {
 
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            @Override
+            public void onResult(boolean connected) {
 
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+                listener.onResult(connected);
+            }
+        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void get(final Context context, final String url, final Listener listener) {
@@ -85,5 +98,60 @@ public class NetWorker {
     public interface Listener {
 
         void onDataRetrieved(String result);
+    }
+
+    private class CheckConnectivity extends AsyncTask<String, Boolean, Boolean> {
+
+        Context activity;
+        ConnectionStatusListener listener;
+
+        public CheckConnectivity(Context activity, ConnectionStatusListener listener) {
+
+            this.activity = activity;
+            this.listener = listener;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... uri) {
+
+            if (isNetworkAvailable()) {
+
+                try {
+
+                    HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
+                    urlc.setRequestProperty("User-Agent", "Test");
+                    urlc.setRequestProperty("Connection", "close");
+                    urlc.setConnectTimeout(15000);
+                    urlc.connect();
+
+                    return (urlc.getResponseCode() == 200);
+
+                } catch (IOException e) {
+
+                }
+
+            } else {
+
+                return false;
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean connected) {
+            super.onPostExecute(connected);
+
+            listener.onResult(connected);
+        }
+
+        private boolean isNetworkAvailable() {
+
+            ConnectivityManager connectivityManager = (ConnectivityManager) activity.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+            return activeNetworkInfo != null;
+        }
     }
 }

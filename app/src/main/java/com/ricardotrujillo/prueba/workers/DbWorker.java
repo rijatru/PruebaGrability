@@ -31,8 +31,6 @@ public class DbWorker {
         DaoMaster daoMaster = new DaoMaster(db);
         DaoSession daoSession = daoMaster.newSession();
 
-        Log.d("Test", "Object to save: " + new Gson().toJson(object));
-
         daoStore.setObject(new Gson().toJson(object));
         daoStore.setObjectId(Constants.STORE_ID);
 
@@ -51,9 +49,9 @@ public class DbWorker {
         StoreDao storeDao = daoSession.getStoreDao();
         List<Store> storeList = storeDao.loadAll();
 
-        Log.d("Test", "Got from db: " + storeList.size());
-
         if (storeList.size() > 0) {
+
+            Log.d("Test", "Got db results: " + storeList.size());
 
             return new Gson().fromJson(storeList.get(0).getObject(), com.ricardotrujillo.prueba.model.Store.class);
         }

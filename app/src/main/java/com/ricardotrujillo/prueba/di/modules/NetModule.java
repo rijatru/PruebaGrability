@@ -1,11 +1,10 @@
 package com.ricardotrujillo.prueba.di.modules;
 
+import com.ricardotrujillo.prueba.di.scopes.AppScope;
 import com.ricardotrujillo.prueba.workers.BusWorker;
 import com.ricardotrujillo.prueba.workers.DbWorker;
 import com.ricardotrujillo.prueba.workers.LogWorker;
 import com.ricardotrujillo.prueba.workers.SharedPreferencesWorker;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,28 +13,28 @@ import dagger.Provides;
 public class NetModule {
 
     @Provides
-    @Singleton
+    @AppScope
     SharedPreferencesWorker provideSharedPreferences(){
 
         return new SharedPreferencesWorker();
     }
 
     @Provides
-    @Singleton
+    @AppScope
     DbWorker provideDbWorker(){
 
         return new DbWorker();
     }
 
     @Provides
-    @Singleton
+    @AppScope
     LogWorker provideLogWorker(){
 
         return new LogWorker();
     }
 
     @Provides
-    @Singleton
+    @AppScope
     BusWorker provideBusWorker(){
 
         return new BusWorker();
