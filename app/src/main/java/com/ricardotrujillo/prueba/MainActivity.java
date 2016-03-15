@@ -39,16 +39,18 @@ public class MainActivity extends AppCompatActivity {
 
                 Store storeApp = new Gson().fromJson(result.replace(Constants.STRING_TO_ERASE, Constants.NEW_STRING), Store.class);
 
-                for (Store.Feed.Entry entry : storeApp.feed.entry) {
+                //for (Store.Feed.Entry entry : storeApp.feed.entry) {
+//
+                //    logWorker.log("label: " + entry.name.label);
+                //    logWorker.log("image: " + entry.image[0].label);
+                //    logWorker.log("entry: " + entry.name.label);
+                //    logWorker.log("entry: " + entry.name.label);
+                //    logWorker.log("entry: " + entry.name.label);
+                //}
 
-                    logWorker.log("label: " + entry.name.label);
-                    logWorker.log("image: " + entry.image[0].label);
-                    logWorker.log("entry: " + entry.name.label);
-                    logWorker.log("entry: " + entry.name.label);
-                    logWorker.log("entry: " + entry.name.label);
-                }
+                logWorker.log("Network State: " + netWorker.isNetworkAvailable(MainActivity.this));
 
-                dbWorker.saveObject(storeApp);
+                dbWorker.saveObject(MainActivity.this, storeApp);
             }
         });
     }

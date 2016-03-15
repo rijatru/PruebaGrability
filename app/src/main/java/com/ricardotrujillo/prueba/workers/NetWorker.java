@@ -1,6 +1,8 @@
 package com.ricardotrujillo.prueba.workers;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -24,6 +26,15 @@ public class NetWorker {
     @Inject
     public NetWorker() {
 
+    }
+
+    public boolean isNetworkAvailable(Context context) {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public void get(final Context context, final String url, final Listener listener) {
