@@ -1,5 +1,7 @@
 package com.ricardotrujillo.prueba.model;
 
+import android.databinding.BaseObservable;
+
 public final class Store {
 
     public final Feed feed;
@@ -55,7 +57,10 @@ public final class Store {
             }
         }
 
-        public static final class Entry {
+        public static final class Entry extends BaseObservable {
+
+            public int likes = 0;
+            public boolean isLiked = false;
             public final name name;
             public final image image[];
             public final Summary summary;

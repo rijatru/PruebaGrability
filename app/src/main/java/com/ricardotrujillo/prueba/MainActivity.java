@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.gson.Gson;
+import com.ricardotrujillo.prueba.model.FetchedStoreDataEvent;
 import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
+import com.ricardotrujillo.prueba.workers.BusWorker;
 import com.ricardotrujillo.prueba.workers.DbWorker;
 import com.ricardotrujillo.prueba.workers.LogWorker;
 import com.ricardotrujillo.prueba.workers.NetWorker;
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     DbWorker dbWorker;
     @Inject
     StoreManager storeManager;
+    @Inject
+    BusWorker busWorker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Store store = new Gson().fromJson(result.replace(Constants.STRING_TO_ERASE, Constants.NEW_STRING), Store.class);
 
+                logWorker.log("Got Store: " + result.replace(Constants.STRING_TO_ERASE, Constants.NEW_STRING));
+
                 for (Store.Feed.Entry entry : store.feed.entry) {
 
                     //logWorker.log("label: " + entry.name.label);
@@ -82,7 +88,11 @@ public class MainActivity extends AppCompatActivity {
 
                 storeManager.addStore(store);
 
+                logWorker.log("Got Store: " + storeManager.getStore().feed.author.name.label);
+
                 dbWorker.saveObject(MainActivity.this, store);
+
+                busWorker.getBus().post(new FetchedStoreDataEvent());
             }
         });
     }

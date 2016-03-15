@@ -17,4 +17,7 @@ public class Constants {
     final public static String NEW_STRING = "";
     final public static String KEY_DATA = "store";
     final public static String STORE_ID = "storeId";
+
+    final public static String LIKE = "liked";
+    final public static String MORE = "more";
 }
