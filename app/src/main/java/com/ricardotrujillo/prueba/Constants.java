@@ -16,4 +16,5 @@ public class Constants {
     final public static String STRING_TO_ERASE = "im:";
     final public static String NEW_STRING = "";
     final public static String KEY_DATA = "store";
+    final public static String STORE_ID = "storeId";
 }

@@ -10,10 +10,11 @@ public class Main {
 
         Schema schema = new Schema(1, "com.ricardotrujillo.prueba.db");
 
-        Entity program = schema.addEntity("Store");
+        Entity daoStore = schema.addEntity("Store");
 
-        program.addIdProperty();
-        program.addStringProperty("name");
+        daoStore.addIdProperty();
+        daoStore.addStringProperty("objectId").unique();
+        daoStore.addStringProperty("object");
 
         DaoGenerator dg = new DaoGenerator();
 

@@ -1,8 +1,7 @@
 package com.ricardotrujillo.prueba.model;
 
-import java.io.Serializable;
+public final class Store {
 
-public final class Store implements Serializable {
     public final Feed feed;
 
     public Store(Feed feed){

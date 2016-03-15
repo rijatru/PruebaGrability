@@ -2,9 +2,13 @@ package com.ricardotrujillo.prueba.workers;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.google.gson.Gson;
+import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.db.DaoMaster;
 import com.ricardotrujillo.prueba.db.DaoSession;
+import com.ricardotrujillo.prueba.db.Store;
 import com.ricardotrujillo.prueba.db.StoreDao;
 
 import java.util.List;
@@ -22,27 +26,38 @@ public class DbWorker {
 
         com.ricardotrujillo.prueba.db.Store daoStore = new com.ricardotrujillo.prueba.db.Store();
 
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "lease-db", null);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "store-db", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         DaoSession daoSession = daoMaster.newSession();
 
-        //daoStore.setObject();
+        Log.d("Test", "Object to save: " + new Gson().toJson(object));
 
-        StoreDao personDao = daoSession.getStoreDao();
-        personDao.insertOrReplace(daoStore);
+        daoStore.setObject(new Gson().toJson(object));
+        daoStore.setObjectId(Constants.STORE_ID);
+
+        StoreDao storeDao = daoSession.getStoreDao();
+
+        storeDao.insertOrReplace(daoStore);
     }
 
-    Object getObject(Context context) {
+    public Object getObject(Context context) {
 
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "lease-db", null);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "store-db", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         DaoSession daoSession = daoMaster.newSession();
 
         StoreDao storeDao = daoSession.getStoreDao();
-        List storeList = storeDao.loadAll();
+        List<Store> storeList = storeDao.loadAll();
 
-        return storeList.get(0);
+        Log.d("Test", "Got from db: " + storeList.size());
+
+        if (storeList.size() > 0) {
+
+            return new Gson().fromJson(storeList.get(0).getObject(), com.ricardotrujillo.prueba.model.Store.class);
+        }
+
+        return null;
     }
 }

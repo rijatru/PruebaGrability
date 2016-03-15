@@ -28,7 +28,23 @@ public class MainActivity extends AppCompatActivity {
 
         inject();
 
+        getSavedData();
+
         getData(Constants.URL);
+    }
+
+    void getSavedData() {
+
+        Store store = (Store) dbWorker.getObject(this);
+
+        if (store != null) {
+
+            for (Store.Feed.Entry entry : store.feed.entry) {
+
+                //logWorker.log("saved label: " + entry.name.label);
+                //logWorker.log("saved image: " + entry.image[0].label);
+            }
+        }
     }
 
     void getData(String url) {
@@ -37,20 +53,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataRetrieved(String result) {
 
-                Store storeApp = new Gson().fromJson(result.replace(Constants.STRING_TO_ERASE, Constants.NEW_STRING), Store.class);
+                Store store = new Gson().fromJson(result.replace(Constants.STRING_TO_ERASE, Constants.NEW_STRING), Store.class);
 
-                //for (Store.Feed.Entry entry : storeApp.feed.entry) {
-//
-                //    logWorker.log("label: " + entry.name.label);
-                //    logWorker.log("image: " + entry.image[0].label);
-                //    logWorker.log("entry: " + entry.name.label);
-                //    logWorker.log("entry: " + entry.name.label);
-                //    logWorker.log("entry: " + entry.name.label);
-                //}
+                for (Store.Feed.Entry entry : store.feed.entry) {
+
+                    //logWorker.log("label: " + entry.name.label);
+                    //logWorker.log("image: " + entry.image[0].label);
+                }
 
                 logWorker.log("Network State: " + netWorker.isNetworkAvailable(MainActivity.this));
 
-                dbWorker.saveObject(MainActivity.this, storeApp);
+                dbWorker.saveObject(MainActivity.this, store);
             }
         });
     }
