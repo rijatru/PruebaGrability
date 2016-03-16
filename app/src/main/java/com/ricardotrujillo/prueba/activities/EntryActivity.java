@@ -39,15 +39,30 @@ public class EntryActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
 
-            Bundle extras = getIntent().getExtras();
+            if (getIntent().getExtras() != null) {
 
-            if (extras != null) {
-
-                entry = storeManager.getStore().feed.entry[extras.getInt(Constants.POSITION)];
+                entry = storeManager.getStore().feed.entry[getIntent().getExtras().getInt(Constants.POSITION)];
 
                 loadEntry();
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putInt(Constants.POSITION, getIntent().getExtras().getInt(Constants.POSITION));
+        savedInstanceState.putString("MyString", "Welcome back to Android");
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        entry = storeManager.getStore().feed.entry[savedInstanceState.getInt(Constants.POSITION)];
+
+        loadEntry();
     }
 
     @Override
@@ -72,6 +87,7 @@ public class EntryActivity extends AppCompatActivity {
                         NetWorker.isConnected(this) ?
                                 NetworkPolicy.NO_CACHE : NetworkPolicy.OFFLINE)
                 .noFade()
+                .placeholder(R.drawable.img_feed_center_1)
                 .into(binding.ivFeedCenter);
     }
 
