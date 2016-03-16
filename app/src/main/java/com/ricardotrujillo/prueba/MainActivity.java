@@ -34,7 +34,21 @@ public class MainActivity extends AppCompatActivity {
 
         inject();
 
-        checkForConnectivity();
+        checkForLoadedData();
+    }
+
+    void checkForLoadedData() {
+
+        if (storeManager.getStore() == null) {
+
+            checkForConnectivity();
+
+        } else {
+
+            logWorker.log("recycling data");
+
+            busWorker.getBus().post(new FetchedStoreDataEvent());
+        }
     }
 
     void checkForConnectivity() {

@@ -93,7 +93,7 @@ public class StoreFragment extends Fragment {
     @Subscribe
     public void recievedMessage(FetchedStoreDataEvent event) {
 
-        logWorker.log("recievedMessage Fragment");
+        logWorker.log("recievedMessage Fragment " + (binding.storeRecyclerView.getAdapter() == null));
 
         adapter.notifyDataSetChanged();
     }
@@ -142,23 +142,23 @@ public class StoreFragment extends Fragment {
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
         adapter = new StoreRecyclerViewAdapter(getActivity());
-        binding.studentsRecyclerView.setAdapter(adapter);
-        binding.studentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.storeRecyclerView.setAdapter(adapter);
+        binding.storeRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 FeedContextMenuManager.getInstance().onScrolled(recyclerView, dx, dy);
             }
         });
 
-        binding.studentsRecyclerView.setItemAnimator(new FeedItemAnimator());
+        binding.storeRecyclerView.setItemAnimator(new FeedItemAnimator());
     }
 
     public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
 
         int scrollPosition = 0;
 
-        if (binding.studentsRecyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) binding.studentsRecyclerView.getLayoutManager())
+        if (binding.storeRecyclerView.getLayoutManager() != null) {
+            scrollPosition = ((LinearLayoutManager) binding.storeRecyclerView.getLayoutManager())
                     .findFirstCompletelyVisibleItemPosition();
         }
 
@@ -176,8 +176,8 @@ public class StoreFragment extends Fragment {
                 mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
         }
 
-        binding.studentsRecyclerView.setLayoutManager(mLayoutManager);
-        binding.studentsRecyclerView.scrollToPosition(scrollPosition);
+        binding.storeRecyclerView.setLayoutManager(mLayoutManager);
+        binding.storeRecyclerView.scrollToPosition(scrollPosition);
     }
 
     public void updateItems(boolean animated) {
@@ -186,8 +186,8 @@ public class StoreFragment extends Fragment {
 
             logWorker.log("updateItems netWorker: " + netWorker.getScreenHeight());
 
-            binding.studentsRecyclerView.setY(netWorker.getScreenHeight());
-            binding.studentsRecyclerView
+            binding.storeRecyclerView.setY(netWorker.getScreenHeight());
+            binding.storeRecyclerView
                     .animate()
                     .y(0f)
                     .setDuration(Constants.RECYCLER_INTRO_ANIM_DURATION)

@@ -27,6 +27,7 @@ import com.ricardotrujillo.prueba.App;
 import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.databinding.StoreRowBinding;
+import com.ricardotrujillo.prueba.model.EntryViewModel;
 import com.ricardotrujillo.prueba.model.RecyclerCellEvent;
 import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
@@ -213,6 +214,8 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
             super(v);
 
             binding = DataBindingUtil.bind(v);
+
+            binding.setViewModel(new EntryViewModel());
         }
 
         public StoreRowBinding getBinding() {
