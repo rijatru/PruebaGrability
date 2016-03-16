@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
             storeManager.addStore(store);
 
             logWorker.log("Saved Store: " + storeManager.getStore().feed.author.name.label);
+
+            busWorker.getBus().post(new FetchedStoreDataEvent());
         }
     }
 

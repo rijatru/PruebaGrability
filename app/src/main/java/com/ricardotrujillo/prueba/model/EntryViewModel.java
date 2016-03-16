@@ -1,10 +1,11 @@
 package com.ricardotrujillo.prueba.model;
 
+import android.app.Activity;
 import android.databinding.BindingAdapter;
-import android.util.Log;
 import android.widget.ImageView;
 
-import com.ricardotrujillo.prueba.R;
+import com.ricardotrujillo.prueba.workers.NetWorker;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -12,19 +13,22 @@ import com.squareup.picasso.Picasso;
  */
 public class EntryViewModel {
 
-    public String getImageUrl() {
-        // The URL will usually come from a model (i.e Profile)
-        return "http://cdn.meme.am/instances/60677654.jpg";
+    static Activity activity;
+
+    public EntryViewModel(Activity act) {
+
+        activity = act;
     }
 
     @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
 
-        Log.d("Test", "loadImage: " + imageUrl);
-
         Picasso.with(view.getContext())
                 .load(imageUrl)
-                .placeholder(R.drawable.img_feed_center_1)
+                .networkPolicy(
+                        NetWorker.isConnected(activity) ?
+                                NetworkPolicy.NO_CACHE : NetworkPolicy.OFFLINE)
+                .noFade()
                 .into(view);
     }
 }

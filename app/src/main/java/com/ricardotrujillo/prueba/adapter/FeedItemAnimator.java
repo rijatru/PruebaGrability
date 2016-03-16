@@ -178,7 +178,7 @@ public class FeedItemAnimator extends DefaultItemAnimator {
         ObjectAnimator bgScaleYAnim = ObjectAnimator.ofFloat(holder.binding.vBgLike, "scaleY", 0.1f, 1f);
         bgScaleYAnim.setDuration(200);
         bgScaleYAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
-        ObjectAnimator bgScaleXAnim = ObjectAnimator.ofFloat(holder.binding.vBgLike, "scaleX", 0.1f, 0.6f);
+        ObjectAnimator bgScaleXAnim = ObjectAnimator.ofFloat(holder.binding.vBgLike, "scaleX", 0.1f, 1f);
         bgScaleXAnim.setDuration(200);
         bgScaleXAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
         ObjectAnimator bgAlphaAnim = ObjectAnimator.ofFloat(holder.binding.vBgLike, "alpha", 1f, 0f);

@@ -1,5 +1,6 @@
 package com.ricardotrujillo.prueba.workers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -121,7 +122,7 @@ public class NetWorker {
                     HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
                     urlc.setRequestProperty("User-Agent", "Test");
                     urlc.setRequestProperty("Connection", "close");
-                    urlc.setConnectTimeout(15000);
+                    urlc.setConnectTimeout(3000);
                     urlc.connect();
 
                     return (urlc.getResponseCode() == 200);
@@ -153,5 +154,12 @@ public class NetWorker {
 
             return activeNetworkInfo != null;
         }
+    }
+
+    public static boolean isConnected(Activity activity) {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

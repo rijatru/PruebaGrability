@@ -27,31 +27,29 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="8dp"
+        android:clipChildren="false"
         card_view:cardCornerRadius="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:padding="@dimen/card_margins"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/ivUserProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_feed_top" />
-
-            <FrameLayout
+            <com.ricardotrujillo.prueba.view.RoundedFrameLayout
                 android:id="@+id/vImageRoot"
-                android:layout_width="wrap_content"
-                android:layout_height="200dp">
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:elevation="10dp" >
 
                 <ImageView
                     android:id="@+id/ivFeedCenter"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="match_parent"
                     android:onClick="@{click.onClick}"
                     android:scaleType="centerCrop"
-                    app:imageUrl="@{entry.image[0].label}"
+                    app:imageUrl="@{entry.image[2].label}"
                     android:src="@drawable/img_feed_center_1" />
 
                 <View
@@ -69,7 +67,13 @@
                     android:src="@drawable/ic_insert_emoticon_white_48dp"
                     android:visibility="invisible" />
 
-            </FrameLayout>
+            </com.ricardotrujillo.prueba.view.RoundedFrameLayout>
+
+            <ImageView
+                android:id="@+id/ivFeedBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_feed_bottom_2" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -92,12 +96,6 @@
                     tools:text="Grade" />
 
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/ivFeedBottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/img_feed_bottom_2" />
 
             <LinearLayout
                 android:layout_width="match_parent"

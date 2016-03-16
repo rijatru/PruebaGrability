@@ -54,7 +54,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     @Inject
     StoreManager storeManager;
 
-    Activity activity;
+    static Activity activity;
     private int itemsCount = 0;
     private int lastAnimatedPosition = -1;
     private int avatarSize;
@@ -63,9 +63,9 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
     private boolean showLoadingView = false;
 
-    public StoreRecyclerViewAdapter(Activity activity) {
+    public StoreRecyclerViewAdapter(Activity act) {
 
-        this.activity = activity;
+        activity = act;
 
         inject();
     }
@@ -215,7 +215,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
             binding = DataBindingUtil.bind(v);
 
-            binding.setViewModel(new EntryViewModel());
+            binding.setViewModel(new EntryViewModel(activity));
         }
 
         public StoreRowBinding getBinding() {

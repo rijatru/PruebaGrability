@@ -7,6 +7,7 @@ import com.ricardotrujillo.prueba.di.modules.NetModule;
 import com.ricardotrujillo.prueba.di.modules.SchoolModule;
 import com.ricardotrujillo.prueba.di.scopes.AppScope;
 import com.ricardotrujillo.prueba.fragments.StoreFragment;
+import com.ricardotrujillo.prueba.model.EntryViewModel;
 
 @AppScope
 @dagger.Component(modules = {SchoolModule.class, NetModule.class})
@@ -19,4 +20,6 @@ public interface AppComponent {
     void inject(StoreFragment fragment);
 
     void inject(StoreRecyclerViewAdapter storeRecyclerViewAdapter);
+
+    void inject(EntryViewModel entryViewModel);
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Schools</string>
+    <string name="app_name">App Store</string>
     <string name="name">name</string>
     <string name="preferences_key">SchoolsPrefs</string>
 
