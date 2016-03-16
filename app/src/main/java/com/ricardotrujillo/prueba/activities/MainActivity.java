@@ -1,9 +1,14 @@
-package com.ricardotrujillo.prueba;
+package com.ricardotrujillo.prueba.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.TransitionInflater;
 
 import com.google.gson.Gson;
+import com.ricardotrujillo.prueba.App;
+import com.ricardotrujillo.prueba.Constants;
+import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.model.FetchedStoreDataEvent;
 import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
@@ -34,7 +39,19 @@ public class MainActivity extends AppCompatActivity {
 
         inject();
 
+        initTransition();
+
+        netWorker.setScreenHeight(this);
+
         checkForLoadedData();
+    }
+
+    void initTransition() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            getWindow().setSharedElementExitTransition(TransitionInflater.from(this).inflateTransition(R.transition.entry_transition));
+        }
     }
 
     void checkForLoadedData() {

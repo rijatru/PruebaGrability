@@ -16,4 +16,6 @@
     <string name="like">&#160;like</string>
     <string name="likes">&#160;likes</string>
 
+    <string name="entry_transition_name">entry</string>
+
 </resources>

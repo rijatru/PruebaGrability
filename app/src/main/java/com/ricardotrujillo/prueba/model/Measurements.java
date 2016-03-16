@@ -1,6 +1,7 @@
 package com.ricardotrujillo.prueba.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.ricardotrujillo.prueba.Utils;
 
@@ -19,5 +20,7 @@ public class Measurements {
     public void setScreenHeight(Context context) {
 
         rootHeight = Utils.getScreenHeight(context);
+
+        Log.d("Test", "setScreenHeight: " + rootHeight);
     }
 }

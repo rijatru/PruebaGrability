@@ -19,8 +19,12 @@
     <color name="btn_context_menu_normal">#ffffff</color>
     <color name="btn_context_menu_pressed">#40000000</color>
     <color name="btn_context_menu_text_red">#ffff0000</color>
+    <color name="entry_activity_background">#ffffff</color>
 
     <color name="text_like_counter">#2b5a83</color>
 
     <color name="bg_comments">#ffffff</color>
+
+    <color name="title">#44000000</color>
+    <color name="sub_title">#40ffffff</color>
 </resources>

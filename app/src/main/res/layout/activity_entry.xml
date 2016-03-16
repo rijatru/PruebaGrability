@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?><!-- item_feed.xml -->
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.ricardotrujillo.prueba.model.Store.Feed.Entry" />
+
+        <variable
+            name="click"
+            type="com.ricardotrujillo.prueba.adapter.StoreRecyclerViewAdapter.StoreClickHandler" />
+
+        <variable
+            name="entry"
+            type="Entry" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/entry_activity_background"
+        tools:context="com.ricardotrujillo.prueba.activities.EntryActivity">
+
+        <ImageView
+            android:id="@+id/ivFeedCenter"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:onClick="@{click.onClick}"
+            android:scaleType="centerCrop"
+            android:transitionName="@string/entry_transition_name"
+            android:src="@drawable/img_feed_center_1" />
+
+    </RelativeLayout>
+
+</layout>

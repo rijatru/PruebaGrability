@@ -75,14 +75,6 @@ public class StoreFragment extends Fragment {
         super.onResume();
 
         busWorker.register(this);
-
-
-        if (pendingIntroAnimation) {
-
-            pendingIntroAnimation = false;
-
-            updateItems(true);
-        }
     }
 
     void inject() {
@@ -96,6 +88,13 @@ public class StoreFragment extends Fragment {
         logWorker.log("recievedMessage Fragment " + (binding.storeRecyclerView.getAdapter() == null));
 
         adapter.notifyDataSetChanged();
+
+        if (pendingIntroAnimation) {
+
+            pendingIntroAnimation = false;
+
+            updateItems(true);
+        }
     }
 
     @Override

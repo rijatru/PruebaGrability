@@ -4,6 +4,7 @@ import com.ricardotrujillo.prueba.di.scopes.AppScope;
 import com.ricardotrujillo.prueba.workers.BusWorker;
 import com.ricardotrujillo.prueba.workers.DbWorker;
 import com.ricardotrujillo.prueba.workers.LogWorker;
+import com.ricardotrujillo.prueba.workers.NetWorker;
 import com.ricardotrujillo.prueba.workers.SharedPreferencesWorker;
 
 import dagger.Module;
@@ -38,5 +39,12 @@ public class NetModule {
     BusWorker provideBusWorker(){
 
         return new BusWorker();
+    }
+
+    @Provides
+    @AppScope
+    NetWorker provideNetWorker() {
+
+        return new NetWorker();
     }
 }

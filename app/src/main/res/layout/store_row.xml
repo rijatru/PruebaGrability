@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?><!-- item_feed.xml -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -23,25 +23,21 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:clipChildren="false"
-        card_view:cardCornerRadius="4dp">
+        style="@style/StoreCard"
+        card_view:cardCornerRadius="6dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            android:padding="@dimen/card_margins"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/card_margins">
 
             <com.ricardotrujillo.prueba.view.RoundedFrameLayout
                 android:id="@+id/vImageRoot"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:elevation="10dp" >
+                android:elevation="10dp">
 
                 <ImageView
                     android:id="@+id/ivFeedCenter"
@@ -49,8 +45,9 @@
                     android:layout_height="match_parent"
                     android:onClick="@{click.onClick}"
                     android:scaleType="centerCrop"
-                    app:imageUrl="@{entry.image[2].label}"
-                    android:src="@drawable/img_feed_center_1" />
+                    android:src="@drawable/img_feed_center_1"
+                    android:transitionName="@string/entry_transition_name"
+                    app:imageUrl="@{entry.image[2].label}" />
 
                 <View
                     android:id="@+id/vBgLike"
@@ -69,24 +66,40 @@
 
             </com.ricardotrujillo.prueba.view.RoundedFrameLayout>
 
-            <ImageView
-                android:id="@+id/ivFeedBottom"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/img_feed_bottom_2" />
+                android:orientation="vertical"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/vImageRoot"
+                android:layout_toEndOf="@+id/vImageRoot" >
+
+                <TextView
+                    android:id="@+id/row_name"
+                    style="@style/StoreCardName"
+                    android:text="@{entry.name.label}"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/row_author"
+                    style="@style/StoreCardAuthor"
+                    android:text="@{entry.name.label}"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/row_type"
+                    style="@style/StoreCardPrice"
+                    android:text="@{entry.name.label}"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/row_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{entry.name.label}"
-                    tools:text="Name" />
 
                 <TextView
                     android:id="@+id/row_grade"
@@ -101,7 +114,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="8dp"
-                android:paddingRight="8dp">
+                android:paddingRight="8dp"
+                android:visibility="gone">
 
                 <ImageButton
                     android:id="@+id/btnLike"
@@ -165,7 +179,7 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 

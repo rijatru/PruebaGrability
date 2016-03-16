@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!-- styles.xml-->
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/style_color_primary</item>
         <item name="colorPrimaryDark">@color/style_color_primary_dark</item>
         <item name="colorAccent">@color/style_color_accent</item>
         <item name="colorControlHighlight">@color/fab_color_pressed</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="AppTheme.TransparentActivity">
@@ -57,50 +58,6 @@
         <item name="android:textColor">@color/bg_comments</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="StoreCard">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_marginLeft">8dp</item>
-        <item name="android:layout_marginRight">8dp</item>
-        <item name="android:layout_marginTop">4dp</item>
-        <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:clipChildren">false</item>
-    </style>
-
-    <style name="StoreCardName">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">left</item>
-        <item name="android:layout_marginLeft">6dp</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/title</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-
-    <style name="StoreCardAuthor">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">left</item>
-        <item name="android:layout_marginLeft">6dp</item>
-        <item name="android:textSize">11sp</item>
-        <item name="android:textColor">@color/title</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-
-    <style name="StoreCardPrice">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">left</item>
-        <item name="android:layout_marginLeft">6dp</item>
-        <item name="android:textSize">13sp</item>
-        <item name="android:textColor">@color/title</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">end</item>
     </style>
 
 </resources>

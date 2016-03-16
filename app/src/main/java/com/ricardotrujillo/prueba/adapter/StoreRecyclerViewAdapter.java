@@ -17,7 +17,10 @@
 package com.ricardotrujillo.prueba.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +29,7 @@ import android.view.ViewGroup;
 import com.ricardotrujillo.prueba.App;
 import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.R;
+import com.ricardotrujillo.prueba.activities.EntryActivity;
 import com.ricardotrujillo.prueba.databinding.StoreRowBinding;
 import com.ricardotrujillo.prueba.model.EntryViewModel;
 import com.ricardotrujillo.prueba.model.RecyclerCellEvent;
@@ -161,6 +165,36 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                 break;
 
             case R.id.ivFeedCenter:
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                    holder.binding.ivFeedCenter.setTransitionName(activity.getString(R.string.entry_transition_name));
+
+                    Intent intent = new Intent(activity, EntryActivity.class);
+                    intent.putExtra(Constants.POSITION, holder.getLayoutPosition());
+
+                    ActivityOptionsCompat options = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation(
+                                    activity,
+                                    holder.binding.ivFeedCenter,
+                                    holder.binding.ivFeedCenter.getTransitionName());
+
+                    activity.startActivity(intent, options.toBundle());
+
+                } else {
+
+                    Intent intent = new Intent(activity, EntryActivity.class);
+
+                    ActivityOptionsCompat options = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation(
+                                    activity,
+                                    holder.binding.ivFeedCenter,
+                                    holder.binding.ivFeedCenter.getTransitionName());
+
+                    activity.startActivity(intent, options.toBundle());
+                }
+
+
 
                 int adapterPos = holder.getAdapterPosition();
                 holder.binding.getEntry().likes = holder.binding.getEntry().likes + 1;
