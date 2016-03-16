@@ -3,7 +3,8 @@
     import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
+    import android.content.res.Configuration;
+    import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -33,7 +34,7 @@ import javax.inject.Inject;
 public class StoreFragment extends Fragment {
 
     public static StoreRecyclerViewAdapter adapter;
-    private final int SPAN_COUNT = 2;
+    private final int SPAN_COUNT = 3;
     private final int DATASET_COUNT = 15;
     private final String KEY_LAYOUT_MANAGER = "layoutManager";
     protected LayoutManagerType mCurrentLayoutManagerType;
@@ -130,12 +131,19 @@ public class StoreFragment extends Fragment {
 
         mLayoutManager = new LinearLayoutManager(getActivity());
 
-        mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+            mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+
+        } else {
+
+            mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
+        }
 
         if (savedInstanceState != null) {
 
-            mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState
-                    .getSerializable(KEY_LAYOUT_MANAGER);
+           // mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState
+                    //.getSerializable(KEY_LAYOUT_MANAGER);
         }
 
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
