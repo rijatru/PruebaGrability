@@ -1,8 +1,12 @@
 package com.ricardotrujillo.prueba;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.view.Display;
 import android.view.WindowManager;
@@ -44,5 +48,30 @@ public class Utils {
 
     public static boolean isAndroid5() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    @TargetApi(21)
+    public static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor) {
+
+        return new RippleDrawable(getPressedColorSelector(normalColor, pressedColor), getColorDrawableFromColor(normalColor), null);
+    }
+
+    public static ColorStateList getPressedColorSelector(int normalColor, int pressedColor) {
+
+        return new ColorStateList(
+                new int[][]
+                        {
+                                new int[]{}
+                        },
+                new int[]
+                        {
+                                pressedColor
+                        }
+        );
+    }
+
+    public static ColorDrawable getColorDrawableFromColor(int color) {
+
+        return new ColorDrawable(color);
     }
 }

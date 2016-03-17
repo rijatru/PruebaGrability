@@ -27,166 +27,176 @@
         card_view:cardCornerRadius="6dp">
 
         <RelativeLayout
-            android:id="@+id/ivContainer"
+            android:id="@+id/ivContainerParent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            android:orientation="vertical"
             android:clickable="true"
-            android:padding="@dimen/card_margins">
+            android:orientation="vertical">
 
-            <com.ricardotrujillo.prueba.view.RoundedFrameLayout
-                android:id="@+id/vImageRoot"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:elevation="10dp">
-
-                <ImageView
-                    android:id="@+id/ivFeedCenter"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:onClick="@{click.onClick}"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_feed_center_1"
-                    android:transitionName="@string/entry_transition_name"
-                    app:imageUrl="@{entry.image[2].label}" />
-
-                <View
-                    android:id="@+id/vBgLike"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_like_circle_background"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/ivLike"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_insert_emoticon_white_48dp"
-                    android:visibility="invisible" />
-
-            </com.ricardotrujillo.prueba.view.RoundedFrameLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:id="@+id/ivContainer"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerVertical="true"
-                android:layout_alignTop="@+id/vImageRoot"
-                android:layout_alignBottom="@+id/vImageRoot"
-                android:layout_toRightOf="@+id/vImageRoot"
-                android:layout_toEndOf="@+id/vImageRoot">
+                android:clipToPadding="false"
+                android:padding="@dimen/card_margins">
 
-                <TextView
-                    android:id="@+id/row_name"
-                    style="@style/StoreCardName"
-                    android:text="@{entry.name.label}"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/row_author"
-                    style="@style/StoreCardAuthor"
-                    android:text="@{entry.rights.label}"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/row_type"
-                    style="@style/StoreCardPrice"
-                    android:text="@{entry.category.attributes.label}"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/row_empty"
-                    style="@style/StoreCardPrice"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/row_grade"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{entry.name.label}"
-                    tools:text="Grade" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:visibility="gone">
-
-                <ImageButton
-                    android:id="@+id/btnLike"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="4dp"
-                    android:background="@android:color/transparent"
-                    android:onClick="@{click.onClick}"
-                    android:src="@{entry.isLiked ? @drawable/ic_heart_red : @drawable/ic_insert_emoticon_gray_48dp}" />
-
-                <ImageButton
-                    android:id="@+id/btnComments"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/btn_feed_action"
-                    android:onClick="@{click.onClick}"
-                    android:src="@drawable/ic_comment_outline_grey" />
-
-                <ImageButton
-                    android:id="@+id/btnMore"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/btn_feed_action"
-                    android:onClick="@{click.onClick}"
-                    android:src="@drawable/ic_more_grey" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|end">
+                <com.ricardotrujillo.prueba.view.RoundedFrameLayout
+                    android:id="@+id/vImageRoot"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:elevation="10dp">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_heart_small_blue" />
+                        android:id="@+id/ivFeedCenter"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:onClick="@{click.onClick}"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img_feed_center_1"
+                        android:transitionName="@string/entry_transition_name"
+                        app:imageUrl="@{entry.image[2].label}" />
 
-                    <TextSwitcher
-                        android:id="@+id/tsLikesCounter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:inAnimation="@anim/slide_in_likes_counter"
-                        android:outAnimation="@anim/slide_out_likes_counter">
+                    <View
+                        android:id="@+id/vBgLike"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_like_circle_background"
+                        android:visibility="invisible" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{String.valueOf(entry.likes) + (entry.likes == 1 ? @string/like : @string/likes)}"
-                            android:textColor="@color/text_like_counter" />
+                    <ImageView
+                        android:id="@+id/ivLike"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_insert_emoticon_white_48dp"
+                        android:visibility="invisible" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/text_like_counter" />
-                    </TextSwitcher>
+                </com.ricardotrujillo.prueba.view.RoundedFrameLayout>
+
+            </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/ivContainer"
+                    android:layout_alignTop="@+id/ivContainer"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/ivContainer"
+                    android:layout_toRightOf="@+id/ivContainer"
+                    android:orientation="vertical"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="8dp">
+
+                    <TextView
+                        android:id="@+id/row_name"
+                        style="@style/StoreCardName"
+                        android:layout_weight="1"
+                        android:text="@{entry.name.label}" />
+
+                    <TextView
+                        android:id="@+id/row_author"
+                        style="@style/StoreCardAuthor"
+                        android:layout_weight="1"
+                        android:text="@{entry.rights.label}" />
+
+                    <TextView
+                        android:id="@+id/row_type"
+                        style="@style/StoreCardPrice"
+                        android:layout_weight="1"
+                        android:text="@{entry.category.attributes.label}" />
+
+                    <TextView
+                        android:id="@+id/row_empty"
+                        style="@style/StoreCardPrice"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
 
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/row_grade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{entry.name.label}"
+                        tools:text="Grade" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:visibility="gone">
+
+                    <ImageButton
+                        android:id="@+id/btnLike"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="4dp"
+                        android:background="@android:color/transparent"
+                        android:onClick="@{click.onClick}"
+                        android:src="@{entry.isLiked ? @drawable/ic_heart_red : @drawable/ic_insert_emoticon_gray_48dp}" />
+
+                    <ImageButton
+                        android:id="@+id/btnComments"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/btn_feed_action"
+                        android:onClick="@{click.onClick}"
+                        android:src="@drawable/ic_comment_outline_grey" />
+
+                    <ImageButton
+                        android:id="@+id/btnMore"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/btn_feed_action"
+                        android:onClick="@{click.onClick}"
+                        android:src="@drawable/ic_more_grey" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|end">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_heart_small_blue" />
+
+                        <TextSwitcher
+                            android:id="@+id/tsLikesCounter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:inAnimation="@anim/slide_in_likes_counter"
+                            android:outAnimation="@anim/slide_out_likes_counter">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{String.valueOf(entry.likes) + (entry.likes == 1 ? @string/like : @string/likes)}"
+                                android:textColor="@color/text_like_counter" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/text_like_counter" />
+                        </TextSwitcher>
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
         </RelativeLayout>
 

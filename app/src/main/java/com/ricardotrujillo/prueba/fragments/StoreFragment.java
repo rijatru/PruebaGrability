@@ -51,8 +51,6 @@ public class StoreFragment extends Fragment {
 
     StoreFragmentBinding binding;
 
-    private boolean pendingIntroAnimation = true;
-
     public StoreFragment() {
 
     }
@@ -86,16 +84,7 @@ public class StoreFragment extends Fragment {
     @Subscribe
     public void recievedMessage(FetchedStoreDataEvent event) {
 
-        logWorker.log("recievedMessage Fragment " + (binding.storeRecyclerView.getAdapter() == null));
-
         adapter.notifyDataSetChanged();
-
-        if (pendingIntroAnimation) {
-
-            pendingIntroAnimation = false;
-
-            updateItems(true);
-        }
     }
 
     @Override
@@ -185,29 +174,6 @@ public class StoreFragment extends Fragment {
 
         binding.storeRecyclerView.setLayoutManager(mLayoutManager);
         binding.storeRecyclerView.scrollToPosition(scrollPosition);
-    }
-
-    public void updateItems(boolean animated) {
-
-        if (animated) {
-
-            logWorker.log("updateItems netWorker: " + netWorker.getScreenHeight());
-
-            binding.storeRecyclerView.setY(netWorker.getScreenHeight());
-            binding.storeRecyclerView
-                    .animate()
-                    .y(0f)
-                    .setDuration(Constants.RECYCLER_INTRO_ANIM_DURATION)
-                    .setInterpolator(new FastOutSlowInInterpolator())
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-
-                            busWorker.getBus().post(new FetchedStoreDataEvent());
-                        }
-                    });
-        }
     }
 
     private enum LayoutManagerType {
