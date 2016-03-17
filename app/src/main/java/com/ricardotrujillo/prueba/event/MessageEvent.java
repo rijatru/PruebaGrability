@@ -1,4 +1,4 @@
-package com.ricardotrujillo.prueba.model;
+package com.ricardotrujillo.prueba.event;
 
 public class MessageEvent {
 

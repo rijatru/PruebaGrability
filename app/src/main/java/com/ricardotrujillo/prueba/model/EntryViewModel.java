@@ -23,12 +23,12 @@ public class EntryViewModel {
     @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
 
-        Picasso.with(view.getContext())
-                .load(imageUrl)
-                .networkPolicy(
-                        NetWorker.isConnected(activity) ?
-                                NetworkPolicy.NO_CACHE : NetworkPolicy.OFFLINE)
-                .noFade()
-                .into(view);
+        //Picasso.with(view.getContext())
+        //        .load(imageUrl)
+        //        .networkPolicy(
+        //                NetWorker.isConnected(activity) ?
+        //                        NetworkPolicy.NO_CACHE : NetworkPolicy.OFFLINE)
+        //        .noFade()
+        //        .into(view);
     }
 }

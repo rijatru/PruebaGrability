@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.ricardotrujillo.prueba.App;
 import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.R;
-import com.ricardotrujillo.prueba.model.FetchedStoreDataEvent;
+import com.ricardotrujillo.prueba.event.FetchedStoreDataEvent;
 import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.workers.BusWorker;
@@ -110,8 +110,6 @@ public class MainActivity extends AppCompatActivity {
             public void onDataRetrieved(String result) {
 
                 Store store = new Gson().fromJson(result.replace(Constants.STRING_TO_ERASE, Constants.NEW_STRING), Store.class);
-
-                logWorker.log("Got Store: " + result.replace(Constants.STRING_TO_ERASE, Constants.NEW_STRING));
 
                 for (Store.Feed.Entry entry : store.feed.entry) {
 

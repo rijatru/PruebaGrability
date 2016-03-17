@@ -18,13 +18,22 @@ package com.ricardotrujillo.prueba.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.ricardotrujillo.prueba.App;
 import com.ricardotrujillo.prueba.Constants;
@@ -32,12 +41,16 @@ import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.activities.EntryActivity;
 import com.ricardotrujillo.prueba.databinding.StoreRowBinding;
 import com.ricardotrujillo.prueba.model.EntryViewModel;
-import com.ricardotrujillo.prueba.model.RecyclerCellEvent;
+import com.ricardotrujillo.prueba.event.RecyclerCellEvent;
 import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.view.LoadingFeedItemView;
 import com.ricardotrujillo.prueba.workers.BusWorker;
 import com.ricardotrujillo.prueba.workers.LogWorker;
+import com.ricardotrujillo.prueba.workers.NetWorker;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -105,12 +118,92 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
             }
         });
 
+        holder.binding.cardView.setAlpha(1f);
+
+        loadImage(holder.binding.ivFeedCenter, position, new Callback() {
+            @Override
+            public void onSuccess() {
+
+                Bitmap myBitmap = ((BitmapDrawable) holder.binding.ivFeedCenter.getDrawable()).getBitmap();
+
+                logWorker.log("onSuccess: " + (myBitmap == null));
+
+                if (myBitmap != null && !myBitmap.isRecycled()) {
+
+                    Palette.from(myBitmap).generate(new Palette.PaletteAsyncListener() {
+
+                        public void onGenerated(Palette palette) {
+
+                            logWorker.log("onGenerated");
+
+                            holder.binding.cardView.animate().alpha(1f);
+
+                            palette.getDarkMutedColor(0x000000);  //default 0x000000
+
+                            RippleDrawable drawable = getPressedColorRippleDrawable(palette.getLightVibrantColor(palette.getVibrantColor(0x000000)), R.color.btn_context_menu_text_red);
+
+                            holder.binding.ivContainer.setBackgroundDrawable(drawable); // min supported API is 14
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
         holder.getBinding().executePendingBindings();
 
         if (getItemViewType(position) == VIEW_TYPE_LOADER) {
 
             bindLoadingFeedItem((LoadingCellFeedViewHolder) holder);
         }
+    }
+
+    public static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor) {
+
+        return new RippleDrawable(getPressedColorSelector(normalColor, pressedColor), getColorDrawableFromColor(normalColor), null);
+    }
+
+    public static ColorStateList getPressedColorSelector(int normalColor, int pressedColor) {
+        return new ColorStateList(
+
+                new int[][]{
+                        new int[]{}
+                },
+
+                new int[]{
+                        pressedColor
+                }
+        );
+    }
+
+    public static ColorDrawable getColorDrawableFromColor(int color) {
+        return new ColorDrawable(color);
+    }
+
+    void loadImage(ImageView view, int position, final Callback callback) {
+
+        Picasso.with(view.getContext())
+                .load(storeManager.getStore().feed.entry[position].image[2].label)
+                .networkPolicy(
+                        NetWorker.isConnected(activity) ?
+                                NetworkPolicy.NO_CACHE : NetworkPolicy.OFFLINE)
+                .noFade()
+                .into(view, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                        callback.onSuccess();
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
     }
 
     private void bindLoadingFeedItem(final LoadingCellFeedViewHolder holder) {
@@ -193,7 +286,6 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
                     activity.startActivity(intent, options.toBundle());
                 }
-
 
 
                 int adapterPos = holder.getAdapterPosition();

@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.ricardotrujillo.prueba.di.components.AppComponent;
 import com.ricardotrujillo.prueba.di.components.DaggerAppComponent;
-import com.ricardotrujillo.prueba.model.MessageEvent;
+import com.ricardotrujillo.prueba.event.MessageEvent;
 import com.ricardotrujillo.prueba.workers.BusWorker;
 import com.squareup.otto.Subscribe;
 

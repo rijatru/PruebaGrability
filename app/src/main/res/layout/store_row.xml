@@ -27,10 +27,12 @@
         card_view:cardCornerRadius="6dp">
 
         <RelativeLayout
+            android:id="@+id/ivContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:orientation="vertical"
+            android:clickable="true"
             android:padding="@dimen/card_margins">
 
             <com.ricardotrujillo.prueba.view.RoundedFrameLayout

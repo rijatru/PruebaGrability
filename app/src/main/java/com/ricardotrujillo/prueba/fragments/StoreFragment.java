@@ -21,7 +21,7 @@ import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.adapter.FeedItemAnimator;
 import com.ricardotrujillo.prueba.adapter.StoreRecyclerViewAdapter;
 import com.ricardotrujillo.prueba.databinding.StoreFragmentBinding;
-import com.ricardotrujillo.prueba.model.FetchedStoreDataEvent;
+import com.ricardotrujillo.prueba.event.FetchedStoreDataEvent;
 import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.view.FeedContextMenuManager;
 import com.ricardotrujillo.prueba.workers.BusWorker;

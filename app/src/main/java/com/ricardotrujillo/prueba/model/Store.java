@@ -59,6 +59,7 @@ public final class Store {
 
         public static final class Entry extends BaseObservable {
 
+            public boolean imageLoaded = false;
             public int likes = 0;
             public boolean isLiked = false;
             public final name name;
