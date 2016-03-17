@@ -55,19 +55,20 @@ public class NetWorker {
 
         queue = Volley.newRequestQueue(context);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String res) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
-                        listener.onDataRetrieved(res);
-                    }
-                }, new Response.ErrorListener() {
+            @Override
+            public void onResponse(String res) {
+
+                listener.onDataRetrieved(res);
+            }
+
+        }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Log.d("App", "onErrorResponse " + error.toString());
+                Log.d("Test", "onErrorResponse " + error.toString());
 
                 get(context, url, listener);
             }

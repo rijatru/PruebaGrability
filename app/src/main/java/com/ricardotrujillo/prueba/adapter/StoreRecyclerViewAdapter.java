@@ -18,13 +18,11 @@ package com.ricardotrujillo.prueba.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -33,6 +31,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.ricardotrujillo.prueba.App;
@@ -41,9 +40,9 @@ import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.Utils;
 import com.ricardotrujillo.prueba.activities.EntryActivity;
 import com.ricardotrujillo.prueba.databinding.StoreRowBinding;
+import com.ricardotrujillo.prueba.interfaces.CustomCallback;
 import com.ricardotrujillo.prueba.model.EntryViewModel;
 import com.ricardotrujillo.prueba.event.RecyclerCellEvent;
-import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.view.LoadingFeedItemView;
 import com.ricardotrujillo.prueba.workers.BusWorker;
@@ -62,6 +61,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
     public static final String ACTION_LIKE_BUTTON_CLICKED = "action_like_button_button";
     public static final String ACTION_LIKE_IMAGE_CLICKED = "action_like_image_button";
+    private final int SPAN_COUNT = Constants.SPAN_COUNT;
     public static final int VIEW_TYPE_DEFAULT = 1;
     public static final int VIEW_TYPE_LOADER = 2;
 
@@ -121,10 +121,12 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
             holder.binding.cardView.setAlpha(0f);
 
-            storeManager.getStore().feed.entry[position].imageLoaded = true;
+            storeManager.getStore().feed.entry[position].imageLoaded = true; //First insert animation
         }
 
-        loadImage(holder.binding.ivFeedCenter, position, new Callback() {
+        setBottomMargin(holder, position);
+
+        loadImage(holder.binding.ivFeedCenter, position, new CustomCallback() {
             @Override
             public void onSuccess() {
 
@@ -133,7 +135,6 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                 if (myBitmap != null && !myBitmap.isRecycled()) {
 
                     Palette.from(myBitmap).generate(new Palette.PaletteAsyncListener() {
-
                         public void onGenerated(Palette palette) {
 
                             holder.binding.cardView.animate().setDuration(1000).alpha(1f);
@@ -145,7 +146,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                             RippleDrawable drawable = Utils.getPressedColorRippleDrawable(0x000000, palette.getLightVibrantColor(palette.getVibrantColor(0x000000))); //default 0x000000
 
                             holder.binding.ivContainer.setBackgroundDrawable(colorDrawable); // min supported API is 14
-                            holder.binding.ivContainerParent.setBackgroundDrawable(drawable); // min supported API is 14
+                            //storeManager.addDrawables(thisPosition, drawable, colorDrawable);
                         }
                     });
                 }
@@ -165,7 +166,48 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
         }
     }
 
-    void loadImage(ImageView view, int position, final Callback callback) {
+    void setBottomMargin(BindingHolder holder, int position) {
+
+        if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+            if (isLastCell(position)) setBottomMargin(holder);
+
+        } else {
+
+            if (isInLastRow(position)) {
+
+                logWorker.log("isInLastRow: " + position + " " + storeManager.getStore().feed.entry[position].name.label);
+
+                setBottomMargin(holder);
+            }
+        }
+    }
+
+    void setBottomMargin(BindingHolder holder) {
+
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+        params.setMargins(Utils.dpToPx(4), Utils.dpToPx(8), Utils.dpToPx(4), Utils.dpToPx(8));
+        holder.binding.cardView.setLayoutParams(params);
+    }
+
+    boolean isLastCell(int position) {
+
+        return position == storeManager.getStore().feed.entry.length - 1;
+    }
+
+    boolean isInLastRow(int position) {
+
+        double rows = Math.ceil((double) storeManager.getStore().feed.entry.length / SPAN_COUNT);
+
+        return position >= (rows - 1) * SPAN_COUNT;
+    }
+
+    void loadImage(ImageView view, final int position, final CustomCallback callback) {
 
         Picasso.with(view.getContext())
                 .load(storeManager.getStore().feed.entry[position].image[2].label)
@@ -335,6 +377,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
         public LoadingCellFeedViewHolder(LoadingFeedItemView view) {
             super(view);
+
             this.loadingFeedItemView = view;
         }
     }

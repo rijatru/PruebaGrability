@@ -21,4 +21,6 @@ public class Constants {
     final public static String LIKE = "liked";
     final public static String MORE = "more";
     final public static String POSITION = "position";
+
+    final public static int SPAN_COUNT = 2;
 }

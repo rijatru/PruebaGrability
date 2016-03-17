@@ -106,10 +106,15 @@ public class MainActivity extends AppCompatActivity {
     void getData(String url) {
 
         netWorker.get(this, url, new NetWorker.Listener() {
+
             @Override
             public void onDataRetrieved(String result) {
 
+                logWorker.log("onDataRetrieved 1");
+
                 Store store = new Gson().fromJson(result.replace(Constants.STRING_TO_ERASE, Constants.NEW_STRING), Store.class);
+
+                logWorker.log("onDataRetrieved 2");
 
                 for (Store.Feed.Entry entry : store.feed.entry) {
 

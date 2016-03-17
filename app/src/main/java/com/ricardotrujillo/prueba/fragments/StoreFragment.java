@@ -34,7 +34,7 @@ import javax.inject.Inject;
 public class StoreFragment extends Fragment {
 
     public static StoreRecyclerViewAdapter adapter;
-    private final int SPAN_COUNT = 3;
+    private final int SPAN_COUNT = Constants.SPAN_COUNT;
     private final int DATASET_COUNT = 15;
     private final String KEY_LAYOUT_MANAGER = "layoutManager";
     protected LayoutManagerType mCurrentLayoutManagerType;
