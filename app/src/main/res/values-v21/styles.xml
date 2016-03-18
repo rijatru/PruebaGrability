@@ -7,6 +7,13 @@
         <item name="colorAccent">@color/style_color_accent</item>
         <item name="colorControlHighlight">@color/fab_color_pressed</item>
         <item name="android:windowContentTransitions">true</item>
+        <item name="android:statusBarColor">@color/style_color_primary_dark</item>
+
+        <!-- shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/entry_transition</item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/entry_transition</item>
     </style>
 
     <style name="AppTheme.TransparentActivity">

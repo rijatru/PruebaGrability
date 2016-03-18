@@ -24,6 +24,11 @@ public class StoreManager {
 
         drawables = new Drawable[store.feed.entry.length];
         colorDrawables = new ColorDrawable[store.feed.entry.length];
+
+        for (int i = 0; i < store.feed.entry.length; i++) {
+
+            store.feed.entry[i].name.label = (i+1) + ". " + store.feed.entry[i].name.label;
+        }
     }
 
     public Store getStore() {
@@ -31,9 +36,8 @@ public class StoreManager {
         return store;
     }
 
-    public void addDrawables(int position, Drawable drawable, ColorDrawable colorDrawable) {
+    public void addDrawables(int position, ColorDrawable colorDrawable) {
 
-        drawables[position] = drawable;
         colorDrawables[position] = colorDrawable;
     }
 

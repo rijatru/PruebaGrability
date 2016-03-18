@@ -102,7 +102,7 @@ public class FeedItemAnimator extends DefaultItemAnimator {
             animateHeartButton(holder);
             updateLikesCounter(holder, holder.binding.getEntry().likes);
             if (StoreRecyclerViewAdapter.ACTION_LIKE_IMAGE_CLICKED.equals(feedItemHolderInfo.updateAction)) {
-                animatePhotoLike(holder);
+                //animatePhotoLike(holder);
             }
         }
 

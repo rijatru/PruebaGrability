@@ -6,15 +6,13 @@
 
     <data>
 
-        <import type="com.ricardotrujillo.prueba.model.Store.Feed.Entry" />
-
         <variable
             name="click"
             type="com.ricardotrujillo.prueba.adapter.StoreRecyclerViewAdapter.StoreClickHandler" />
 
         <variable
             name="entry"
-            type="Entry" />
+            type="com.ricardotrujillo.prueba.model.Store.Feed.Entry" />
 
         <variable
             name="viewModel"
@@ -32,6 +30,7 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:clickable="true"
+            android:background="@drawable/store_row_ripple"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -42,7 +41,7 @@
                 android:padding="@dimen/card_margins">
 
                 <com.ricardotrujillo.prueba.view.RoundedFrameLayout
-                    android:id="@+id/vImageRoot"
+                        android:id="@+id/vImageRoot"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:elevation="10dp">
@@ -54,7 +53,7 @@
                         android:onClick="@{click.onClick}"
                         android:scaleType="centerCrop"
                         android:src="@drawable/img_feed_center_1"
-                        android:transitionName="@string/entry_transition_name"
+                        android:transitionName="@string/entry_transition_thumb"
                         app:imageUrl="@{entry.image[2].label}" />
 
                     <View
@@ -77,6 +76,7 @@
             </RelativeLayout>
 
                 <LinearLayout
+                    android:id="@+id/tvName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/ivContainer"
@@ -87,7 +87,9 @@
                     android:orientation="vertical"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginRight="8dp">
+                    android:layout_marginRight="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:transitionName="@string/entry_transition_name" >
 
                     <TextView
                         android:id="@+id/row_name"

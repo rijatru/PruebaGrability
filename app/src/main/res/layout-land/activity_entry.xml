@@ -14,22 +14,89 @@
         <variable
             name="entry"
             type="Entry" />
+
+        <variable
+            name="handlers"
+            type="com.ricardotrujillo.prueba.activities.EntryActivity" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/entry_activity_background"
+        android:background="@android:color/transparent"
         tools:context="com.ricardotrujillo.prueba.activities.EntryActivity">
 
         <ImageView
             android:id="@+id/ivFeedCenter"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
             android:onClick="@{click.onClick}"
-            android:scaleType="centerCrop"
-            android:transitionName="@string/entry_transition_name"
-            android:src="@drawable/img_feed_center_1" />
+            android:scaleType="centerCrop" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:layout_below="@+id/ivFeedCenter">
+
+            <com.ricardotrujillo.prueba.view.RoundedFrameLayout
+                android:id="@+id/ivFeedCenterThumbContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginEnd="6dp">
+
+                <ImageView
+                    android:id="@+id/ivFeedCenterThumb"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:onClick="@{click.onClick}"
+                    android:scaleType="centerCrop"
+                    android:transitionName="@string/entry_transition_thumb"
+                    android:src="@drawable/img_feed_center_1" />
+
+            </com.ricardotrujillo.prueba.view.RoundedFrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:transitionName="@string/entry_transition_name"
+                android:layout_toRightOf="@+id/ivFeedCenterThumbContainer"
+                android:layout_toEndOf="@+id/ivFeedCenterThumbContainer"
+                android:layout_alignBottom="@+id/ivFeedCenterThumbContainer"
+                android:layout_alignTop="@+id/ivFeedCenterThumbContainer"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:id="@+id/row_name"
+                    style="@style/StoreCardNameEntry"
+                    android:layout_weight="1"
+                    android:text="@{entry.name.label}" />
+
+                <TextView
+                    android:id="@+id/row_author"
+                    style="@style/StoreCardAuthorEntry"
+                    android:layout_weight="1"
+                    android:text="@{entry.rights.label}" />
+
+                <TextView
+                    android:id="@+id/row_type"
+                    style="@style/StoreCardPriceEntry"
+                    android:layout_weight="1"
+                    android:text="@{entry.category.attributes.label}" />
+
+                <TextView
+                    android:id="@+id/row_empty"
+                    style="@style/StoreCardPrice"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

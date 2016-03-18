@@ -26,11 +26,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -45,6 +48,7 @@ import com.ricardotrujillo.prueba.model.EntryViewModel;
 import com.ricardotrujillo.prueba.event.RecyclerCellEvent;
 import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.view.LoadingFeedItemView;
+import com.ricardotrujillo.prueba.view.RoundedFrameLayout;
 import com.ricardotrujillo.prueba.workers.BusWorker;
 import com.ricardotrujillo.prueba.workers.LogWorker;
 import com.ricardotrujillo.prueba.workers.NetWorker;
@@ -73,13 +77,10 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     StoreManager storeManager;
 
     static Activity activity;
-    private int itemsCount = 0;
-    private int lastAnimatedPosition = -1;
-    private int avatarSize;
-    private boolean animationsLocked = false;
-    private boolean delayEnterAnimation = true;
 
     private boolean showLoadingView = false;
+
+    private int lastPosition = -1;
 
     public StoreRecyclerViewAdapter(Activity act) {
 
@@ -104,7 +105,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     }
 
     @Override
-    public void onBindViewHolder(final BindingHolder holder, int position) {
+    public void onBindViewHolder(final BindingHolder holder, final int position) {
 
         holder.binding.setEntry(storeManager.getStore().feed.entry[position]);
 
@@ -120,43 +121,65 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
         if (!storeManager.getStore().feed.entry[position].imageLoaded) {
 
             holder.binding.cardView.setAlpha(0f);
-
-            storeManager.getStore().feed.entry[position].imageLoaded = true; //First insert animation
         }
 
-        setBottomMargin(holder, position);
+        //setBottomMargin(holder, position);
 
-        loadImage(holder.binding.ivFeedCenter, position, new CustomCallback() {
-            @Override
-            public void onSuccess() {
+        if (storeManager.getColorDrawable(position) == null) {
 
-                Bitmap myBitmap = ((BitmapDrawable) holder.binding.ivFeedCenter.getDrawable()).getBitmap();
+            loadImage(holder.binding.ivFeedCenter, position, new CustomCallback() {
+                @Override
+                public void onSuccess() {
 
-                if (myBitmap != null && !myBitmap.isRecycled()) {
+                    Bitmap myBitmap = ((BitmapDrawable) holder.binding.ivFeedCenter.getDrawable()).getBitmap();
 
-                    Palette.from(myBitmap).generate(new Palette.PaletteAsyncListener() {
-                        public void onGenerated(Palette palette) {
+                    if (myBitmap != null && !myBitmap.isRecycled()) {
 
-                            holder.binding.cardView.animate().setDuration(1000).alpha(1f);
+                        Palette.from(myBitmap).generate(new Palette.PaletteAsyncListener() {
+                            public void onGenerated(Palette palette) {
 
-                            //RippleDrawable drawableThumb = getPressedColorRippleDrawable(palette.getLightVibrantColor(palette.getVibrantColor(0x000000)), R.color.btn_context_menu_text_red);
+                                if (!storeManager.getStore().feed.entry[position].imageLoaded) {
 
-                            ColorDrawable colorDrawable = new ColorDrawable(palette.getLightVibrantColor(palette.getVibrantColor(0x000000))); //default 0x000000
+                                    holder.binding.cardView.animate().setDuration(500).alpha(1f);
 
-                            RippleDrawable drawable = Utils.getPressedColorRippleDrawable(0x000000, palette.getLightVibrantColor(palette.getVibrantColor(0x000000))); //default 0x000000
+                                    storeManager.getStore().feed.entry[position].imageLoaded = true; //First insert animation
+                                }
 
-                            holder.binding.ivContainer.setBackgroundDrawable(colorDrawable); // min supported API is 14
-                            //storeManager.addDrawables(thisPosition, drawable, colorDrawable);
-                        }
-                    });
+                                //RippleDrawable drawableThumb = getPressedColorRippleDrawable(palette.getLightVibrantColor(palette.getVibrantColor(0x000000)), R.color.btn_context_menu_text_red);
+
+                                ColorDrawable colorDrawable = new ColorDrawable(palette.getLightVibrantColor(palette.getVibrantColor(0x000000))); //default 0x000000
+
+                                //RippleDrawable drawable = Utils.getPressedColorRippleDrawable(0x000000, palette.getLightVibrantColor(palette.getVibrantColor(0x000000))); //default 0x000000
+
+                                holder.binding.ivContainer.setBackgroundDrawable(colorDrawable); // min supported API is 14
+
+                                storeManager.addDrawables(position, colorDrawable);
+                            }
+                        });
+                    }
                 }
-            }
 
-            @Override
-            public void onError() {
+                @Override
+                public void onError() {
 
-            }
-        });
+                }
+            });
+
+        } else {
+
+            loadImage(holder.binding.ivFeedCenter, position, new CustomCallback() {
+                @Override
+                public void onSuccess() {
+
+                    holder.binding.ivContainer.setBackgroundDrawable(storeManager.getColorDrawable(position)); // min supported API is 14
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
+        }
 
         holder.getBinding().executePendingBindings();
 
@@ -230,13 +253,17 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     }
 
     private void bindLoadingFeedItem(final LoadingCellFeedViewHolder holder) {
+
         holder.loadingFeedItemView.setOnLoadingFinishedListener(new LoadingFeedItemView.OnLoadingFinishedListener() {
             @Override
             public void onLoadingFinished() {
+
                 showLoadingView = false;
+
                 notifyItemChanged(0);
             }
         });
+
         holder.loadingFeedItemView.startLoading();
     }
 
@@ -285,15 +312,17 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                     holder.binding.ivFeedCenter.setTransitionName(activity.getString(R.string.entry_transition_name));
+                    holder.binding.tvName.setTransitionName(activity.getString(R.string.entry_transition_name));
 
                     Intent intent = new Intent(activity, EntryActivity.class);
                     intent.putExtra(Constants.POSITION, holder.getLayoutPosition());
 
+                    Pair<View, String> p1 = Pair.create((View) holder.binding.vImageRoot, activity.getString(R.string.entry_transition_thumb));
+                    Pair<View, String> p2 = Pair.create((View) holder.binding.tvName, activity.getString(R.string.entry_transition_name));
+
+                    @SuppressWarnings("unchecked")
                     ActivityOptionsCompat options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation(
-                                    activity,
-                                    holder.binding.ivFeedCenter,
-                                    holder.binding.ivFeedCenter.getTransitionName());
+                            .makeSceneTransitionAnimation(activity, p1, p2);
 
                     activity.startActivity(intent, options.toBundle());
 
@@ -302,7 +331,6 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                     Intent intent = new Intent(activity, EntryActivity.class);
                     activity.startActivity(intent);
                 }
-
 
                 int adapterPos = holder.getAdapterPosition();
                 holder.binding.getEntry().likes = holder.binding.getEntry().likes + 1;
@@ -336,10 +364,6 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
             return 0;
         }
-    }
-
-    public void setAnimationsLocked(boolean animationsLocked) {
-        this.animationsLocked = animationsLocked;
     }
 
     public interface StoreClickHandler {

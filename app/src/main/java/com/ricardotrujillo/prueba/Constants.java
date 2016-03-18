@@ -10,7 +10,7 @@ public class Constants {
     final public static String LogTag = "Test";
     final public static String PREFERENCES_KEY = "TestPrefs";
 
-    final public static int DURATION_300 = 300;
+    final public static int REVEAL_ANIMATION = 300;
     final public static int RECYCLER_INTRO_ANIM_DURATION = 500;
 
     final public static String STRING_TO_ERASE = "im:";
@@ -22,5 +22,5 @@ public class Constants {
     final public static String MORE = "more";
     final public static String POSITION = "position";
 
-    final public static int SPAN_COUNT = 2;
+    final public static int SPAN_COUNT = 3;
 }

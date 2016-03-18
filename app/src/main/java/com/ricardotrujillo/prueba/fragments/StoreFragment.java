@@ -138,10 +138,13 @@ public class StoreFragment extends Fragment {
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
         adapter = new StoreRecyclerViewAdapter(getActivity());
+
         binding.storeRecyclerView.setAdapter(adapter);
+
         binding.storeRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
                 FeedContextMenuManager.getInstance().onScrolled(recyclerView, dx, dy);
             }
         });
