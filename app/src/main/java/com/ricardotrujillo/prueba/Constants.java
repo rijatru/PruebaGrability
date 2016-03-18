@@ -10,8 +10,10 @@ public class Constants {
     final public static String LogTag = "Test";
     final public static String PREFERENCES_KEY = "TestPrefs";
 
-    final public static int REVEAL_ANIMATION = 350;
+    final public static int REVEAL_ANIMATION = 500;
     final public static int RECYCLER_INTRO_ANIM_DURATION = 500;
+    final public static int ENTRY_VIEW_MAIN_PANEL = 450;
+    final public static int EXIT_VIEW_MAIN_PANEL = 300;
 
     final public static String STRING_TO_ERASE = "im:";
     final public static String NEW_STRING = "";

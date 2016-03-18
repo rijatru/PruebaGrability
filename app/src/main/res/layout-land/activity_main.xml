@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="schools.b1gdigital.com.schools.MainActivity">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.ricardotrujillo.prueba.activities.MainActivity" />
+
+        <variable
+            name="school"
+            type="com.ricardotrujillo.prueba.model.Store" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/show_students_fragment"
+            android:name="com.ricardotrujillo.prueba.fragments.StoreFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </RelativeLayout>
+
+</layout>

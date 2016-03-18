@@ -23,7 +23,6 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -32,8 +31,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -43,12 +40,11 @@ import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.Utils;
 import com.ricardotrujillo.prueba.activities.EntryActivity;
 import com.ricardotrujillo.prueba.databinding.StoreRowBinding;
+import com.ricardotrujillo.prueba.event.RecyclerCellEvent;
 import com.ricardotrujillo.prueba.interfaces.CustomCallback;
 import com.ricardotrujillo.prueba.model.EntryViewModel;
-import com.ricardotrujillo.prueba.event.RecyclerCellEvent;
 import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.view.LoadingFeedItemView;
-import com.ricardotrujillo.prueba.view.RoundedFrameLayout;
 import com.ricardotrujillo.prueba.workers.BusWorker;
 import com.ricardotrujillo.prueba.workers.LogWorker;
 import com.ricardotrujillo.prueba.workers.NetWorker;
@@ -318,11 +314,11 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                     intent.putExtra(Constants.POSITION, holder.getLayoutPosition());
 
                     Pair<View, String> p1 = Pair.create((View) holder.binding.vImageRoot, activity.getString(R.string.entry_transition_thumb));
-                    Pair<View, String> p2 = Pair.create((View) holder.binding.tvName, activity.getString(R.string.entry_transition_name));
+                    //Pair<View, String> p2 = Pair.create((View) holder.binding.tvName, activity.getString(R.string.entry_transition_name));
 
                     @SuppressWarnings("unchecked")
                     ActivityOptionsCompat options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation(activity, p1, p2);
+                            .makeSceneTransitionAnimation(activity, p1);
 
                     activity.startActivity(intent, options.toBundle());
 

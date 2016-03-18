@@ -18,7 +18,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 
 /**
  * Created by froger_mcs on 05.11.14.
@@ -108,19 +108,19 @@ public class Utils {
 
         // get the center for the clipping circle
         int cx = view.getMeasuredWidth() / 2;
-        int cy = view.getMeasuredHeight();
+        int cy = view.getMeasuredHeight() - view.getMeasuredHeight();
 
         // get the final radius for the clipping circle
         int finalRadius = Math.max(view.getWidth(), view.getHeight()) / 2;
 
         // create the animator for this view (the start radius is zero)
         Animator anim =
-                ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, finalRadius);
+                ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, view.getWidth());
 
         // make the view visible and start the animation
         view.setVisibility(View.VISIBLE);
         anim.setDuration(Constants.REVEAL_ANIMATION);
-        anim.setInterpolator(new AccelerateInterpolator());
+        anim.setInterpolator(new LinearInterpolator());
         anim.start();
     }
 }
