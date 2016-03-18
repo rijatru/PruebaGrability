@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 
 import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.R;
@@ -38,7 +39,7 @@ public class EntryActivityHelper {
                         .animate()
                         .setDuration(Constants.ENTRY_VIEW_MAIN_PANEL)
                         .y(binding.rlMainPaneBackGround.getY() - binding.rlMainPaneBackGround.getHeight())
-                        .setInterpolator(new AccelerateDecelerateInterpolator());
+                        .setInterpolator(new LinearInterpolator());
             }
         });
 

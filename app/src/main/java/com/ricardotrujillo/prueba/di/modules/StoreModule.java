@@ -7,11 +7,11 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class SchoolModule {
+public class StoreModule {
 
     @Provides
     @AppScope
-    StoreManager provideStore() {
+    StoreManager provideStoreManager() {
 
         return new StoreManager();
     }

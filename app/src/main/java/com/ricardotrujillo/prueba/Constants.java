@@ -12,7 +12,7 @@ public class Constants {
 
     final public static int REVEAL_ANIMATION = 500;
     final public static int RECYCLER_INTRO_ANIM_DURATION = 500;
-    final public static int ENTRY_VIEW_MAIN_PANEL = 450;
+    final public static int ENTRY_VIEW_MAIN_PANEL = 480;
     final public static int EXIT_VIEW_MAIN_PANEL = 300;
 
     final public static String STRING_TO_ERASE = "im:";

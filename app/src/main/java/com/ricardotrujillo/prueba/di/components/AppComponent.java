@@ -5,13 +5,13 @@ import com.ricardotrujillo.prueba.activities.EntryActivity;
 import com.ricardotrujillo.prueba.activities.MainActivity;
 import com.ricardotrujillo.prueba.adapter.StoreRecyclerViewAdapter;
 import com.ricardotrujillo.prueba.di.modules.NetModule;
-import com.ricardotrujillo.prueba.di.modules.SchoolModule;
+import com.ricardotrujillo.prueba.di.modules.StoreModule;
 import com.ricardotrujillo.prueba.di.scopes.AppScope;
 import com.ricardotrujillo.prueba.fragments.StoreFragment;
 import com.ricardotrujillo.prueba.model.EntryViewModel;
 
 @AppScope
-@dagger.Component(modules = {SchoolModule.class, NetModule.class})
+@dagger.Component(modules = {StoreModule.class, NetModule.class})
 public interface AppComponent {
 
     void inject(App app);
