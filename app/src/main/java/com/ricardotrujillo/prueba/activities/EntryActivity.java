@@ -82,6 +82,8 @@ public class EntryActivity extends AppCompatActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_entry);
+
         entry = storeManager.getStore().feed.entry[savedInstanceState.getInt(Constants.POSITION)];
 
         loadEntry();
@@ -140,11 +142,17 @@ public class EntryActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
                                         v.removeOnLayoutChangeListener(this);
 
                                         binding.ivFeedCenter.setAlpha(1f);
 
                                         Utils.enterReveal(binding.ivFeedCenter);
+
+
+                                        //binding.rlMainPane.setY(binding.rlMainPane.getY() + binding.rlMainPane.getHeight() / 2);
+
+                                        //binding.rlMainPane.animate().setDuration(1000).y(binding.getRoot().getHeight() - binding.rlMainPane.getHeight());
                                     }
                                 });
 
