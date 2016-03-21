@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package com.ricardotrujillo.prueba.view.adapter;
+package com.ricardotrujillo.prueba.viewmodel.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -37,11 +37,11 @@ import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.databinding.StoreRowBinding;
 import com.ricardotrujillo.prueba.model.EntryViewModel;
 import com.ricardotrujillo.prueba.model.StoreManager;
-import com.ricardotrujillo.prueba.view.custom.LoadingFeedItemView;
-import com.ricardotrujillo.prueba.view.helper.ViewUtils;
+import com.ricardotrujillo.prueba.view.LoadingFeedItemView;
 import com.ricardotrujillo.prueba.viewmodel.Constants;
 import com.ricardotrujillo.prueba.viewmodel.activity.EntryActivity;
 import com.ricardotrujillo.prueba.viewmodel.interfaces.CustomCallback;
+import com.ricardotrujillo.prueba.viewmodel.worker.AnimWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.BusWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.LogWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.NetWorker;
@@ -66,6 +66,8 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     LogWorker logWorker;
     @Inject
     BusWorker busWorker;
+    @Inject
+    AnimWorker animWorker;
     @Inject
     StoreManager storeManager;
 
@@ -133,11 +135,11 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                                     storeManager.getStore().feed.entry[position].imageLoaded = true; //First insert animation
                                 }
 
-                                storeManager.getStore().feed.entry[position].paletteColor = ViewUtils.getDarkColorDrawable(palette).getColor();
+                                storeManager.getStore().feed.entry[position].paletteColor = animWorker.getDarkColorDrawable(palette).getColor();
 
-                                holder.binding.ivContainer.setBackgroundDrawable(ViewUtils.getColorDrawable(palette)); // min supported API is 14
+                                holder.binding.ivContainer.setBackgroundDrawable(animWorker.getColorDrawable(palette)); // min supported API is 14
 
-                                storeManager.addDrawables(position, ViewUtils.getColorDrawable(palette));
+                                storeManager.addDrawables(position, animWorker.getColorDrawable(palette));
                             }
                         });
                     }
@@ -181,7 +183,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
 
-        params.setMargins(ViewUtils.dpToPx(4), ViewUtils.dpToPx(8), ViewUtils.dpToPx(4), ViewUtils.dpToPx(8));
+        params.setMargins(AnimWorker.dpToPx(4), AnimWorker.dpToPx(8), AnimWorker.dpToPx(4), AnimWorker.dpToPx(8));
         holder.binding.cardView.setLayoutParams(params);
     }
 

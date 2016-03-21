@@ -15,7 +15,6 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.ricardotrujillo.prueba.view.helper.ViewUtils;
 import com.ricardotrujillo.prueba.viewmodel.Constants;
 
 import java.io.IOException;
@@ -26,7 +25,6 @@ import javax.inject.Inject;
 
 public class NetWorker {
 
-    private Measurements measurements = new Measurements();
     private RequestQueue queue;
     @Inject
     public NetWorker() {
@@ -86,16 +84,6 @@ public class NetWorker {
     public void cancelAll() {
 
         if (queue != null) queue.cancelAll(Constants.TAG);
-    }
-
-    public int getScreenHeight() {
-
-        return measurements.getScreenHeight();
-    }
-
-    public void setScreenHeight(Context context) {
-
-        measurements.setScreenHeight(context);
     }
 
     public interface ConnectionStatusListener {
@@ -160,21 +148,6 @@ public class NetWorker {
             NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
             return activeNetworkInfo != null;
-        }
-    }
-
-    private class Measurements {
-
-        private int rootHeight;
-
-        public int getScreenHeight() {
-
-            return rootHeight;
-        }
-
-        public void setScreenHeight(Context context) {
-
-            rootHeight = ViewUtils.getScreenHeight(context);
         }
     }
 }

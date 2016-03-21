@@ -1,4 +1,5 @@
-package com.ricardotrujillo.prueba.view.helper;
+package com.ricardotrujillo.prueba.viewmodel.worker;
+
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
@@ -7,7 +8,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
@@ -16,10 +16,9 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v7.graphics.Palette;
-import android.view.Display;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -27,50 +26,19 @@ import android.view.animation.OvershootInterpolator;
 import com.ricardotrujillo.prueba.viewmodel.Constants;
 import com.squareup.picasso.Callback;
 
-/**
- * Created by froger_mcs on 05.11.14.
- */
-public class ViewUtils {
+import javax.inject.Inject;
 
-    private static int screenWidth = 0;
-    private static int screenHeight = 0;
+public class AnimWorker {
+
+
+    @Inject
+    public AnimWorker() {
+
+    }
 
     public static int dpToPx(int dp) {
+
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-
-    public static int getScreenHeight(Context c) {
-        if (screenHeight == 0) {
-            WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
-            Display display = wm.getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            screenHeight = size.y;
-        }
-
-        return screenHeight;
-    }
-
-    public static int getScreenWidth(Context c) {
-        if (screenWidth == 0) {
-            WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
-            Display display = wm.getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            screenWidth = size.x;
-        }
-
-        return screenWidth;
-    }
-
-    public static boolean isAndroid5() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-    }
-
-    @TargetApi(21)
-    public static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor) {
-
-        return new RippleDrawable(getPressedColorSelector(normalColor, pressedColor), getColorDrawableFromColor(normalColor), null);
     }
 
     public static ColorStateList getPressedColorSelector(int normalColor, int pressedColor) {
@@ -92,8 +60,14 @@ public class ViewUtils {
         return new ColorDrawable(color);
     }
 
+    @TargetApi(21)
+    public RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor) {
+
+        return new RippleDrawable(getPressedColorSelector(normalColor, pressedColor), getColorDrawableFromColor(normalColor), null);
+    }
+
     @TargetApi(17)
-    public static Bitmap blur(Context context, Bitmap image, float blurRadius) {
+    public Bitmap blur(Context context, Bitmap image, float blurRadius) {
         if (null == image) return null;
 
         Bitmap outputBitmap = Bitmap.createBitmap(image);
@@ -112,7 +86,7 @@ public class ViewUtils {
     }
 
     @TargetApi(21)
-    public static void enterReveal(View view) {
+    public void enterReveal(View view) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -135,7 +109,7 @@ public class ViewUtils {
         }
     }
 
-    public static void animateAvatar(final View v, final Callback callback) {
+    public void animateAvatar(final View v, final Callback callback) {
 
         v.animate()
                 .scaleXBy(0.3f)
@@ -203,7 +177,7 @@ public class ViewUtils {
                 .setDuration(Constants.AVATAR_ANIMATION_ROTATION);
     }
 
-    public static int alterColor(int color, float factor) {
+    public int alterColor(int color, float factor) {
 
         int a = (color & (0xFF << 24)) >> 24;
         int r = (int) (((color & (0xFF << 16)) >> 16) * factor);
@@ -213,7 +187,7 @@ public class ViewUtils {
         return Color.argb(a, r, g, b);
     }
 
-    public static ColorDrawable getColorDrawable(Palette palette) {
+    public ColorDrawable getColorDrawable(Palette palette) {
 
         return new ColorDrawable(palette
                 .getLightVibrantColor(palette
@@ -223,7 +197,7 @@ public class ViewUtils {
                                                 .getMutedColor(0x000000)))))); //default 0x000000
     }
 
-    public static ColorDrawable getDarkColorDrawable(Palette palette) {
+    public ColorDrawable getDarkColorDrawable(Palette palette) {
 
         return new ColorDrawable(palette
                 .getDarkVibrantColor(palette
@@ -231,5 +205,16 @@ public class ViewUtils {
                                 .getMutedColor(palette
                                         .getLightVibrantColor(palette
                                                 .getVibrantColor(0x000000)))))); //default 0x000000
+    }
+
+    public void startAlphaAnimation(View v, long duration, int visibility) {
+
+        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
+                ? new AlphaAnimation(0f, 1f)
+                : new AlphaAnimation(1f, 0f);
+
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setFillAfter(true);
+        v.startAnimation(alphaAnimation);
     }
 }

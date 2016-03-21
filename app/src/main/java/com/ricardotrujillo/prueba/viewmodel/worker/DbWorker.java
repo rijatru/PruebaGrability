@@ -26,7 +26,7 @@ public class DbWorker {
 
         Store daoStore = new Store();
 
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "store-db", null);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, Constants.DB_KEY, null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         DaoSession daoSession = daoMaster.newSession();
@@ -41,7 +41,7 @@ public class DbWorker {
 
     public Object getObject(Context context) {
 
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "store-db", null);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, Constants.DB_KEY, null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         DaoSession daoSession = daoMaster.newSession();

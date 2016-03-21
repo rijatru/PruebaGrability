@@ -26,5 +26,6 @@
     <string name="summary">Summary</string>
     <string name="release_date">Release Date</string>
     <string name="author">Author</string>
+    <string name="empty"></string>
 
 </resources>

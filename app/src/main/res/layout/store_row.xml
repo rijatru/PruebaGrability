@@ -8,7 +8,7 @@
 
         <variable
             name="click"
-            type="com.ricardotrujillo.prueba.view.adapter.StoreRecyclerViewAdapter.StoreClickHandler" />
+            type="com.ricardotrujillo.prueba.viewmodel.adapter.StoreRecyclerViewAdapter.StoreClickHandler" />
 
         <variable
             name="entry"
@@ -41,7 +41,7 @@
                 android:clipToPadding="false"
                 android:padding="@dimen/card_margins">
 
-                <com.ricardotrujillo.prueba.view.custom.RoundedFrameLayout
+                <com.ricardotrujillo.prueba.view.RoundedFrameLayout
                     android:id="@+id/vImageRoot"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
@@ -57,7 +57,7 @@
                         android:transitionName="@string/entry_transition_thumb"
                         app:imageUrl="@{entry.image[2].label}" />
 
-                </com.ricardotrujillo.prueba.view.custom.RoundedFrameLayout>
+                </com.ricardotrujillo.prueba.view.RoundedFrameLayout>
 
             </RelativeLayout>
 

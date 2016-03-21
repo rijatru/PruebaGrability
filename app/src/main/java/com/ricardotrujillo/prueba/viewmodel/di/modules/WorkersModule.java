@@ -1,9 +1,11 @@
 package com.ricardotrujillo.prueba.viewmodel.di.modules;
 
 import com.ricardotrujillo.prueba.viewmodel.di.scopes.AppScope;
+import com.ricardotrujillo.prueba.viewmodel.worker.AnimWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.BusWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.DbWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.LogWorker;
+import com.ricardotrujillo.prueba.viewmodel.worker.MeasurementsWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.NetWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.SharedPreferencesWorker;
 
@@ -11,7 +13,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class NetModule {
+public class WorkersModule {
 
     @Provides
     @AppScope
@@ -46,5 +48,19 @@ public class NetModule {
     NetWorker provideNetWorker() {
 
         return new NetWorker();
+    }
+
+    @Provides
+    @AppScope
+    MeasurementsWorker provideMeasurementsWorker() {
+
+        return new MeasurementsWorker();
+    }
+
+    @Provides
+    @AppScope
+    AnimWorker provideAnimWorker() {
+
+        return new AnimWorker();
     }
 }

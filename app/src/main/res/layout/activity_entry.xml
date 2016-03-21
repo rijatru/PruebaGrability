@@ -9,7 +9,7 @@
 
         <variable
             name="click"
-            type="com.ricardotrujillo.prueba.view.adapter.StoreRecyclerViewAdapter.StoreClickHandler" />
+            type="com.ricardotrujillo.prueba.viewmodel.adapter.StoreRecyclerViewAdapter.StoreClickHandler" />
 
         <variable
             name="entry"
@@ -178,25 +178,12 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/author"
-                            android:textSize="18sp"
-                            android:textStyle="bold|italic" />
+                            style="@style/CardTitle"
+                            android:text="@string/author" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginTop="8dp"
-                            android:lineSpacingExtra="6dp"
-                            android:text="@{entry.artist.label}"
-                            android:textSize="16sp" />
+                            style="@style/CardText"
+                            android:text="@{entry.artist.label}" />
 
                     </LinearLayout>
 
@@ -208,14 +195,10 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            style="@style/EntryToolBar"
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark"
             app:layout_anchor="@id/framelayoutTitle"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="">
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -239,9 +222,10 @@
                     android:textSize="20sp" />
 
             </LinearLayout>
+
         </android.support.v7.widget.Toolbar>
 
-        <com.ricardotrujillo.prueba.view.custom.RoundedFrameLayout
+        <com.ricardotrujillo.prueba.view.RoundedFrameLayout
             android:id="@+id/ivFeedCenterThumbContainer"
             android:layout_width="@dimen/image_width"
             android:layout_height="@dimen/image_width"
@@ -252,7 +236,7 @@
             android:transitionName="@string/entry_transition_thumb"
             app:finalHeight="@dimen/image_final_width"
             app:finalYPosition="2dp"
-            app:layout_behavior="com.ricardotrujillo.prueba.view.custom.AvatarImageBehavior"
+            app:layout_behavior="com.ricardotrujillo.prueba.view.AvatarImageBehavior"
             app:startHeight="2dp"
             app:startToolbarPosition="2dp"
             app:startXPosition="2dp">
@@ -264,7 +248,7 @@
                 android:clickable="false"
                 android:src="@drawable/img_feed_center_1" />
 
-        </com.ricardotrujillo.prueba.view.custom.RoundedFrameLayout>
+        </com.ricardotrujillo.prueba.view.RoundedFrameLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 

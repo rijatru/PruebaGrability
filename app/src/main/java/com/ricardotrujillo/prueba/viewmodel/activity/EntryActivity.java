@@ -1,6 +1,10 @@
 package com.ricardotrujillo.prueba.viewmodel.activity;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -12,19 +16,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
 
 import com.ricardotrujillo.prueba.App;
 import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.databinding.ActivityEntryBinding;
 import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
-import com.ricardotrujillo.prueba.view.adapter.StoreRecyclerViewAdapter;
-import com.ricardotrujillo.prueba.view.helper.EntryActivityHelper;
-import com.ricardotrujillo.prueba.view.helper.ViewUtils;
 import com.ricardotrujillo.prueba.viewmodel.Constants;
+import com.ricardotrujillo.prueba.viewmodel.worker.AnimWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.LogWorker;
+import com.ricardotrujillo.prueba.viewmodel.worker.MeasurementsWorker;
+import com.ricardotrujillo.prueba.viewmodel.worker.NetWorker;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -34,26 +39,19 @@ public class EntryActivity extends AppCompatActivity
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
     private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
+    Store.Feed.Entry entry;
+    ActivityEntryBinding binding;
     @Inject
     StoreManager storeManager;
     @Inject
+    MeasurementsWorker measurementsWorker;
+    @Inject
     LogWorker logWorker;
-    Store.Feed.Entry entry;
-    ActivityEntryBinding binding;
+    @Inject
+    AnimWorker animWorker;
     private boolean mIsTheTitleVisible = false;
     private boolean mIsTheTitleContainerVisible = true;
     private boolean isAnimatingAvatar = false;
-
-    public static void startAlphaAnimation(View v, long duration, int visibility) {
-
-        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
-                ? new AlphaAnimation(0f, 1f)
-                : new AlphaAnimation(1f, 0f);
-
-        alphaAnimation.setDuration(duration);
-        alphaAnimation.setFillAfter(true);
-        v.startAnimation(alphaAnimation);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +61,7 @@ public class EntryActivity extends AppCompatActivity
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_entry);
         binding.appbar.addOnOffsetChangedListener(this);
-        binding.toolbar.inflateMenu(R.menu.sample_actions);
+        binding.toolbar.inflateMenu(R.menu.actions);
 
         setSupportActionBar(binding.toolbar);
 
@@ -73,9 +71,11 @@ public class EntryActivity extends AppCompatActivity
             getSupportActionBar().setTitle(null);
         }
 
-        startAlphaAnimation(binding.textviewTitle, 0, View.INVISIBLE);
+        animWorker.startAlphaAnimation(binding.textviewTitle, 0, View.INVISIBLE);
 
         initTransition();
+
+        measurementsWorker.setScreenOrientation(this);
 
         if (savedInstanceState == null) {
 
@@ -85,6 +85,18 @@ public class EntryActivity extends AppCompatActivity
 
                 if (entry != null) setUpBarColor(entry.paletteColor);
             }
+        }
+    }
+
+    void setScreenOrientation() {
+
+        if (getResources().getBoolean(R.bool.isTab)) {
+
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        } else {
+
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
     }
 
@@ -119,7 +131,7 @@ public class EntryActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
+        getMenuInflater().inflate(R.menu.actions, menu);
         return true;
     }
 
@@ -140,7 +152,7 @@ public class EntryActivity extends AppCompatActivity
 
             if (!mIsTheTitleVisible) {
 
-                startAlphaAnimation(binding.textviewTitle, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
+                animWorker.startAlphaAnimation(binding.textviewTitle, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
 
                 mIsTheTitleVisible = true;
             }
@@ -149,7 +161,7 @@ public class EntryActivity extends AppCompatActivity
 
             if (mIsTheTitleVisible) {
 
-                startAlphaAnimation(binding.textviewTitle, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
+                animWorker.startAlphaAnimation(binding.textviewTitle, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
 
                 mIsTheTitleVisible = false;
             }
@@ -162,7 +174,7 @@ public class EntryActivity extends AppCompatActivity
 
             if (mIsTheTitleContainerVisible) {
 
-                startAlphaAnimation(binding.linearlayoutTitle, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
+                animWorker.startAlphaAnimation(binding.linearlayoutTitle, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
 
                 mIsTheTitleContainerVisible = false;
             }
@@ -171,7 +183,7 @@ public class EntryActivity extends AppCompatActivity
 
             if (!mIsTheTitleContainerVisible) {
 
-                startAlphaAnimation(binding.linearlayoutTitle, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
+                animWorker.startAlphaAnimation(binding.linearlayoutTitle, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
 
                 mIsTheTitleContainerVisible = true;
             }
@@ -180,9 +192,9 @@ public class EntryActivity extends AppCompatActivity
 
     void setUpBarColor(int color) {
 
-        binding.toolbar.setBackgroundColor(ViewUtils.alterColor(color, 0.9f));
+        binding.toolbar.setBackgroundColor(animWorker.alterColor(color, 0.9f));
 
-        binding.framelayoutTitle.setBackgroundColor(ViewUtils.alterColor(color, 0.9f));
+        binding.framelayoutTitle.setBackgroundColor(animWorker.alterColor(color, 0.9f));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -190,7 +202,7 @@ public class EntryActivity extends AppCompatActivity
 
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-            window.setStatusBarColor(ViewUtils.alterColor(color, 0.7f));
+            window.setStatusBarColor(animWorker.alterColor(color, 0.7f));
         }
     }
 
@@ -203,16 +215,7 @@ public class EntryActivity extends AppCompatActivity
             binding.setEntry(entry);
             binding.setHandlers(this);
 
-            EntryActivityHelper.loadEntry(this, binding, entry);
-
-            binding.setClick(new StoreRecyclerViewAdapter.StoreClickHandler() {
-
-                @Override
-                public void onClick(View view) {
-
-                    //supportFinishAfterTransition();
-                }
-            });
+            loadEntry(this, binding, entry);
 
             binding.ivFeedCenterThumbContainer.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -224,7 +227,7 @@ public class EntryActivity extends AppCompatActivity
 
                             isAnimatingAvatar = true;
 
-                            ViewUtils.animateAvatar(v, new Callback() {
+                            animWorker.animateAvatar(v, new Callback() {
                                 @Override
                                 public void onSuccess() {
 
@@ -254,6 +257,50 @@ public class EntryActivity extends AppCompatActivity
 
             getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.entry_transition));
         }
+    }
+
+    public void loadEntry(final Activity activity, final ActivityEntryBinding binding, Store.Feed.Entry entry) {
+
+        Picasso.with(activity)
+                .load(entry.image[2].label)
+                .networkPolicy(
+                        NetWorker.isConnected(activity) ?
+                                NetworkPolicy.NO_CACHE : NetworkPolicy.OFFLINE)
+                .placeholder(R.drawable.img_feed_center_1)
+                .into(binding.ivFeedCenterThumb, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                        final Bitmap bitmap = ((BitmapDrawable) binding.ivFeedCenterThumb.getDrawable()).getBitmap();
+
+                        Bitmap newBitmap = bitmap.copy(bitmap.getConfig(), bitmap.isMutable());
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+
+                            binding.ivFeedCenter.setImageBitmap(animWorker.blur(activity, newBitmap, 7f));
+
+                            binding.ivFeedCenter.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+
+                                @Override
+                                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+                                    v.removeOnLayoutChangeListener(this);
+
+                                    animWorker.enterReveal(binding.ivFeedCenter);
+                                }
+                            });
+
+                        } else {
+
+                            binding.ivFeedCenter.setImageBitmap(newBitmap);
+                        }
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
     }
 
     void inject() {

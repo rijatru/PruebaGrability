@@ -10,6 +10,8 @@ public class Constants {
     final public static String LogTag = "Test";
     final public static String PREFERENCES_KEY = "TestPrefs";
 
+    final public static String DB_KEY = "store-db";
+
     final public static int REVEAL_ANIMATION = 550;
     final public static int RECYCLER_INTRO_ANIM_DURATION = 500;
     final public static int ENTRY_VIEW_MAIN_PANEL = 480;
@@ -28,4 +30,6 @@ public class Constants {
     final public static String POSITION = "position";
 
     final public static int SPAN_COUNT = 3;
+
+    final public static int SIX_INCHES = 6;
 }
