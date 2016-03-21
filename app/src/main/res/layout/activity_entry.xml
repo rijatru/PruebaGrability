@@ -17,7 +17,7 @@
 
         <variable
             name="handlers"
-            type="com.ricardotrujillo.prueba.view.activity.EntryActivity" />
+            type="com.ricardotrujillo.prueba.viewmodel.activity.EntryActivity" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -241,7 +241,7 @@
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
 
-        <com.ricardotrujillo.prueba.views.RoundedFrameLayout
+        <com.ricardotrujillo.prueba.view.custom.RoundedFrameLayout
             android:id="@+id/ivFeedCenterThumbContainer"
             android:layout_width="@dimen/image_width"
             android:layout_height="@dimen/image_width"
@@ -252,7 +252,7 @@
             android:transitionName="@string/entry_transition_thumb"
             app:finalHeight="@dimen/image_final_width"
             app:finalYPosition="2dp"
-            app:layout_behavior="com.ricardotrujillo.prueba.view.AvatarImageBehavior"
+            app:layout_behavior="com.ricardotrujillo.prueba.view.custom.AvatarImageBehavior"
             app:startHeight="2dp"
             app:startToolbarPosition="2dp"
             app:startXPosition="2dp">
@@ -264,7 +264,7 @@
                 android:clickable="false"
                 android:src="@drawable/img_feed_center_1" />
 
-        </com.ricardotrujillo.prueba.views.RoundedFrameLayout>
+        </com.ricardotrujillo.prueba.view.custom.RoundedFrameLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 

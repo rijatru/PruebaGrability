@@ -2,10 +2,10 @@ package com.ricardotrujillo.prueba;
 
 import android.app.Application;
 
-import com.ricardotrujillo.prueba.controller.BusWorker;
-import com.ricardotrujillo.prueba.controller.di.components.AppComponent;
-import com.ricardotrujillo.prueba.controller.di.components.DaggerAppComponent;
-import com.ricardotrujillo.prueba.event.MessageEvent;
+import com.ricardotrujillo.prueba.viewmodel.di.components.AppComponent;
+import com.ricardotrujillo.prueba.viewmodel.di.components.DaggerAppComponent;
+import com.ricardotrujillo.prueba.viewmodel.event.MessageEvent;
+import com.ricardotrujillo.prueba.viewmodel.worker.BusWorker;
 import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;

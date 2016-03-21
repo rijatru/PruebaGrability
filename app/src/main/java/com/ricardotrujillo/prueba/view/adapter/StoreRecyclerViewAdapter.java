@@ -33,18 +33,18 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.ricardotrujillo.prueba.App;
-import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.R;
-import com.ricardotrujillo.prueba.Utils;
-import com.ricardotrujillo.prueba.controller.BusWorker;
-import com.ricardotrujillo.prueba.controller.LogWorker;
-import com.ricardotrujillo.prueba.controller.NetWorker;
-import com.ricardotrujillo.prueba.controller.interfaces.CustomCallback;
 import com.ricardotrujillo.prueba.databinding.StoreRowBinding;
 import com.ricardotrujillo.prueba.model.EntryViewModel;
 import com.ricardotrujillo.prueba.model.StoreManager;
-import com.ricardotrujillo.prueba.view.activity.EntryActivity;
-import com.ricardotrujillo.prueba.views.LoadingFeedItemView;
+import com.ricardotrujillo.prueba.view.custom.LoadingFeedItemView;
+import com.ricardotrujillo.prueba.view.helper.ViewUtils;
+import com.ricardotrujillo.prueba.viewmodel.Constants;
+import com.ricardotrujillo.prueba.viewmodel.activity.EntryActivity;
+import com.ricardotrujillo.prueba.viewmodel.interfaces.CustomCallback;
+import com.ricardotrujillo.prueba.viewmodel.worker.BusWorker;
+import com.ricardotrujillo.prueba.viewmodel.worker.LogWorker;
+import com.ricardotrujillo.prueba.viewmodel.worker.NetWorker;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -133,11 +133,11 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                                     storeManager.getStore().feed.entry[position].imageLoaded = true; //First insert animation
                                 }
 
-                                storeManager.getStore().feed.entry[position].paletteColor = Utils.getDarkColorDrawable(palette).getColor();
+                                storeManager.getStore().feed.entry[position].paletteColor = ViewUtils.getDarkColorDrawable(palette).getColor();
 
-                                holder.binding.ivContainer.setBackgroundDrawable(Utils.getColorDrawable(palette)); // min supported API is 14
+                                holder.binding.ivContainer.setBackgroundDrawable(ViewUtils.getColorDrawable(palette)); // min supported API is 14
 
-                                storeManager.addDrawables(position, Utils.getColorDrawable(palette));
+                                storeManager.addDrawables(position, ViewUtils.getColorDrawable(palette));
                             }
                         });
                     }
@@ -181,7 +181,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
 
-        params.setMargins(Utils.dpToPx(4), Utils.dpToPx(8), Utils.dpToPx(4), Utils.dpToPx(8));
+        params.setMargins(ViewUtils.dpToPx(4), ViewUtils.dpToPx(8), ViewUtils.dpToPx(4), ViewUtils.dpToPx(8));
         holder.binding.cardView.setLayoutParams(params);
     }
 
