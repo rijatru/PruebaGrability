@@ -9,20 +9,17 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
-import android.telecom.Call;
+import android.support.v7.graphics.Palette;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -209,5 +206,25 @@ public class Utils {
         int b = (int) ((color & 0xFF) * factor);
 
         return Color.argb(a, r, g, b);
+    }
+
+    public static ColorDrawable getColorDrawable(Palette palette) {
+
+        return new ColorDrawable(palette
+                .getLightVibrantColor(palette
+                        .getVibrantColor(palette
+                                .getDarkVibrantColor(palette
+                                        .getDarkMutedColor(palette
+                                                .getMutedColor(0x000000)))))); //default 0x000000
+    }
+
+    public static ColorDrawable getDarkColorDrawable(Palette palette) {
+
+        return new ColorDrawable(palette
+                .getDarkVibrantColor(palette
+                        .getDarkMutedColor(palette
+                                .getMutedColor(palette
+                                        .getLightVibrantColor(palette
+                                                .getVibrantColor(0x000000)))))); //default 0x000000
     }
 }

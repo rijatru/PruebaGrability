@@ -2,9 +2,9 @@ package com.ricardotrujillo.prueba.activities;
 
 import android.databinding.DataBindingUtil;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.transition.TransitionInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,20 +34,26 @@ public class EntryActivity extends AppCompatActivity
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
     private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
-
-    private boolean mIsTheTitleVisible = false;
-    private boolean mIsTheTitleContainerVisible = true;
-
-    private boolean isAnimatingAvatar = false;
-
     @Inject
     StoreManager storeManager;
     @Inject
     LogWorker logWorker;
-
     Store.Feed.Entry entry;
-
     ActivityEntryBinding binding;
+    private boolean mIsTheTitleVisible = false;
+    private boolean mIsTheTitleContainerVisible = true;
+    private boolean isAnimatingAvatar = false;
+
+    public static void startAlphaAnimation(View v, long duration, int visibility) {
+
+        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
+                ? new AlphaAnimation(0f, 1f)
+                : new AlphaAnimation(1f, 0f);
+
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setFillAfter(true);
+        v.startAnimation(alphaAnimation);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,28 +178,19 @@ public class EntryActivity extends AppCompatActivity
         }
     }
 
-    public static void startAlphaAnimation(View v, long duration, int visibility) {
-
-        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
-                ? new AlphaAnimation(0f, 1f)
-                : new AlphaAnimation(1f, 0f);
-
-        alphaAnimation.setDuration(duration);
-        alphaAnimation.setFillAfter(true);
-        v.startAnimation(alphaAnimation);
-    }
-
     void setUpBarColor(int color) {
 
-        binding.toolbar.setBackgroundColor(color);
+        binding.toolbar.setBackgroundColor(Utils.alterColor(color, 0.9f));
 
-        binding.framelayoutTitle.setBackgroundColor(color);
+        binding.framelayoutTitle.setBackgroundColor(Utils.alterColor(color, 0.9f));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             Window window = getWindow();
+
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Utils.alterColor(color, 0.8f));
+
+            window.setStatusBarColor(Utils.alterColor(color, 0.7f));
         }
     }
 

@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -52,9 +51,8 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
-
 /**
- * Provide views to RecyclerView with data from mDataSet.
+ * Created by Ricardo on 18/03/2016
  */
 public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecyclerViewAdapter.BindingHolder> {
 
@@ -63,16 +61,16 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     public static final int VIEW_TYPE_DEFAULT = 1;
     public static final int VIEW_TYPE_LOADER = 2;
     static Activity activity;
-    private final int SPAN_COUNT = Constants.SPAN_COUNT;
+    final int SPAN_COUNT = Constants.SPAN_COUNT;
+
     @Inject
     LogWorker logWorker;
     @Inject
     BusWorker busWorker;
     @Inject
     StoreManager storeManager;
-    private boolean showLoadingView = false;
 
-    private int lastPosition = -1;
+    private boolean showLoadingView = false;
 
     public StoreRecyclerViewAdapter(Activity act) {
 
@@ -126,6 +124,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                     if (myBitmap != null && !myBitmap.isRecycled()) {
 
                         Palette.from(myBitmap).generate(new Palette.PaletteAsyncListener() {
+
                             public void onGenerated(Palette palette) {
 
                                 if (!storeManager.getStore().feed.entry[position].imageLoaded) {
@@ -135,19 +134,16 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                                     storeManager.getStore().feed.entry[position].imageLoaded = true; //First insert animation
                                 }
 
-                                ColorDrawable colorDrawable = new ColorDrawable(palette.getLightVibrantColor(palette.getVibrantColor(0x000000))); //default 0x000000
+                                storeManager.getStore().feed.entry[position].paletteColor = Utils.getDarkColorDrawable(palette).getColor();
 
-                                ColorDrawable colorDrawableDark = new ColorDrawable(palette.getDarkVibrantColor(palette.getDarkMutedColor(0x000000))); //default 0x000000
+                                holder.binding.ivContainer.setBackgroundDrawable(Utils.getColorDrawable(palette)); // min supported API is 14
 
-                                storeManager.getStore().feed.entry[position].paletteColor = colorDrawableDark.getColor();
-
-                                //holder.binding.ivContainer.setBackground(colorDrawable); // min supported API is 14
-
-                                storeManager.addDrawables(position, colorDrawable);
+                                storeManager.addDrawables(position, Utils.getColorDrawable(palette));
                             }
                         });
                     }
                 }
+
                 @Override
                 public void onError() {
 
