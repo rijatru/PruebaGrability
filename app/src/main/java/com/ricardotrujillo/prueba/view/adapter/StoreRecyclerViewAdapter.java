@@ -230,8 +230,6 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                 notifyItemChanged(0);
             }
         });
-
-        holder.loadingFeedItemView.startLoading();
     }
 
     @Override

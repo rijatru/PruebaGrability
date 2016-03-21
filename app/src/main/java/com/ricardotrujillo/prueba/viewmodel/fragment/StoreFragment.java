@@ -17,7 +17,6 @@ import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.databinding.StoreFragmentBinding;
 import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.view.adapter.StoreRecyclerViewAdapter;
-import com.ricardotrujillo.prueba.view.custom.FeedContextMenuManager;
 import com.ricardotrujillo.prueba.viewmodel.Constants;
 import com.ricardotrujillo.prueba.viewmodel.event.FetchedStoreDataEvent;
 import com.ricardotrujillo.prueba.viewmodel.worker.BusWorker;
@@ -130,15 +129,6 @@ public class StoreFragment extends Fragment {
         adapter = new StoreRecyclerViewAdapter(getActivity());
 
         binding.storeRecyclerView.setAdapter(adapter);
-
-        binding.storeRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
-                FeedContextMenuManager.getInstance().onScrolled(recyclerView, dx, dy);
-            }
-        });
     }
 
     public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
