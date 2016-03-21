@@ -39,6 +39,7 @@ import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.Utils;
 import com.ricardotrujillo.prueba.activities.EntryActivity;
+import com.ricardotrujillo.prueba.activities.EntryActivity2;
 import com.ricardotrujillo.prueba.databinding.StoreRowBinding;
 import com.ricardotrujillo.prueba.event.RecyclerCellEvent;
 import com.ricardotrujillo.prueba.interfaces.CustomCallback;
@@ -141,11 +142,11 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                                     storeManager.getStore().feed.entry[position].imageLoaded = true; //First insert animation
                                 }
 
-                                //RippleDrawable drawableThumb = getPressedColorRippleDrawable(palette.getLightVibrantColor(palette.getVibrantColor(0x000000)), R.color.btn_context_menu_text_red);
-
                                 ColorDrawable colorDrawable = new ColorDrawable(palette.getLightVibrantColor(palette.getVibrantColor(0x000000))); //default 0x000000
 
-                                //RippleDrawable drawable = Utils.getPressedColorRippleDrawable(0x000000, palette.getLightVibrantColor(palette.getVibrantColor(0x000000))); //default 0x000000
+                                ColorDrawable colorDrawableDark = new ColorDrawable(palette.getDarkVibrantColor(palette.getDarkMutedColor(0x000000))); //default 0x000000
+
+                                storeManager.getStore().feed.entry[position].paletteColor = colorDrawableDark.getColor();
 
                                 holder.binding.ivContainer.setBackgroundDrawable(colorDrawable); // min supported API is 14
 
@@ -310,7 +311,8 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                     holder.binding.ivFeedCenter.setTransitionName(activity.getString(R.string.entry_transition_name));
                     holder.binding.tvName.setTransitionName(activity.getString(R.string.entry_transition_name));
 
-                    Intent intent = new Intent(activity, EntryActivity.class);
+                    //Intent intent = new Intent(activity, EntryActivity.class);
+                    Intent intent = new Intent(activity, EntryActivity2.class);
                     intent.putExtra(Constants.POSITION, holder.getLayoutPosition());
 
                     Pair<View, String> p1 = Pair.create((View) holder.binding.vImageRoot, activity.getString(R.string.entry_transition_thumb));
@@ -324,7 +326,8 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
                 } else {
 
-                    Intent intent = new Intent(activity, EntryActivity.class);
+                    //Intent intent = new Intent(activity, EntryActivity.class);
+                    Intent intent = new Intent(activity, EntryActivity2.class);
                     activity.startActivity(intent);
                 }
 

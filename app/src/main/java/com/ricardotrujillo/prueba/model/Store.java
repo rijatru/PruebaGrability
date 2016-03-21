@@ -58,6 +58,7 @@ public final class Store {
         public static final class Entry {
 
             public boolean imageLoaded = false;
+            public int paletteColor;
             public int likes = 0;
             public boolean isLiked = false;
             public final name name;
@@ -89,9 +90,12 @@ public final class Store {
             }
 
             public static final class name {
+
+                public String entryLabel;
                 public String label;
 
                 public name(String label){
+
                     this.label = label;
                 }
             }

@@ -8,6 +8,7 @@
         <item name="colorControlHighlight">@color/fab_color_pressed</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:statusBarColor">@color/style_color_primary_dark</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
         <!-- shared element transitions -->
         <item name="android:windowSharedElementEnterTransition">
@@ -65,6 +66,11 @@
         <item name="android:textColor">@color/bg_comments</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Theme.EntryActivity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
 </resources>

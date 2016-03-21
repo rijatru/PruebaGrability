@@ -23,9 +23,8 @@
         </activity>
         <activity
             android:name=".activities.EntryActivity"
-            android:theme="@style/AppTheme.TransparentActivity">
-
-        </activity>
+            android:theme="@style/AppTheme.TransparentActivity"></activity>
+        <activity android:name=".activities.EntryActivity2"></activity>
     </application>
 
 </manifest>

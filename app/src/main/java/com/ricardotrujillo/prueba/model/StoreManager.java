@@ -27,6 +27,7 @@ public class StoreManager {
 
         for (int i = 0; i < store.feed.entry.length; i++) {
 
+            store.feed.entry[i].name.entryLabel = store.feed.entry[i].name.label;
             store.feed.entry[i].name.label = (i+1) + ". " + store.feed.entry[i].name.label;
         }
     }

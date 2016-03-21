@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!-- styles.xml-->
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/style_color_primary</item>
         <item name="colorPrimaryDark">@color/style_color_primary_dark</item>
         <item name="colorAccent">@color/style_color_accent</item>
@@ -135,13 +135,37 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="StoreCardPriceEntry">
+    <style name="StoreCardCategoryEntry">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">left</item>
         <item name="android:layout_marginLeft">8dp</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/title</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="Widget.CardContent" parent="android:Widget">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">24dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Theme.EntryActivity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="EntryActivityToolbarText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
     </style>

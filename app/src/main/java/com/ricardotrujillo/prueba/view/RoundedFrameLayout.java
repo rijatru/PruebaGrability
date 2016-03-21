@@ -10,15 +10,18 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.FrameLayout;
 
 public class RoundedFrameLayout extends FrameLayout {
     private final static float CORNER_RADIUS = 15.0f;
 
-    private Bitmap maskBitmap;
+    Bitmap maskBitmap;
     private Paint paint, maskPaint;
     private float cornerRadius;
+
+    DisplayMetrics metrics;
 
     public RoundedFrameLayout(Context context) {
         super(context);
@@ -36,7 +39,8 @@ public class RoundedFrameLayout extends FrameLayout {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+
+        metrics = context.getResources().getDisplayMetrics();
         cornerRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, CORNER_RADIUS, metrics);
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -49,14 +53,15 @@ public class RoundedFrameLayout extends FrameLayout {
 
     @Override
     public void draw(Canvas canvas) {
+
+        cornerRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) canvas.getWidth() * 0.05f, metrics);
+
         Bitmap offscreenBitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas offscreenCanvas = new Canvas(offscreenBitmap);
 
         super.draw(offscreenCanvas);
 
-        if (maskBitmap == null) {
-            maskBitmap = createMask(canvas.getWidth(), canvas.getHeight());
-        }
+        maskBitmap = createMask(canvas.getWidth(), canvas.getHeight());
 
         offscreenCanvas.drawBitmap(maskBitmap, 0f, 0f, maskPaint);
         canvas.drawBitmap(offscreenBitmap, 0f, 0f, paint);
