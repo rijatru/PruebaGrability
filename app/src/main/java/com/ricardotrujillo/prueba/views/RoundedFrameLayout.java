@@ -1,4 +1,4 @@
-package com.ricardotrujillo.prueba.view;
+package com.ricardotrujillo.prueba.views;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -13,7 +13,6 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewOutlineProvider;
@@ -23,10 +22,9 @@ public class RoundedFrameLayout extends FrameLayout {
     private final static float CORNER_RADIUS = 15.0f;
 
     Bitmap maskBitmap;
+    DisplayMetrics metrics;
     private Paint paint, maskPaint;
     private float cornerRadius;
-
-    DisplayMetrics metrics;
 
     public RoundedFrameLayout(Context context) {
         super(context);
@@ -78,6 +76,22 @@ public class RoundedFrameLayout extends FrameLayout {
         canvas.drawBitmap(offscreenBitmap, 0f, 0f, paint);
     }
 
+    private Bitmap createMask(int width, int height) {
+
+        Bitmap mask = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
+        Canvas canvas = new Canvas(mask);
+
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.WHITE);
+
+        canvas.drawRect(0, 0, width, height, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        canvas.drawRoundRect(new RectF(0, 0, width, height), cornerRadius, cornerRadius, paint);
+
+        return mask;
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private class CustomOutline extends ViewOutlineProvider {
 
@@ -97,21 +111,5 @@ public class RoundedFrameLayout extends FrameLayout {
 
             outline.setRoundRect(0, 0, width, height, radius);
         }
-    }
-
-    private Bitmap createMask(int width, int height) {
-
-        Bitmap mask = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
-        Canvas canvas = new Canvas(mask);
-
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(Color.WHITE);
-
-        canvas.drawRect(0, 0, width, height, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        canvas.drawRoundRect(new RectF(0, 0, width, height), cornerRadius, cornerRadius, paint);
-
-        return mask;
     }
 }

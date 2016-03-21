@@ -1,4 +1,4 @@
-package com.ricardotrujillo.prueba.activities;
+package com.ricardotrujillo.prueba.view;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -9,13 +9,13 @@ import com.google.gson.Gson;
 import com.ricardotrujillo.prueba.App;
 import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.R;
+import com.ricardotrujillo.prueba.controller.BusWorker;
+import com.ricardotrujillo.prueba.controller.DbWorker;
+import com.ricardotrujillo.prueba.controller.LogWorker;
+import com.ricardotrujillo.prueba.controller.NetWorker;
 import com.ricardotrujillo.prueba.event.FetchedStoreDataEvent;
 import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
-import com.ricardotrujillo.prueba.workers.BusWorker;
-import com.ricardotrujillo.prueba.workers.DbWorker;
-import com.ricardotrujillo.prueba.workers.LogWorker;
-import com.ricardotrujillo.prueba.workers.NetWorker;
 
 import javax.inject.Inject;
 

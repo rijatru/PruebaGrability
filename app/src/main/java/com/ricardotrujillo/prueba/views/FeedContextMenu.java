@@ -1,9 +1,10 @@
-package com.ricardotrujillo.prueba.view;
+package com.ricardotrujillo.prueba.views;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
 import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.Utils;
 

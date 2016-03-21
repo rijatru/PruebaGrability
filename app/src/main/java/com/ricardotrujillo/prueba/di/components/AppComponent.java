@@ -1,14 +1,14 @@
 package com.ricardotrujillo.prueba.di.components;
 
 import com.ricardotrujillo.prueba.App;
-import com.ricardotrujillo.prueba.activities.EntryActivity;
-import com.ricardotrujillo.prueba.activities.MainActivity;
 import com.ricardotrujillo.prueba.adapter.StoreRecyclerViewAdapter;
 import com.ricardotrujillo.prueba.di.modules.NetModule;
 import com.ricardotrujillo.prueba.di.modules.StoreModule;
 import com.ricardotrujillo.prueba.di.scopes.AppScope;
 import com.ricardotrujillo.prueba.fragments.StoreFragment;
 import com.ricardotrujillo.prueba.model.EntryViewModel;
+import com.ricardotrujillo.prueba.view.EntryActivity;
+import com.ricardotrujillo.prueba.view.MainActivity;
 
 @AppScope
 @dagger.Component(modules = {StoreModule.class, NetModule.class})

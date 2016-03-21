@@ -29,9 +29,9 @@
             android:id="@+id/ivContainerParent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:clickable="true"
             android:background="@drawable/store_row_ripple"
+            android:clickable="true"
+            android:clipToPadding="false"
             android:onClick="@{click.onClick}"
             android:orientation="vertical">
 
@@ -42,7 +42,7 @@
                 android:clipToPadding="false"
                 android:padding="@dimen/card_margins">
 
-                <com.ricardotrujillo.prueba.view.RoundedFrameLayout
+                <com.ricardotrujillo.prueba.views.RoundedFrameLayout
                         android:id="@+id/vImageRoot"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
@@ -73,7 +73,7 @@
                         android:src="@drawable/ic_insert_emoticon_white_48dp"
                         android:visibility="invisible" />
 
-                </com.ricardotrujillo.prueba.view.RoundedFrameLayout>
+                </com.ricardotrujillo.prueba.views.RoundedFrameLayout>
 
             </RelativeLayout>
 
@@ -84,13 +84,13 @@
                     android:layout_alignBottom="@+id/ivContainer"
                     android:layout_alignTop="@+id/ivContainer"
                     android:layout_centerVertical="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_toEndOf="@+id/ivContainer"
                     android:layout_toRightOf="@+id/ivContainer"
                     android:orientation="vertical"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginEnd="8dp"
                     android:transitionName="@string/entry_transition_name" >
 
                     <TextView

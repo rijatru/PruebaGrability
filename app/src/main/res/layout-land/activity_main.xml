@@ -8,7 +8,7 @@
 
         <variable
             name="handlers"
-            type="com.ricardotrujillo.prueba.activities.MainActivity" />
+            type="com.ricardotrujillo.prueba.view.MainActivity" />
 
         <variable
             name="school"

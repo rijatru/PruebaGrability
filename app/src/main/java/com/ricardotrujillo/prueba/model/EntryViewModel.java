@@ -4,10 +4,6 @@ import android.app.Activity;
 import android.databinding.BindingAdapter;
 import android.widget.ImageView;
 
-import com.ricardotrujillo.prueba.workers.NetWorker;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-
 /**
  * Created by Ricardo on 16/03/2016.
  */

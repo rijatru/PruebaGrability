@@ -1,4 +1,4 @@
-package com.ricardotrujillo.prueba.workers;
+package com.ricardotrujillo.prueba.controller;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ricardotrujillo.prueba.Constants;
-import com.ricardotrujillo.prueba.model.Measurements;
+import com.ricardotrujillo.prueba.Utils;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -26,17 +26,18 @@ import javax.inject.Inject;
 
 public class NetWorker {
 
-    public interface ConnectionStatusListener {
-
-        void onResult(boolean connected);
-    }
-
     private Measurements measurements = new Measurements();
     private RequestQueue queue;
-
     @Inject
     public NetWorker() {
 
+    }
+
+    public static boolean isConnected(Activity activity) {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public void isNetworkAvailable(Context context, final ConnectionStatusListener listener) {
@@ -95,6 +96,11 @@ public class NetWorker {
     public void setScreenHeight(Context context) {
 
         measurements.setScreenHeight(context);
+    }
+
+    public interface ConnectionStatusListener {
+
+        void onResult(boolean connected);
     }
 
     public interface Listener {
@@ -157,10 +163,18 @@ public class NetWorker {
         }
     }
 
-    public static boolean isConnected(Activity activity) {
+    private class Measurements {
 
-        ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        private int rootHeight;
+
+        public int getScreenHeight() {
+
+            return rootHeight;
+        }
+
+        public void setScreenHeight(Context context) {
+
+            rootHeight = Utils.getScreenHeight(context);
+        }
     }
 }

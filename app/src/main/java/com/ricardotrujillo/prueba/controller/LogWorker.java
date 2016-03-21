@@ -1,6 +1,7 @@
-package com.ricardotrujillo.prueba.workers;
+package com.ricardotrujillo.prueba.controller;
 
 import android.util.Log;
+
 import com.ricardotrujillo.prueba.Constants;
 
 import javax.inject.Inject;

@@ -1,4 +1,4 @@
-package com.ricardotrujillo.prueba.view;
+package com.ricardotrujillo.prueba.views;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

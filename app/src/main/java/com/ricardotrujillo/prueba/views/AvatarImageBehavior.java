@@ -1,4 +1,4 @@
-package com.ricardotrujillo.prueba.view;
+package com.ricardotrujillo.prueba.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.ricardotrujillo.prueba.R;
 

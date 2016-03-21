@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_feed_top" />
 
-            <com.ricardotrujillo.prueba.view.SquaredFrameLayout
+            <com.ricardotrujillo.prueba.views.SquaredFrameLayout
                 android:id="@+id/vImageRoot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -69,13 +69,13 @@
                     android:layout_height="match_parent"
                     android:background="#77ffffff" />
 
-                <com.ricardotrujillo.prueba.view.SendingProgressView
+                <com.ricardotrujillo.prueba.views.SendingProgressView
                     android:id="@+id/vSendingProgress"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_gravity="center" />
 
-            </com.ricardotrujillo.prueba.view.SquaredFrameLayout>
+            </com.ricardotrujillo.prueba.views.SquaredFrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -1,11 +1,11 @@
 package com.ricardotrujillo.prueba.di.modules;
 
+import com.ricardotrujillo.prueba.controller.BusWorker;
+import com.ricardotrujillo.prueba.controller.DbWorker;
+import com.ricardotrujillo.prueba.controller.LogWorker;
+import com.ricardotrujillo.prueba.controller.NetWorker;
+import com.ricardotrujillo.prueba.controller.SharedPreferencesWorker;
 import com.ricardotrujillo.prueba.di.scopes.AppScope;
-import com.ricardotrujillo.prueba.workers.BusWorker;
-import com.ricardotrujillo.prueba.workers.DbWorker;
-import com.ricardotrujillo.prueba.workers.LogWorker;
-import com.ricardotrujillo.prueba.workers.NetWorker;
-import com.ricardotrujillo.prueba.workers.SharedPreferencesWorker;
 
 import dagger.Module;
 import dagger.Provides;

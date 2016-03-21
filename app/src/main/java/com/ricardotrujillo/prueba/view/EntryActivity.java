@@ -1,4 +1,4 @@
-package com.ricardotrujillo.prueba.activities;
+package com.ricardotrujillo.prueba.view;
 
 import android.databinding.DataBindingUtil;
 import android.os.Build;
@@ -19,11 +19,11 @@ import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.Utils;
 import com.ricardotrujillo.prueba.adapter.StoreRecyclerViewAdapter;
+import com.ricardotrujillo.prueba.controller.LogWorker;
 import com.ricardotrujillo.prueba.databinding.ActivityEntryBinding;
 import com.ricardotrujillo.prueba.helper.EntryActivityHelper;
 import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
-import com.ricardotrujillo.prueba.workers.LogWorker;
 import com.squareup.picasso.Callback;
 
 import javax.inject.Inject;
