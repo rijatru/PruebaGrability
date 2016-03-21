@@ -21,10 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.EntryActivity"
-            android:theme="@style/AppTheme.TransparentActivity"></activity>
-        <activity android:name=".activities.EntryActivity2"></activity>
+        <activity android:name=".activities.EntryActivity"></activity>
     </application>
 
 </manifest>

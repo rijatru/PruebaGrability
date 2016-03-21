@@ -119,7 +119,8 @@ public final class Store {
             }
 
             public static final class Summary {
-                public final String label;
+
+                public String label;
 
                 public Summary(String label){
                     this.label = label;

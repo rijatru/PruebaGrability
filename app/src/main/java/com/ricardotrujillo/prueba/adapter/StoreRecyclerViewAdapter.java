@@ -39,7 +39,6 @@ import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.Utils;
 import com.ricardotrujillo.prueba.activities.EntryActivity;
-import com.ricardotrujillo.prueba.activities.EntryActivity2;
 import com.ricardotrujillo.prueba.databinding.StoreRowBinding;
 import com.ricardotrujillo.prueba.event.RecyclerCellEvent;
 import com.ricardotrujillo.prueba.interfaces.CustomCallback;
@@ -120,8 +119,6 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
             holder.binding.cardView.setAlpha(0f);
         }
 
-        //setBottomMargin(holder, position);
-
         if (storeManager.getColorDrawable(position) == null) {
 
             loadImage(holder.binding.ivFeedCenter, position, new CustomCallback() {
@@ -148,14 +145,13 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
                                 storeManager.getStore().feed.entry[position].paletteColor = colorDrawableDark.getColor();
 
-                                holder.binding.ivContainer.setBackgroundDrawable(colorDrawable); // min supported API is 14
+                                holder.binding.ivContainer.setBackground(colorDrawable); // min supported API is 14
 
                                 storeManager.addDrawables(position, colorDrawable);
                             }
                         });
                     }
                 }
-
                 @Override
                 public void onError() {
 
@@ -183,23 +179,6 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
         if (getItemViewType(position) == VIEW_TYPE_LOADER) {
 
             bindLoadingFeedItem((LoadingCellFeedViewHolder) holder);
-        }
-    }
-
-    void setBottomMargin(BindingHolder holder, int position) {
-
-        if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-
-            if (isLastCell(position)) setBottomMargin(holder);
-
-        } else {
-
-            if (isInLastRow(position)) {
-
-                logWorker.log("isInLastRow: " + position + " " + storeManager.getStore().feed.entry[position].name.label);
-
-                setBottomMargin(holder);
-            }
         }
     }
 
@@ -266,9 +245,13 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
     @Override
     public int getItemViewType(int position) {
+
         if (showLoadingView && position == 0) {
+
             return VIEW_TYPE_LOADER;
+
         } else {
+
             return VIEW_TYPE_DEFAULT;
         }
     }
@@ -277,66 +260,15 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
         switch (view.getId()) {
 
-            case R.id.btnLike:
-
-                int adapterPosition = holder.getAdapterPosition();
-                holder.binding.getEntry().likes = holder.binding.getEntry().likes + 1;
-                holder.binding.getEntry().isLiked = true;
-                notifyItemChanged(adapterPosition, ACTION_LIKE_BUTTON_CLICKED);
-
-                busWorker.getBus().post(new RecyclerCellEvent(Constants.LIKE));
-
-                logWorker.log("Click on btnLike " + holder.binding.getEntry().name.label);
-
-                break;
-
-            case R.id.btnComments:
-
-                logWorker.log("Click on btnComments " + holder.binding.getEntry().name.label);
-
-                break;
-
-            case R.id.btnMore:
-
-                busWorker.getBus().post(new RecyclerCellEvent(Constants.MORE, holder.getBinding().btnMore, holder.getAdapterPosition()));
-
-                logWorker.log("Click on btnMore " + holder.binding.getEntry().name.label);
-
-                break;
-
             case R.id.ivFeedCenter:
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                openEntryActivity(holder);
 
-                    holder.binding.ivFeedCenter.setTransitionName(activity.getString(R.string.entry_transition_name));
-                    holder.binding.tvName.setTransitionName(activity.getString(R.string.entry_transition_name));
+                break;
 
-                    //Intent intent = new Intent(activity, EntryActivity.class);
-                    Intent intent = new Intent(activity, EntryActivity2.class);
-                    intent.putExtra(Constants.POSITION, holder.getLayoutPosition());
+            case R.id.ivContainerParent:
 
-                    Pair<View, String> p1 = Pair.create((View) holder.binding.vImageRoot, activity.getString(R.string.entry_transition_thumb));
-                    //Pair<View, String> p2 = Pair.create((View) holder.binding.tvName, activity.getString(R.string.entry_transition_name));
-
-                    @SuppressWarnings("unchecked")
-                    ActivityOptionsCompat options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation(activity, p1);
-
-                    activity.startActivity(intent, options.toBundle());
-
-                } else {
-
-                    //Intent intent = new Intent(activity, EntryActivity.class);
-                    Intent intent = new Intent(activity, EntryActivity2.class);
-                    activity.startActivity(intent);
-                }
-
-                int adapterPos = holder.getAdapterPosition();
-                holder.binding.getEntry().likes = holder.binding.getEntry().likes + 1;
-                holder.binding.getEntry().isLiked = true;
-                notifyItemChanged(adapterPos, ACTION_LIKE_IMAGE_CLICKED);
-
-                busWorker.getBus().post(new RecyclerCellEvent(Constants.LIKE));
+                openEntryActivity(holder);
 
                 break;
 
@@ -363,6 +295,40 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
             return 0;
         }
+    }
+
+    void openEntryActivity(BindingHolder holder) {
+
+        Intent intent = new Intent(activity, EntryActivity.class);
+
+        intent.putExtra(Constants.POSITION, holder.getLayoutPosition());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            holder.binding.ivFeedCenter.setTransitionName(activity.getString(R.string.entry_transition_name));
+            holder.binding.tvName.setTransitionName(activity.getString(R.string.entry_transition_name));
+
+            Pair<View, String> p1 = Pair.create((View) holder.binding.vImageRoot, activity.getString(R.string.entry_transition_thumb));
+
+            @SuppressWarnings("unchecked")
+            ActivityOptionsCompat options = ActivityOptionsCompat
+                    .makeSceneTransitionAnimation(activity, p1);
+
+            activity.startActivity(intent, options.toBundle());
+
+        } else {
+
+            activity.startActivity(intent);
+        }
+
+        int adapterPos = holder.getAdapterPosition();
+
+        holder.binding.getEntry().likes = holder.binding.getEntry().likes + 1;
+        holder.binding.getEntry().isLiked = true;
+
+        notifyItemChanged(adapterPos, ACTION_LIKE_IMAGE_CLICKED);
+
+        busWorker.getBus().post(new RecyclerCellEvent(Constants.LIKE));
     }
 
     public interface StoreClickHandler {

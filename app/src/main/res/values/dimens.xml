@@ -5,7 +5,7 @@
     <dimen name="btn_fab_size">56dp</dimen>
     <dimen name="btn_fab_margins">16dp</dimen>
     <dimen name="card_margins">8dp</dimen>
-    <dimen name="default_elevation">8dp</dimen>
+    <dimen name="default_elevation">6dp</dimen>
     <dimen name="comment_avatar_size">56dp</dimen>
     <dimen name="user_profile_avatar_size">88dp</dimen>
     <dimen name="global_menu_avatar_size">64dp</dimen>
@@ -19,5 +19,6 @@
     <dimen name="image_width">120dp</dimen>
     <dimen name="image_final_width">32dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="spacing_double">51dp</dimen>
 
 </resources>

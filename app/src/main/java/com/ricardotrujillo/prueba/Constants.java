@@ -14,6 +14,9 @@ public class Constants {
     final public static int RECYCLER_INTRO_ANIM_DURATION = 500;
     final public static int ENTRY_VIEW_MAIN_PANEL = 480;
     final public static int EXIT_VIEW_MAIN_PANEL = 300;
+    final public static int AVATAR_ANIMATION_DURATION_IN = 1000;
+    final public static int AVATAR_ANIMATION_DURATION_OUT = 325;
+    final public static int AVATAR_ANIMATION_ROTATION = 750;
 
     final public static String STRING_TO_ERASE = "im:";
     final public static String NEW_STRING = "";

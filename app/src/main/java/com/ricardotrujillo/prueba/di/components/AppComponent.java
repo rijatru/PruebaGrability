@@ -2,7 +2,6 @@ package com.ricardotrujillo.prueba.di.components;
 
 import com.ricardotrujillo.prueba.App;
 import com.ricardotrujillo.prueba.activities.EntryActivity;
-import com.ricardotrujillo.prueba.activities.EntryActivity2;
 import com.ricardotrujillo.prueba.activities.MainActivity;
 import com.ricardotrujillo.prueba.adapter.StoreRecyclerViewAdapter;
 import com.ricardotrujillo.prueba.di.modules.NetModule;
@@ -20,8 +19,6 @@ public interface AppComponent {
     void inject(MainActivity activity);
 
     void inject(EntryActivity entryActivity);
-
-    void inject(EntryActivity2 entryActivity2);
 
     void inject(StoreFragment fragment);
 

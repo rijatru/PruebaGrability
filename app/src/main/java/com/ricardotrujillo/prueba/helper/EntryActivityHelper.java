@@ -12,7 +12,6 @@ import android.view.animation.LinearInterpolator;
 import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.Utils;
-import com.ricardotrujillo.prueba.databinding.ActivityEntry2Binding;
 import com.ricardotrujillo.prueba.databinding.ActivityEntryBinding;
 import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.workers.NetWorker;
@@ -26,25 +25,6 @@ import com.squareup.picasso.Picasso;
 public class EntryActivityHelper {
 
     public static void loadEntry(final Activity activity, final ActivityEntryBinding binding, Store.Feed.Entry entry) {
-
-        binding.rlMainPaneBackGround.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-
-                v.removeOnLayoutChangeListener(this);
-
-                binding.rlMainPaneBackGround.setY(binding.rlMainPaneBackGround.getY() + binding.rlMainPaneBackGround.getHeight());
-
-                binding.rlMainPaneBackGround
-                        .animate()
-                        .setDuration(Constants.ENTRY_VIEW_MAIN_PANEL)
-                        .y(binding.rlMainPaneBackGround.getY() - binding.rlMainPaneBackGround.getHeight())
-                        .setInterpolator(new LinearInterpolator());
-            }
-        });
-
-        binding.ivFeedCenter.setAlpha(0f);
 
         Picasso.with(activity)
                 .load(entry.image[2].label)
@@ -93,91 +73,6 @@ public class EntryActivityHelper {
     }
 
     public static void animateExit(final ActivityEntryBinding binding, final Callback callback) {
-
-        binding.ivFeedCenter
-                .animate()
-                .setDuration(Constants.EXIT_VIEW_MAIN_PANEL)
-                .y(binding.ivFeedCenter.getY() - binding.ivFeedCenter.getHeight())
-                .setInterpolator(new AccelerateDecelerateInterpolator());
-
-        binding.rlMainPaneBackGround
-                .animate()
-                .setDuration(Constants.EXIT_VIEW_MAIN_PANEL)
-                .y(binding.rlMainPaneBackGround.getY() + binding.rlMainPaneBackGround.getHeight())
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-
-                        callback.onSuccess();
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
-    }
-
-    public static void loadEntry(final Activity activity, final ActivityEntry2Binding binding, Store.Feed.Entry entry) {
-
-        Picasso.with(activity)
-                .load(entry.image[2].label)
-                .networkPolicy(
-                        NetWorker.isConnected(activity) ?
-                                NetworkPolicy.NO_CACHE : NetworkPolicy.OFFLINE)
-                .placeholder(R.drawable.img_feed_center_1)
-                .into(binding.ivFeedCenterThumb, new Callback() {
-                    @Override
-                    public void onSuccess() {
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-                            final Bitmap bitmap = ((BitmapDrawable) binding.ivFeedCenterThumb.getDrawable()).getBitmap();
-
-                            Bitmap newBitmap = bitmap.copy(bitmap.getConfig(), bitmap.isMutable() ? true : false);
-
-                            binding.ivFeedCenter.setImageBitmap(Utils.blur(activity, newBitmap, 6f));
-
-                            binding.ivFeedCenter.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-
-                                @Override
-                                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-
-                                    v.removeOnLayoutChangeListener(this);
-
-                                    binding.ivFeedCenter.setAlpha(1f);
-
-                                    Utils.enterReveal(binding.ivFeedCenter);
-                                }
-                            });
-
-                        } else {
-
-                            binding.ivFeedCenter.setVisibility(View.VISIBLE);
-
-                            binding.ivFeedCenter.animate().alpha(1f);
-                        }
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
-    }
-
-    public static void animateExit(final ActivityEntry2Binding binding, final Callback callback) {
 
         binding.ivFeedCenter
                 .animate()

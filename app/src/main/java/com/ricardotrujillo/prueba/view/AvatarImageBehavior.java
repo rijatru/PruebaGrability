@@ -110,7 +110,7 @@ public class AvatarImageBehavior extends CoordinatorLayout.Behavior<ViewGroup> {
             mStartXPosition = (int) (child.getX() + (child.getWidth() / 2));
 
         if (mFinalXPosition == 0)
-            mFinalXPosition = mContext.getResources().getDimensionPixelOffset(R.dimen.abc_action_bar_content_inset_material) + ((int) mCustomFinalHeight / 2);
+            mFinalXPosition = mContext.getResources().getDimensionPixelOffset(R.dimen.spacing_double) + ((int) mCustomFinalHeight / 2);
 
         if (mStartToolbarPosition == 0)
             mStartToolbarPosition = dependency.getY() + (dependency.getHeight()/2);

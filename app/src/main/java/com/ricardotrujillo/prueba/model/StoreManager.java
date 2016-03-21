@@ -29,6 +29,9 @@ public class StoreManager {
 
             store.feed.entry[i].name.entryLabel = store.feed.entry[i].name.label;
             store.feed.entry[i].name.label = (i+1) + ". " + store.feed.entry[i].name.label;
+
+            store.feed.entry[i].summary.label = store.feed.entry[i].summary.label.length() < 400 ?
+                    store.feed.entry[i].summary.label : store.feed.entry[i].summary.label.substring(0, 400) + "...";
         }
     }
 

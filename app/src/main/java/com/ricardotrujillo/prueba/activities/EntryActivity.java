@@ -2,14 +2,22 @@ package com.ricardotrujillo.prueba.activities;
 
 import android.databinding.DataBindingUtil;
 import android.os.Build;
-import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.transition.TransitionInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 
 import com.ricardotrujillo.prueba.App;
 import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.R;
+import com.ricardotrujillo.prueba.Utils;
 import com.ricardotrujillo.prueba.adapter.StoreRecyclerViewAdapter;
 import com.ricardotrujillo.prueba.databinding.ActivityEntryBinding;
 import com.ricardotrujillo.prueba.helper.EntryActivityHelper;
@@ -20,22 +28,44 @@ import com.squareup.picasso.Callback;
 
 import javax.inject.Inject;
 
-public class EntryActivity extends AppCompatActivity {
+public class EntryActivity extends AppCompatActivity
+        implements AppBarLayout.OnOffsetChangedListener {
+
+    private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
+    private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f;
+    private static final int ALPHA_ANIMATIONS_DURATION = 200;
+
+    private boolean mIsTheTitleVisible = false;
+    private boolean mIsTheTitleContainerVisible = true;
+
+    private boolean isAnimatingAvatar = false;
 
     @Inject
     StoreManager storeManager;
     @Inject
     LogWorker logWorker;
 
-    ActivityEntryBinding binding;
-
     Store.Feed.Entry entry;
+
+    ActivityEntryBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_entry);
+        binding.appbar.addOnOffsetChangedListener(this);
+        binding.toolbar.inflateMenu(R.menu.sample_actions);
+
+        setSupportActionBar(binding.toolbar);
+
+        if(getSupportActionBar() != null) {
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(null);
+        }
+
+        startAlphaAnimation(binding.textviewTitle, 0, View.INVISIBLE);
 
         inject();
 
@@ -45,7 +75,9 @@ public class EntryActivity extends AppCompatActivity {
 
             if (getIntent().getExtras() != null) {
 
-                getEntry();
+                getEntry(getIntent().getExtras().getInt(Constants.POSITION));
+
+                setUpBarColor(entry.paletteColor);
             }
         }
     }
@@ -61,34 +93,113 @@ public class EntryActivity extends AppCompatActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_entry);
+        if (savedInstanceState != null) {
 
-        entry = storeManager.getStore().feed.entry[savedInstanceState.getInt(Constants.POSITION)];
+            getEntry(savedInstanceState.getInt(Constants.POSITION));
 
-        EntryActivityHelper.loadEntry(this, binding, entry);
+            setUpBarColor(entry.paletteColor);
+        }
     }
 
     @Override
-    public void onBackPressed() {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
 
-        EntryActivityHelper.animateExit(binding, new Callback() {
+        if (menuItem.getItemId() == android.R.id.home) {
 
-            @Override
-            public void onSuccess() {
-
-                supportFinishAfterTransition();
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
+            supportFinishAfterTransition();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
-    void getEntry() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.sample_actions, menu);
+        return true;
+    }
 
-        entry = storeManager.getStore().feed.entry[getIntent().getExtras().getInt(Constants.POSITION)];
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
+
+        int maxScroll = appBarLayout.getTotalScrollRange();
+
+        float percentage = (float) Math.abs(offset) / (float) maxScroll;
+
+        handleAlphaOnTitle(percentage);
+        handleToolbarTitleVisibility(percentage);
+    }
+
+    private void handleToolbarTitleVisibility(float percentage) {
+
+        if (percentage >= PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR) {
+
+            if (!mIsTheTitleVisible) {
+
+                startAlphaAnimation(binding.textviewTitle, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
+
+                mIsTheTitleVisible = true;
+            }
+
+        } else {
+
+            if (mIsTheTitleVisible) {
+
+                startAlphaAnimation(binding.textviewTitle, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
+
+                mIsTheTitleVisible = false;
+            }
+        }
+    }
+
+    private void handleAlphaOnTitle(float percentage) {
+
+        if (percentage >= PERCENTAGE_TO_HIDE_TITLE_DETAILS) {
+
+            if (mIsTheTitleContainerVisible) {
+
+                startAlphaAnimation(binding.linearlayoutTitle, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
+
+                mIsTheTitleContainerVisible = false;
+            }
+
+        } else {
+
+            if (!mIsTheTitleContainerVisible) {
+
+                startAlphaAnimation(binding.linearlayoutTitle, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
+
+                mIsTheTitleContainerVisible = true;
+            }
+        }
+    }
+
+    public static void startAlphaAnimation(View v, long duration, int visibility) {
+
+        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
+                ? new AlphaAnimation(0f, 1f)
+                : new AlphaAnimation(1f, 0f);
+
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setFillAfter(true);
+        v.startAnimation(alphaAnimation);
+    }
+
+    void setUpBarColor(int color) {
+
+        binding.toolbar.setBackgroundColor(color);
+
+        binding.framelayoutTitle.setBackgroundColor(color);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Utils.alterColor(color, 0.8f));
+        }
+    }
+
+    void getEntry(int position) {
+
+        entry = storeManager.getStore().feed.entry[position];
 
         binding.setEntry(entry);
         binding.setHandlers(this);
@@ -100,25 +211,41 @@ public class EntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                onClickButton(view);
+                //supportFinishAfterTransition();
             }
         });
-    }
 
-    public void onClickButton(View view) {
+        binding.ivFeedCenterThumbContainer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(final View v, MotionEvent event) {
 
-        switch (view.getId()) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
-            case R.id.ivFeedCenter:
+                    if (!isAnimatingAvatar) {
 
-                logWorker.log("Clicked on ivFeedCenter");
+                        isAnimatingAvatar = true;
 
-                break;
+                        Utils.animateAvatar(v, new Callback() {
+                            @Override
+                            public void onSuccess() {
 
-            default:
+                                isAnimatingAvatar = false;
+                            }
 
-                break;
-        }
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
+
+                        return true;
+
+                    }
+                }
+
+                return false;
+            }
+        });
     }
 
     void initTransition() {
