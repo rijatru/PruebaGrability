@@ -18,7 +18,6 @@ package com.ricardotrujillo.prueba.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -61,19 +60,16 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
     public static final String ACTION_LIKE_BUTTON_CLICKED = "action_like_button_button";
     public static final String ACTION_LIKE_IMAGE_CLICKED = "action_like_image_button";
-    private final int SPAN_COUNT = Constants.SPAN_COUNT;
     public static final int VIEW_TYPE_DEFAULT = 1;
     public static final int VIEW_TYPE_LOADER = 2;
-
+    static Activity activity;
+    private final int SPAN_COUNT = Constants.SPAN_COUNT;
     @Inject
     LogWorker logWorker;
     @Inject
     BusWorker busWorker;
     @Inject
     StoreManager storeManager;
-
-    static Activity activity;
-
     private boolean showLoadingView = false;
 
     private int lastPosition = -1;
