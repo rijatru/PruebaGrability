@@ -141,7 +141,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
                                 storeManager.getStore().feed.entry[position].paletteColor = colorDrawableDark.getColor();
 
-                                holder.binding.ivContainer.setBackground(colorDrawable); // min supported API is 14
+                                //holder.binding.ivContainer.setBackground(colorDrawable); // min supported API is 14
 
                                 storeManager.addDrawables(position, colorDrawable);
                             }
