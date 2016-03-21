@@ -1,31 +1,31 @@
-    package com.ricardotrujillo.prueba.fragments;
+package com.ricardotrujillo.prueba.view.fragment;
 
-    import android.content.Context;
-    import android.content.res.Configuration;
-    import android.databinding.DataBindingUtil;
-    import android.os.Bundle;
-    import android.support.v4.app.Fragment;
-    import android.support.v7.widget.GridLayoutManager;
-    import android.support.v7.widget.LinearLayoutManager;
-    import android.support.v7.widget.RecyclerView;
-    import android.view.LayoutInflater;
-    import android.view.View;
-    import android.view.ViewGroup;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-    import com.ricardotrujillo.prueba.App;
-    import com.ricardotrujillo.prueba.Constants;
-    import com.ricardotrujillo.prueba.R;
-    import com.ricardotrujillo.prueba.adapter.StoreRecyclerViewAdapter;
-    import com.ricardotrujillo.prueba.controller.BusWorker;
-    import com.ricardotrujillo.prueba.controller.LogWorker;
-    import com.ricardotrujillo.prueba.controller.NetWorker;
-    import com.ricardotrujillo.prueba.databinding.StoreFragmentBinding;
-    import com.ricardotrujillo.prueba.event.FetchedStoreDataEvent;
-    import com.ricardotrujillo.prueba.model.StoreManager;
-    import com.ricardotrujillo.prueba.views.FeedContextMenuManager;
-    import com.squareup.otto.Subscribe;
+import com.ricardotrujillo.prueba.App;
+import com.ricardotrujillo.prueba.Constants;
+import com.ricardotrujillo.prueba.R;
+import com.ricardotrujillo.prueba.controller.BusWorker;
+import com.ricardotrujillo.prueba.controller.LogWorker;
+import com.ricardotrujillo.prueba.controller.NetWorker;
+import com.ricardotrujillo.prueba.databinding.StoreFragmentBinding;
+import com.ricardotrujillo.prueba.event.FetchedStoreDataEvent;
+import com.ricardotrujillo.prueba.model.StoreManager;
+import com.ricardotrujillo.prueba.view.adapter.StoreRecyclerViewAdapter;
+import com.ricardotrujillo.prueba.views.FeedContextMenuManager;
+import com.squareup.otto.Subscribe;
 
-    import javax.inject.Inject;
+import javax.inject.Inject;
 
 public class StoreFragment extends Fragment {
 

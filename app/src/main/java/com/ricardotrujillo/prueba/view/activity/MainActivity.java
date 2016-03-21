@@ -1,4 +1,4 @@
-package com.ricardotrujillo.prueba.view;
+package com.ricardotrujillo.prueba.view.activity;
 
 import android.os.Build;
 import android.os.Bundle;

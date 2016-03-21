@@ -6,10 +6,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.ricardotrujillo.prueba.Constants;
-import com.ricardotrujillo.prueba.db.DaoMaster;
-import com.ricardotrujillo.prueba.db.DaoSession;
-import com.ricardotrujillo.prueba.db.Store;
-import com.ricardotrujillo.prueba.db.StoreDao;
+import com.ricardotrujillo.prueba.model.db.DaoMaster;
+import com.ricardotrujillo.prueba.model.db.DaoSession;
+import com.ricardotrujillo.prueba.model.db.Store;
+import com.ricardotrujillo.prueba.model.db.StoreDao;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class DbWorker {
 
     public void saveObject(Context context, Object object) {
 
-        com.ricardotrujillo.prueba.db.Store daoStore = new com.ricardotrujillo.prueba.db.Store();
+        Store daoStore = new Store();
 
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "store-db", null);
         SQLiteDatabase db = helper.getWritableDatabase();

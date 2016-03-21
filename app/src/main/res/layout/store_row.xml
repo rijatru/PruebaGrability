@@ -9,7 +9,7 @@
 
         <variable
             name="click"
-            type="com.ricardotrujillo.prueba.adapter.StoreRecyclerViewAdapter.StoreClickHandler" />
+            type="com.ricardotrujillo.prueba.view.adapter.StoreRecyclerViewAdapter.StoreClickHandler" />
 
         <variable
             name="entry"

@@ -1,6 +1,6 @@
-package com.ricardotrujillo.prueba.di.modules;
+package com.ricardotrujillo.prueba.controller.di.modules;
 
-import com.ricardotrujillo.prueba.di.scopes.AppScope;
+import com.ricardotrujillo.prueba.controller.di.scopes.AppScope;
 import com.ricardotrujillo.prueba.model.StoreManager;
 
 import dagger.Module;

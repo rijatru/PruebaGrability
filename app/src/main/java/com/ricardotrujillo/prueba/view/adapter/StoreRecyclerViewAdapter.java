@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package com.ricardotrujillo.prueba.adapter;
+package com.ricardotrujillo.prueba.view.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -39,11 +39,11 @@ import com.ricardotrujillo.prueba.Utils;
 import com.ricardotrujillo.prueba.controller.BusWorker;
 import com.ricardotrujillo.prueba.controller.LogWorker;
 import com.ricardotrujillo.prueba.controller.NetWorker;
+import com.ricardotrujillo.prueba.controller.interfaces.CustomCallback;
 import com.ricardotrujillo.prueba.databinding.StoreRowBinding;
-import com.ricardotrujillo.prueba.interfaces.CustomCallback;
 import com.ricardotrujillo.prueba.model.EntryViewModel;
 import com.ricardotrujillo.prueba.model.StoreManager;
-import com.ricardotrujillo.prueba.view.EntryActivity;
+import com.ricardotrujillo.prueba.view.activity.EntryActivity;
 import com.ricardotrujillo.prueba.views.LoadingFeedItemView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;

@@ -3,8 +3,8 @@ package com.ricardotrujillo.prueba;
 import android.app.Application;
 
 import com.ricardotrujillo.prueba.controller.BusWorker;
-import com.ricardotrujillo.prueba.di.components.AppComponent;
-import com.ricardotrujillo.prueba.di.components.DaggerAppComponent;
+import com.ricardotrujillo.prueba.controller.di.components.AppComponent;
+import com.ricardotrujillo.prueba.controller.di.components.DaggerAppComponent;
 import com.ricardotrujillo.prueba.event.MessageEvent;
 import com.squareup.otto.Subscribe;
 

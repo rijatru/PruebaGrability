@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.ricardotrujillo.prueba.fragments.StoreFragment">
+    tools:context=".view.fragment.StoreFragment">
 
     <data>
 
     </data>
 
     <LinearLayout
-        android:background="@color/fragment_background"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/fragment_background">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/store_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
+            android:paddingLeft="4dp"
             android:paddingRight="4dp"
-            android:paddingLeft="4dp"/>
+            android:scrollbars="vertical" />
 
     </LinearLayout>
 

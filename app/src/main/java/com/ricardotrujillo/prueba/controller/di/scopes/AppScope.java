@@ -1,4 +1,4 @@
-package com.ricardotrujillo.prueba.di.scopes;
+package com.ricardotrujillo.prueba.controller.di.scopes;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

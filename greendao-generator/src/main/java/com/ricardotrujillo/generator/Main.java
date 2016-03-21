@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        Schema schema = new Schema(1, "com.ricardotrujillo.prueba.db");
+        Schema schema = new Schema(1, "com.ricardotrujillo.prueba.model.db");
 
         Entity daoStore = schema.addEntity("Store");
 

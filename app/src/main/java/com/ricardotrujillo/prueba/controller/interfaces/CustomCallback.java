@@ -1,4 +1,4 @@
-package com.ricardotrujillo.prueba.interfaces;
+package com.ricardotrujillo.prueba.controller.interfaces;
 
 public interface CustomCallback {
 
@@ -6,7 +6,7 @@ public interface CustomCallback {
 
     void onError();
 
-    public static class EmptyCallback implements CustomCallback {
+    class EmptyCallback implements CustomCallback {
 
         @Override public void onSuccess() {
         }

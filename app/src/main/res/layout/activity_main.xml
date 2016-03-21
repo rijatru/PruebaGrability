@@ -8,7 +8,7 @@
 
         <variable
             name="handlers"
-            type="com.ricardotrujillo.prueba.view.MainActivity" />
+            type="com.ricardotrujillo.prueba.view.activity.MainActivity" />
 
         <variable
             name="school"
@@ -22,7 +22,7 @@
 
         <fragment
             android:id="@+id/show_students_fragment"
-            android:name="com.ricardotrujillo.prueba.fragments.StoreFragment"
+            android:name="com.ricardotrujillo.prueba.view.fragment.StoreFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
