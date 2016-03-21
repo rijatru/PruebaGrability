@@ -1,7 +1,6 @@
 package com.ricardotrujillo.prueba;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.ricardotrujillo.prueba.di.components.AppComponent;
 import com.ricardotrujillo.prueba.di.components.DaggerAppComponent;
@@ -39,7 +38,6 @@ public class App extends Application {
     @Subscribe
     public void recievedMessage(MessageEvent event) {
 
-        Log.d("Dagger", "recievedMessage App: " + event.getMessage());
     }
 
     public AppComponent getAppComponent() {

@@ -1,42 +1,38 @@
     package com.ricardotrujillo.prueba.fragments;
 
-    import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.content.Context;
+    import android.content.Context;
     import android.content.res.Configuration;
     import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+    import android.os.Bundle;
+    import android.support.v4.app.Fragment;
+    import android.support.v7.widget.GridLayoutManager;
+    import android.support.v7.widget.LinearLayoutManager;
+    import android.support.v7.widget.RecyclerView;
+    import android.view.LayoutInflater;
+    import android.view.View;
+    import android.view.ViewGroup;
 
-import com.ricardotrujillo.prueba.App;
-import com.ricardotrujillo.prueba.Constants;
-import com.ricardotrujillo.prueba.R;
-import com.ricardotrujillo.prueba.adapter.FeedItemAnimator;
-import com.ricardotrujillo.prueba.adapter.StoreRecyclerViewAdapter;
-import com.ricardotrujillo.prueba.databinding.StoreFragmentBinding;
-import com.ricardotrujillo.prueba.event.FetchedStoreDataEvent;
-import com.ricardotrujillo.prueba.model.StoreManager;
-import com.ricardotrujillo.prueba.view.FeedContextMenuManager;
-import com.ricardotrujillo.prueba.workers.BusWorker;
-import com.ricardotrujillo.prueba.workers.LogWorker;
-import com.ricardotrujillo.prueba.workers.NetWorker;
-import com.squareup.otto.Subscribe;
+    import com.ricardotrujillo.prueba.App;
+    import com.ricardotrujillo.prueba.Constants;
+    import com.ricardotrujillo.prueba.R;
+    import com.ricardotrujillo.prueba.adapter.StoreRecyclerViewAdapter;
+    import com.ricardotrujillo.prueba.databinding.StoreFragmentBinding;
+    import com.ricardotrujillo.prueba.event.FetchedStoreDataEvent;
+    import com.ricardotrujillo.prueba.model.StoreManager;
+    import com.ricardotrujillo.prueba.view.FeedContextMenuManager;
+    import com.ricardotrujillo.prueba.workers.BusWorker;
+    import com.ricardotrujillo.prueba.workers.LogWorker;
+    import com.ricardotrujillo.prueba.workers.NetWorker;
+    import com.squareup.otto.Subscribe;
 
-import javax.inject.Inject;
+    import javax.inject.Inject;
 
 public class StoreFragment extends Fragment {
 
     public static StoreRecyclerViewAdapter adapter;
-    private final int SPAN_COUNT = Constants.SPAN_COUNT;
+    protected final int SPAN_COUNT = Constants.SPAN_COUNT;
+    protected final String KEY_LAYOUT_MANAGER = "layoutManager";
     private final int DATASET_COUNT = 15;
-    private final String KEY_LAYOUT_MANAGER = "layoutManager";
     protected LayoutManagerType mCurrentLayoutManagerType;
     protected RecyclerView.LayoutManager mLayoutManager;
 
@@ -129,12 +125,6 @@ public class StoreFragment extends Fragment {
             mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
         }
 
-        if (savedInstanceState != null) {
-
-           // mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState
-                    //.getSerializable(KEY_LAYOUT_MANAGER);
-        }
-
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
         adapter = new StoreRecyclerViewAdapter(getActivity());
@@ -142,14 +132,13 @@ public class StoreFragment extends Fragment {
         binding.storeRecyclerView.setAdapter(adapter);
 
         binding.storeRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
                 FeedContextMenuManager.getInstance().onScrolled(recyclerView, dx, dy);
             }
         });
-
-        binding.storeRecyclerView.setItemAnimator(new FeedItemAnimator());
     }
 
     public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
@@ -157,20 +146,27 @@ public class StoreFragment extends Fragment {
         int scrollPosition = 0;
 
         if (binding.storeRecyclerView.getLayoutManager() != null) {
+
             scrollPosition = ((LinearLayoutManager) binding.storeRecyclerView.getLayoutManager())
                     .findFirstCompletelyVisibleItemPosition();
         }
 
         switch (layoutManagerType) {
+
             case GRID_LAYOUT_MANAGER:
+
                 mLayoutManager = new GridLayoutManager(getActivity(), SPAN_COUNT);
                 mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
                 break;
+
             case LINEAR_LAYOUT_MANAGER:
+
                 mLayoutManager = new LinearLayoutManager(getActivity());
                 mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
                 break;
+
             default:
+
                 mLayoutManager = new LinearLayoutManager(getActivity());
                 mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
         }
@@ -180,6 +176,7 @@ public class StoreFragment extends Fragment {
     }
 
     private enum LayoutManagerType {
+
         GRID_LAYOUT_MANAGER,
         LINEAR_LAYOUT_MANAGER
     }

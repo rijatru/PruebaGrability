@@ -38,7 +38,6 @@ import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.Utils;
 import com.ricardotrujillo.prueba.activities.EntryActivity;
 import com.ricardotrujillo.prueba.databinding.StoreRowBinding;
-import com.ricardotrujillo.prueba.event.RecyclerCellEvent;
 import com.ricardotrujillo.prueba.interfaces.CustomCallback;
 import com.ricardotrujillo.prueba.model.EntryViewModel;
 import com.ricardotrujillo.prueba.model.StoreManager;
@@ -312,15 +311,6 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
             activity.startActivity(intent);
         }
-
-        int adapterPos = holder.getAdapterPosition();
-
-        holder.binding.getEntry().likes = holder.binding.getEntry().likes + 1;
-        holder.binding.getEntry().isLiked = true;
-
-        notifyItemChanged(adapterPos, ACTION_LIKE_IMAGE_CLICKED);
-
-        busWorker.getBus().post(new RecyclerCellEvent(Constants.LIKE));
     }
 
     public interface StoreClickHandler {

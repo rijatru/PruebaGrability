@@ -1,13 +1,11 @@
 package com.ricardotrujillo.prueba.helper;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 
 import com.ricardotrujillo.prueba.Constants;
 import com.ricardotrujillo.prueba.R;
@@ -36,13 +34,13 @@ public class EntryActivityHelper {
                     @Override
                     public void onSuccess() {
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        final Bitmap bitmap = ((BitmapDrawable) binding.ivFeedCenterThumb.getDrawable()).getBitmap();
 
-                            final Bitmap bitmap = ((BitmapDrawable) binding.ivFeedCenterThumb.getDrawable()).getBitmap();
+                        Bitmap newBitmap = bitmap.copy(bitmap.getConfig(), bitmap.isMutable());
 
-                            Bitmap newBitmap = bitmap.copy(bitmap.getConfig(), bitmap.isMutable() ? true : false);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
 
-                            binding.ivFeedCenter.setImageBitmap(Utils.blur(activity, newBitmap, 6f));
+                            binding.ivFeedCenter.setImageBitmap(Utils.blur(activity, newBitmap, 7f));
 
                             binding.ivFeedCenter.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 
@@ -51,17 +49,13 @@ public class EntryActivityHelper {
 
                                     v.removeOnLayoutChangeListener(this);
 
-                                    binding.ivFeedCenter.setAlpha(1f);
-
                                     Utils.enterReveal(binding.ivFeedCenter);
                                 }
                             });
 
                         } else {
 
-                            binding.ivFeedCenter.setVisibility(View.VISIBLE);
-
-                            binding.ivFeedCenter.animate().alpha(1f);
+                            binding.ivFeedCenter.setImageBitmap(newBitmap);
                         }
                     }
 

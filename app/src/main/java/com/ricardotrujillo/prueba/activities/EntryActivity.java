@@ -59,6 +59,8 @@ public class EntryActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        inject();
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_entry);
         binding.appbar.addOnOffsetChangedListener(this);
         binding.toolbar.inflateMenu(R.menu.sample_actions);
@@ -73,8 +75,6 @@ public class EntryActivity extends AppCompatActivity
 
         startAlphaAnimation(binding.textviewTitle, 0, View.INVISIBLE);
 
-        inject();
-
         initTransition();
 
         if (savedInstanceState == null) {
@@ -83,7 +83,7 @@ public class EntryActivity extends AppCompatActivity
 
                 getEntry(getIntent().getExtras().getInt(Constants.POSITION));
 
-                setUpBarColor(entry.paletteColor);
+                if (entry != null) setUpBarColor(entry.paletteColor);
             }
         }
     }
@@ -103,7 +103,7 @@ public class EntryActivity extends AppCompatActivity
 
             getEntry(savedInstanceState.getInt(Constants.POSITION));
 
-            setUpBarColor(entry.paletteColor);
+            if (entry != null) setUpBarColor(entry.paletteColor);
         }
     }
 
@@ -196,53 +196,56 @@ public class EntryActivity extends AppCompatActivity
 
     void getEntry(int position) {
 
-        entry = storeManager.getStore().feed.entry[position];
+        if (storeManager.getStore() != null) {
 
-        binding.setEntry(entry);
-        binding.setHandlers(this);
+            entry = storeManager.getStore().feed.entry[position];
 
-        EntryActivityHelper.loadEntry(this, binding, entry);
+            binding.setEntry(entry);
+            binding.setHandlers(this);
 
-        binding.setClick(new StoreRecyclerViewAdapter.StoreClickHandler() {
+            EntryActivityHelper.loadEntry(this, binding, entry);
 
-            @Override
-            public void onClick(View view) {
+            binding.setClick(new StoreRecyclerViewAdapter.StoreClickHandler() {
 
-                //supportFinishAfterTransition();
-            }
-        });
+                @Override
+                public void onClick(View view) {
 
-        binding.ivFeedCenterThumbContainer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(final View v, MotionEvent event) {
-
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                    if (!isAnimatingAvatar) {
-
-                        isAnimatingAvatar = true;
-
-                        Utils.animateAvatar(v, new Callback() {
-                            @Override
-                            public void onSuccess() {
-
-                                isAnimatingAvatar = false;
-                            }
-
-                            @Override
-                            public void onError() {
-
-                            }
-                        });
-
-                        return true;
-
-                    }
+                    //supportFinishAfterTransition();
                 }
+            });
 
-                return false;
-            }
-        });
+            binding.ivFeedCenterThumbContainer.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(final View v, MotionEvent event) {
+
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+                        if (!isAnimatingAvatar) {
+
+                            isAnimatingAvatar = true;
+
+                            Utils.animateAvatar(v, new Callback() {
+                                @Override
+                                public void onSuccess() {
+
+                                    isAnimatingAvatar = false;
+                                }
+
+                                @Override
+                                public void onError() {
+
+                                }
+                            });
+
+                            return true;
+
+                        }
+                    }
+
+                    return false;
+                }
+            });
+        }
     }
 
     void initTransition() {

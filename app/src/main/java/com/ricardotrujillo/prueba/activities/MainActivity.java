@@ -110,21 +110,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataRetrieved(String result) {
 
-                logWorker.log("onDataRetrieved 1");
-
                 Store store = new Gson().fromJson(result.replace(Constants.STRING_TO_ERASE, Constants.NEW_STRING), Store.class);
 
-                logWorker.log("onDataRetrieved 2");
-
-                for (Store.Feed.Entry entry : store.feed.entry) {
-
-                    //logWorker.log("label: " + entry.name.label);
-                    //logWorker.log("image: " + entry.image[0].label);
-                }
-
                 storeManager.addStore(store);
-
-                logWorker.log("Got Store: " + storeManager.getStore().feed.author.name.label);
 
                 dbWorker.saveObject(MainActivity.this, store);
 

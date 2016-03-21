@@ -112,22 +112,25 @@ public class Utils {
     @TargetApi(21)
     public static void enterReveal(View view) {
 
-        // get the center for the clipping circle
-        int cx = view.getMeasuredWidth() / 2;
-        int cy = view.getMeasuredHeight() - view.getMeasuredHeight();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-        // get the final radius for the clipping circle
-        int finalRadius = Math.max(view.getWidth(), view.getHeight()) / 2;
+            // get the center for the clipping circle
+            int cx = view.getMeasuredWidth() / 2;
+            int cy = view.getMeasuredHeight() - view.getMeasuredHeight();
 
-        // create the animator for this view (the start radius is zero)
-        Animator anim =
-                ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, view.getWidth());
+            // get the final radius for the clipping circle
+            int finalRadius = Math.max(view.getWidth(), view.getHeight()) / 2;
 
-        // make the view visible and start the animation
-        view.setVisibility(View.VISIBLE);
-        anim.setDuration(Constants.REVEAL_ANIMATION);
-        anim.setInterpolator(new LinearInterpolator());
-        anim.start();
+            // create the animator for this view (the start radius is zero)
+            Animator anim =
+                    ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, view.getWidth());
+
+            // make the view visible and start the animation
+            view.setVisibility(View.VISIBLE);
+            anim.setDuration(Constants.REVEAL_ANIMATION);
+            anim.setInterpolator(new LinearInterpolator());
+            anim.start();
+        }
     }
 
     public static void animateAvatar(final View v, final Callback callback) {
