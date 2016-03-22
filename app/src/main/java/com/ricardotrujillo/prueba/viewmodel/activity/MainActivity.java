@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -60,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
     boolean clickedOnItem = false;
 
+    Snackbar snackbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +89,30 @@ public class MainActivity extends AppCompatActivity {
         busWorker.register(this);
 
         initCategoriesList();
+
+        checkForNetwork();
+    }
+
+    void checkForNetwork() {
+
+        netWorker.isNetworkAvailable(this, new NetWorker.ConnectionStatusListener() {
+
+            @Override
+            public void onResult(boolean connected) {
+
+                if (!connected) {
+
+                    snackbar = Snackbar
+                            .make(binding.getRoot(), getString(R.string.no_connectivity), Snackbar.LENGTH_INDEFINITE);
+
+                    snackbar.show();
+
+                } else {
+
+                    if (snackbar != null) snackbar.dismiss();
+                }
+            }
+        });
     }
 
     void shouldShowSplash() {

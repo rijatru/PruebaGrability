@@ -34,5 +34,6 @@
     <string name="categories">Categories</string>
     <string name="all_apps">All Apps</string>
     <string name="apps">Apps</string>
+    <string name="no_connectivity">No hay conexión a internet!</string>
 
 </resources>
