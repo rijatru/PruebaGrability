@@ -1,7 +1,8 @@
 # PruebaGrability
 
-For the project to work you need to create a new Run/Debug configuration:
+For the project to work you need to create a new Run/Debug configuration for an Application:
 
+Click on <b>Edit Configurations...</b> > <b>Add New Configuration (+ sign)</b> > <b>Application</b><br><br>
 <b>Name:</b> DaoGenerator <br><br>
 <b>Main class:</b>  com.ricardotrujillo.generator.Main <br><br>
 <b>Use classpath of module:</b>  greendao-generator <br><br>
