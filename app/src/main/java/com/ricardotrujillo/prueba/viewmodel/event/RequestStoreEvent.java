@@ -1,14 +1,14 @@
 package com.ricardotrujillo.prueba.viewmodel.event;
 
-public class FetchedStoreDataEvent {
+public class RequestStoreEvent {
 
     int position;
 
-    public FetchedStoreDataEvent() {
+    public RequestStoreEvent() {
 
     }
 
-    public FetchedStoreDataEvent(int position) {
+    public RequestStoreEvent(int position) {
 
         this.position = position;
     }

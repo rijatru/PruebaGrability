@@ -13,13 +13,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import com.google.gson.Gson;
 import com.ricardotrujillo.prueba.App;
 import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.databinding.ActivityMainBinding;
 import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
-import com.ricardotrujillo.prueba.viewmodel.Constants;
 import com.ricardotrujillo.prueba.viewmodel.comparator.IgnoreCaseComparator;
 import com.ricardotrujillo.prueba.viewmodel.event.FetchedStoreDataEvent;
 import com.ricardotrujillo.prueba.viewmodel.event.RecyclerCellEvent;
@@ -83,8 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
             setupToolBar(false);
         }
-
-        checkForLoadedData();
     }
 
     @Override
@@ -120,69 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
             getWindow().setSharedElementExitTransition(TransitionInflater.from(this).inflateTransition(R.transition.entry_transition));
         }
-    }
-
-    void checkForLoadedData() {
-
-        if (storeManager.getStore() == null) {
-
-            checkForConnectivity();
-
-        } else {
-
-            busWorker.getBus().post(new FetchedStoreDataEvent());
-        }
-    }
-
-    void checkForConnectivity() {
-
-        netWorker.isNetworkAvailable(this, new NetWorker.ConnectionStatusListener() {
-
-            @Override
-            public void onResult(boolean connected) {
-
-                if (connected) {
-
-                    getData(Constants.URL);
-
-                } else {
-
-                    getSavedData();
-                }
-            }
-        });
-    }
-
-    void getSavedData() {
-
-        Store store = (Store) dbWorker.getObject(this);
-
-        if (store != null) {
-
-            storeManager.addStore(store);
-
-            busWorker.getBus().post(new FetchedStoreDataEvent());
-        }
-    }
-
-    void getData(String url) {
-
-        netWorker.get(this, url, new NetWorker.Listener() {
-
-            @Override
-            public void onDataRetrieved(String result) {
-
-                Store store = new Gson().fromJson(result.replace(Constants.STRING_TO_ERASE, Constants.NEW_STRING), Store.class);
-
-                store.feed.fillOriginalEntry(store.feed.entry);
-
-                storeManager.addStore(store);
-
-                dbWorker.saveObject(MainActivity.this, store);
-
-                busWorker.getBus().post(new FetchedStoreDataEvent());
-            }
-        });
     }
 
     @Subscribe

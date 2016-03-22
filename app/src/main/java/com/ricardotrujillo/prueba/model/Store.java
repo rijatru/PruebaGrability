@@ -80,7 +80,7 @@ public final class Store {
             public final Category category;
             public final releaseDate releaseDate;
             public boolean imageLoaded = false;
-            public int paletteColor;
+            public int paletteColor = 0;
             public int likes = 0;
             public boolean isLiked = false;
 

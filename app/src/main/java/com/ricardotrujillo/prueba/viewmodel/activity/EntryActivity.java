@@ -22,10 +22,14 @@ import com.ricardotrujillo.prueba.databinding.ActivityEntryBinding;
 import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.viewmodel.Constants;
+import com.ricardotrujillo.prueba.viewmodel.event.FetchedStoreDataEvent;
+import com.ricardotrujillo.prueba.viewmodel.event.RequestStoreEvent;
 import com.ricardotrujillo.prueba.viewmodel.worker.AnimWorker;
+import com.ricardotrujillo.prueba.viewmodel.worker.BusWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.LogWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.MeasurementsWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.NetWorker;
+import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -46,6 +50,8 @@ public class EntryActivity extends AppCompatActivity
     MeasurementsWorker measurementsWorker;
     @Inject
     LogWorker logWorker;
+    @Inject
+    BusWorker busWorker;
     @Inject
     AnimWorker animWorker;
     private boolean mIsTheTitleVisible = false;
@@ -74,7 +80,7 @@ public class EntryActivity extends AppCompatActivity
 
                 getEntry(getIntent().getExtras().getInt(Constants.POSITION));
 
-                if (entry != null) setUpBarColor(entry.paletteColor);
+                if (entry != null && entry.paletteColor != 0) setUpBarColor(entry.paletteColor);
             }
         }
     }
@@ -94,7 +100,7 @@ public class EntryActivity extends AppCompatActivity
 
             getEntry(savedInstanceState.getInt(Constants.POSITION));
 
-            if (entry != null) setUpBarColor(entry.paletteColor);
+            if (entry != null && entry.paletteColor != 0) setUpBarColor(entry.paletteColor);
         }
     }
 
@@ -242,7 +248,17 @@ public class EntryActivity extends AppCompatActivity
                     return false;
                 }
             });
+
+        } else {
+
+            busWorker.getBus().post(new RequestStoreEvent(position));
         }
+    }
+
+    @Subscribe
+    public void recievedMessage(FetchedStoreDataEvent event) {
+
+        getEntry(event.getPosition());
     }
 
     void initTransition() {
