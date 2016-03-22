@@ -59,12 +59,9 @@ import javax.inject.Inject;
  */
 public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecyclerViewAdapter.BindingHolder> {
 
-    public static final String ACTION_LIKE_BUTTON_CLICKED = "action_like_button_button";
-    public static final String ACTION_LIKE_IMAGE_CLICKED = "action_like_image_button";
     public static final int VIEW_TYPE_DEFAULT = 1;
     public static final int VIEW_TYPE_LOADER = 2;
     static Activity activity;
-    final int SPAN_COUNT = Constants.SPAN_COUNT;
 
     @Inject
     LogWorker logWorker;

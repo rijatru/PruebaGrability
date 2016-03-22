@@ -60,6 +60,7 @@ public class NetWorker {
             public void onResponse(String res) {
 
                 listener.onDataRetrieved(res);
+
             }
 
         }, new Response.ErrorListener() {
