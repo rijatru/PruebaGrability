@@ -98,7 +98,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     @Override
     public void onBindViewHolder(final BindingHolder holder, final int position) {
 
-        holder.binding.setEntry(storeManager.getStore().feed.entry[position]);
+        holder.binding.setEntry(storeManager.getStore().feed.entry.get(position));
 
         holder.binding.setClick(new StoreClickHandler() {
 
@@ -109,7 +109,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
             }
         });
 
-        if (!storeManager.getStore().feed.entry[position].imageLoaded) {
+        if (!storeManager.getStore().feed.entry.get(position).imageLoaded) {
 
             holder.binding.cardView.setAlpha(0f);
         }
@@ -128,14 +128,14 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
                             public void onGenerated(Palette palette) {
 
-                                if (!storeManager.getStore().feed.entry[position].imageLoaded) {
+                                if (!storeManager.getStore().feed.entry.get(position).imageLoaded) {
 
                                     holder.binding.cardView.animate().setDuration(500).alpha(1f);
 
-                                    storeManager.getStore().feed.entry[position].imageLoaded = true; //First insert animation
+                                    storeManager.getStore().feed.entry.get(position).imageLoaded = true; //First insert animation
                                 }
 
-                                storeManager.getStore().feed.entry[position].paletteColor = animWorker.getDarkColorDrawable(palette).getColor();
+                                storeManager.getStore().feed.entry.get(position).paletteColor = animWorker.getDarkColorDrawable(palette).getColor();
 
                                 holder.binding.ivContainer.setBackgroundDrawable(animWorker.getColorDrawable(palette)); // min supported API is 14
 
@@ -189,12 +189,12 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
     boolean isLastCell(int position) {
 
-        return position == storeManager.getStore().feed.entry.length - 1;
+        return position == storeManager.getStore().feed.entry.size() - 1;
     }
 
     boolean isInLastRow(int position) {
 
-        double rows = Math.ceil((double) storeManager.getStore().feed.entry.length / SPAN_COUNT);
+        double rows = Math.ceil((double) storeManager.getStore().feed.entry.size() / SPAN_COUNT);
 
         return position >= (rows - 1) * SPAN_COUNT;
     }
@@ -202,7 +202,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     void loadImage(ImageView view, final int position, final CustomCallback callback) {
 
         Picasso.with(view.getContext())
-                .load(storeManager.getStore().feed.entry[position].image[2].label)
+                .load(storeManager.getStore().feed.entry.get(position).image[2].label)
                 .networkPolicy(
                         NetWorker.isConnected(activity) ?
                                 NetworkPolicy.NO_CACHE : NetworkPolicy.OFFLINE)
@@ -280,7 +280,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
         if (storeManager.getStore() != null) {
 
-            return storeManager.getStore().feed.entry.length;
+            return storeManager.getStore().feed.entry.size();
 
         } else {
 

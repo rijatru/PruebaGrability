@@ -25,11 +25,11 @@ public class StoreManager {
 
         for (int i = 0; i < store.feed.entry.size(); i++) {
 
-            store.feed.entry.get(i).name.entryLabel = store.feed.entry[i].name.label;
-            store.feed.entry[i].name.label = (i+1) + ". " + store.feed.entry[i].name.label;
+            store.feed.entry.get(i).name.entryLabel = store.feed.entry.get(i).name.label;
+            store.feed.entry.get(i).name.label = (i + 1) + ". " + store.feed.entry.get(i).name.label;
 
-            store.feed.entry[i].summary.label = store.feed.entry[i].summary.label.length() < 400 ?
-                    store.feed.entry[i].summary.label : store.feed.entry[i].summary.label.substring(0, 400) + "...";
+            store.feed.entry.get(i).summary.label = store.feed.entry.get(i).summary.label.length() < 400 ?
+                    store.feed.entry.get(i).summary.label : store.feed.entry.get(i).summary.label.substring(0, 400) + "...";
         }
     }
 

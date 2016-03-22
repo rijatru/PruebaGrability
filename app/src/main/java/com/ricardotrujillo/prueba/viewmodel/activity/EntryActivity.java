@@ -204,7 +204,7 @@ public class EntryActivity extends AppCompatActivity
 
         if (storeManager.getStore() != null) {
 
-            entry = storeManager.getStore().feed.entry[position];
+            entry = storeManager.getStore().feed.entry.get(position);
 
             binding.setEntry(entry);
             binding.setHandlers(this);
