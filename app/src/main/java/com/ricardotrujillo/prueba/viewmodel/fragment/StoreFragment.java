@@ -34,7 +34,7 @@ public class StoreFragment extends Fragment {
 
     public static StoreRecyclerViewAdapter adapter;
     protected final int SPAN_COUNT = Constants.SPAN_COUNT;
-    protected final String KEY_LAYOUT_MANAGER = "layoutManager";
+    protected final String KEY_LAYOUT_MANAGER = Constants.LAYOUT_MANAGER;
     private final int DATASET_COUNT = 15;
     protected LayoutManagerType mCurrentLayoutManagerType;
     protected RecyclerView.LayoutManager mLayoutManager;

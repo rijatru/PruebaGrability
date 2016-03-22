@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> categories = new ArrayList<>();
 
+    boolean clickedOnItem = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,16 +67,22 @@ public class MainActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        setupToolBar();
+        measurementsWorker.setScreenHeight(this);
 
         initTransition();
 
         addDrawerItems();
 
-        setupDrawer();
+        if (measurementsWorker.setScreenOrientation(this)) {
 
-        measurementsWorker.setScreenHeight(this);
-        //measurementsWorker.setScreenOrientation(this);
+            setupToolBar(true);
+
+            setupDrawer();
+
+        } else {
+
+            setupToolBar(false);
+        }
 
         checkForLoadedData();
     }
@@ -89,14 +97,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    void setupToolBar() {
+    void setupToolBar(boolean portrait) {
 
         setSupportActionBar(binding.toolbar);
 
-        if (getSupportActionBar() != null) {
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(getString(R.string.app_name));
 
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
+        if (portrait) {
+
+            if (getSupportActionBar() != null) {
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setHomeButtonEnabled(true);
+            }
         }
     }
 
@@ -126,8 +140,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResult(boolean connected) {
-
-                logWorker.log("Network State: " + connected);
 
                 if (connected) {
 
@@ -206,22 +218,28 @@ public class MainActivity extends AppCompatActivity {
     private void addDrawerItems() {
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categories);
+
         binding.navList.setAdapter(adapter);
 
         binding.navList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                binding.drawerLayout.closeDrawer(GravityCompat.START);
+                if (binding.drawerLayout != null)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START);
 
                 busWorker.getBus().post(new RecyclerCellEvent(categories.get(position)));
 
                 if (!categories.get(position).equals(getString(R.string.all_apps))) {
 
+                    clickedOnItem = true;
+
                     if (getSupportActionBar() != null)
                         getSupportActionBar().setTitle(categories.get(position) + " " + getString(R.string.apps));
 
                 } else {
+
+                    clickedOnItem = false;
 
                     if (getSupportActionBar() != null)
                         getSupportActionBar().setTitle(getString(R.string.app_name));
@@ -248,8 +266,8 @@ public class MainActivity extends AppCompatActivity {
 
                 super.onDrawerClosed(view);
 
-                //if (getSupportActionBar() != null)
-                //   getSupportActionBar().setTitle(getString(R.string.app_name));
+                if (getSupportActionBar() != null && !clickedOnItem)
+                    getSupportActionBar().setTitle(getString(R.string.app_name));
 
                 invalidateOptionsMenu();
             }
@@ -264,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        drawerToggle.syncState();
+        if (drawerToggle != null) drawerToggle.syncState();
     }
 
     @Override

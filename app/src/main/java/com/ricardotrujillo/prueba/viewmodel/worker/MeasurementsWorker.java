@@ -10,8 +10,6 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.ricardotrujillo.prueba.R;
-
 import javax.inject.Inject;
 
 public class MeasurementsWorker {
@@ -84,15 +82,19 @@ public class MeasurementsWorker {
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
-    public void setScreenOrientation(Activity activity) {
+    public boolean setScreenOrientation(Activity activity) {
 
-        if (activity.getResources().getBoolean(R.bool.isTab)) {
+        if (!isTablet(activity)) {
 
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+            return true;
 
         } else {
 
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+            return false;
         }
     }
 

@@ -30,24 +30,9 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <android.support.v4.widget.DrawerLayout
-            android:id="@+id/drawerLayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="@dimen/default_elevation">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <fragment
-                    android:id="@+id/show_students_fragment"
-                    android:name="com.ricardotrujillo.prueba.viewmodel.fragment.StoreFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-            </RelativeLayout>
+            android:layout_height="match_parent">
 
             <ListView
                 android:id="@+id/navList"
@@ -56,7 +41,16 @@
                 android:layout_gravity="left|start"
                 android:background="#ffeeeeee" />
 
-        </android.support.v4.widget.DrawerLayout>
+            <fragment
+                android:id="@+id/show_students_fragment"
+                android:name="com.ricardotrujillo.prueba.viewmodel.fragment.StoreFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/navList"
+                android:layout_toRightOf="@+id/navList"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

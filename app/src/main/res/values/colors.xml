@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryTransparent">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#2194f2</color>
+    <color name="colorPrimaryTransparent">#2194f2</color>
+    <color name="colorPrimaryDark">#1b80d2</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="style_color_primary">#2d5d82</color>
-    <color name="style_color_primary_dark">#21425d</color>
-    <color name="style_color_accent">#01bcd5</color>
+    <color name="style_color_primary">#2194f2</color>
+    <color name="style_color_primary_dark">#1b80d2</color>
+    <color name="style_color_accent">#FF4081</color>
 
-    <color name="fab_color_pressed">#3F51B5</color>
+    <color name="fab_color_pressed">#1b80d2</color>
     <color name="fab_color_shadow">#44000000</color>
     <color name="fragment_background">#ffffff</color>
 

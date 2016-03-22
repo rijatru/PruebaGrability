@@ -3,7 +3,7 @@ package com.ricardotrujillo.prueba.viewmodel;
 public class Constants {
 
     final public static int SOCKET_TIME_OUT = 30000;
-    final public static String URL = "https://itunes.apple.com/us/rss/topfreeapplications/limit=100/json";
+    final public static String URL = "https://itunes.apple.com/us/rss/topfreeapplications/limit=20/json";
     final public static String TAG = "TAG";
     final public static String RESULT = "result";
 
@@ -11,6 +11,7 @@ public class Constants {
     final public static String PREFERENCES_KEY = "TestPrefs";
 
     final public static String DB_KEY = "store-db";
+    final public static String LAYOUT_MANAGER = "layoutManager";
 
     final public static int REVEAL_ANIMATION = 550;
     final public static int RECYCLER_INTRO_ANIM_DURATION = 500;
@@ -29,7 +30,7 @@ public class Constants {
     final public static String MORE = "more";
     final public static String POSITION = "position";
 
-    final public static int SPAN_COUNT = 3;
+    final public static int SPAN_COUNT = 2;
 
     final public static int SIX_INCHES = 6;
 }

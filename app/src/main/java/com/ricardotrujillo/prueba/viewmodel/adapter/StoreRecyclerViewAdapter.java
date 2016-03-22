@@ -29,7 +29,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.ricardotrujillo.prueba.App;
@@ -76,6 +77,8 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
     private boolean showLoadingView = false;
 
+    private int lastPosition = -1;
+
     public StoreRecyclerViewAdapter(Activity act) {
 
         activity = act;
@@ -114,7 +117,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
         if (!storeManager.getStore().feed.entry.get(position).imageLoaded) {
 
-            holder.binding.cardView.setAlpha(0f);
+            holder.binding.ivContainer.setAlpha(0f);
         }
 
         if (storeManager.getColorDrawable(storeManager.getStore().feed.entry.get(position).name.label) == null) {
@@ -133,7 +136,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
                                 if (!storeManager.getStore().feed.entry.get(position).imageLoaded) {
 
-                                    holder.binding.cardView.animate().setDuration(500).alpha(1f);
+                                    holder.binding.ivContainer.animate().setDuration(500).alpha(1f);
 
                                     storeManager.getStore().feed.entry.get(position).imageLoaded = true; //First insert animation
                                 }
@@ -160,9 +163,9 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                 @Override
                 public void onSuccess() {
 
-                    holder.binding.cardView.animate().setDuration(500).alpha(1f);
-
                     holder.binding.ivContainer.setBackgroundDrawable(storeManager.getColorDrawable(storeManager.getStore().feed.entry.get(position).name.label)); // min supported API is 14
+
+                    holder.binding.ivContainer.animate().setDuration(500).alpha(1f);
                 }
 
                 @Override
@@ -178,30 +181,20 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
             bindLoadingFeedItem((LoadingCellFeedViewHolder) holder);
         }
+
+        setAnimation(holder.binding.cardView, position);
     }
 
-    void setBottomMargin(BindingHolder holder) {
+    private void setAnimation(View viewToAnimate, int position) {
 
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+        if (position > lastPosition) {
 
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
+            Animation animation = AnimationUtils.loadAnimation(activity, R.anim.slide_in_bottom);
 
-        params.setMargins(AnimWorker.dpToPx(4), AnimWorker.dpToPx(8), AnimWorker.dpToPx(4), AnimWorker.dpToPx(8));
-        holder.binding.cardView.setLayoutParams(params);
-    }
+            viewToAnimate.startAnimation(animation);
 
-    boolean isLastCell(int position) {
-
-        return position == storeManager.getStore().feed.entry.size() - 1;
-    }
-
-    boolean isInLastRow(int position) {
-
-        double rows = Math.ceil((double) storeManager.getStore().feed.entry.size() / SPAN_COUNT);
-
-        return position >= (rows - 1) * SPAN_COUNT;
+            lastPosition = position;
+        }
     }
 
     void loadImage(ImageView view, final int position, final CustomCallback callback) {
