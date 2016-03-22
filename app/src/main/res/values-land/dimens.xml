@@ -21,7 +21,9 @@
     <dimen name="image_width">120dp</dimen>
     <dimen name="image_final_width">32dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>
-    <dimen name="spacing_double">51dp</dimen>
+    <dimen name="spacing_double">52dp</dimen>
+    <dimen name="spacing_final_position_avatar">67dp</dimen>
+    <dimen name="toolbar_title_size">52dp</dimen>
 
     <dimen name="card_title_size">18sp</dimen>
     <dimen name="card_text_size">16sp</dimen>

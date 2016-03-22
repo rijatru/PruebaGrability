@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 
@@ -105,6 +106,53 @@ public class AnimWorker {
             view.setVisibility(View.VISIBLE);
             anim.setDuration(Constants.REVEAL_ANIMATION);
             anim.setInterpolator(new LinearInterpolator());
+            anim.start();
+        }
+    }
+
+    @TargetApi(21)
+    public void exitReveal(final View view) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            // get the center for the clipping circle
+            int cx = view.getMeasuredWidth() / 2;
+            int cy = view.getMeasuredHeight() / 2;
+
+            // get the final radius for the clipping circle
+            int initRadius = Math.max(cx, cy);
+            int finalRadius = 0;
+
+            // create the animator for this view (the start radius is zero)
+            Animator anim =
+                    ViewAnimationUtils.createCircularReveal(view, cx, cy, initRadius, finalRadius);
+
+            // make the view visible and start the animation
+            view.setVisibility(View.VISIBLE);
+            anim.setDuration(Constants.REVEAL_ANIMATION_SPLASH);
+            anim.setInterpolator(new LinearInterpolator());
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+
+                    view.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
             anim.start();
         }
     }
@@ -217,4 +265,88 @@ public class AnimWorker {
         alphaAnimation.setFillAfter(true);
         v.startAnimation(alphaAnimation);
     }
+
+    public void animateSlash(final View view, final View root) {
+
+        view.setScaleX(0f);
+        view.setScaleY(0f);
+        view.setAlpha(0f);
+
+        view.animate()
+                .setDuration(400)
+                .alpha(1f);
+
+        view.animate()
+                .setDuration(2000)
+                .setInterpolator(new BounceInterpolator())
+                .scaleX(1f);
+
+        view.animate()
+                .setDuration(2000)
+                .setInterpolator(new BounceInterpolator())
+                .scaleY(1f).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+                dismissSplash(root);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
+
+    void dismissSplash(View root) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            exitReveal(root);
+
+        } else {
+
+            fadeOut(root);
+        }
+    }
+
+    void fadeOut(final View view) {
+
+        view.animate()
+                .setDuration(Constants.REVEAL_ANIMATION_SPLASH)
+                .alpha(0f)
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+
+                        view.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+    }
+
 }

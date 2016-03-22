@@ -14,6 +14,7 @@ public class Constants {
     final public static String LAYOUT_MANAGER = "layoutManager";
 
     final public static int REVEAL_ANIMATION = 550;
+    final public static int REVEAL_ANIMATION_SPLASH = 400;
     final public static int RECYCLER_INTRO_ANIM_DURATION = 500;
     final public static int ENTRY_VIEW_MAIN_PANEL = 480;
     final public static int EXIT_VIEW_MAIN_PANEL = 300;
@@ -30,7 +31,7 @@ public class Constants {
     final public static String MORE = "more";
     final public static String POSITION = "position";
 
-    final public static int SPAN_COUNT = 2;
+    final public static int SPAN_COUNT = 3;
 
     final public static int SIX_INCHES = 6;
 }

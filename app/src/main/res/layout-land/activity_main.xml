@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="schools.b1gdigital.com.schools.MainActivity">
 
@@ -16,42 +17,77 @@
 
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/EntryToolBar"
-            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_anchor="@id/framelayoutTitle"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        </android.support.v7.widget.Toolbar>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="@style/EntryToolBar"
+                android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_anchor="@id/framelayoutTitle"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            </android.support.v7.widget.Toolbar>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ListView
+                    android:id="@+id/navList"
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left|start"
+                    android:background="#ffeeeeee" />
+
+                <fragment
+                    android:id="@+id/show_students_fragment"
+                    android:name="com.ricardotrujillo.prueba.viewmodel.fragment.StoreFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@+id/navList"
+                    android:layout_toRightOf="@+id/navList"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/splashRootRelative"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:visibility="visible">
 
-            <ListView
-                android:id="@+id/navList"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="left|start"
-                android:background="#ffeeeeee" />
+            <com.ricardotrujillo.prueba.view.RoundedFrameLayout
+                android:id="@+id/splashRoot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@color/colorPrimary"
+                android:elevation="10dp"
+                custom:shadow_radius="26">
 
-            <fragment
-                android:id="@+id/show_students_fragment"
-                android:name="com.ricardotrujillo.prueba.viewmodel.fragment.StoreFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toEndOf="@+id/navList"
-                android:layout_toRightOf="@+id/navList"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/splash" />
+
+            </com.ricardotrujillo.prueba.view.RoundedFrameLayout>
 
         </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </layout>

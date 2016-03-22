@@ -21,6 +21,7 @@ import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.viewmodel.comparator.IgnoreCaseComparator;
 import com.ricardotrujillo.prueba.viewmodel.event.FetchedStoreDataEvent;
 import com.ricardotrujillo.prueba.viewmodel.event.RecyclerCellEvent;
+import com.ricardotrujillo.prueba.viewmodel.worker.AnimWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.BusWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.DbWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.LogWorker;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     MeasurementsWorker measurementsWorker;
     @Inject
     BusWorker busWorker;
+    @Inject
+    AnimWorker animWorker;
 
     ActivityMainBinding binding;
 
@@ -67,9 +70,37 @@ public class MainActivity extends AppCompatActivity {
 
         measurementsWorker.setScreenHeight(this);
 
+        shouldShowSplash();
+
+        setUpDrawer();
+
         initTransition();
 
         addDrawerItems();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        busWorker.register(this);
+
+        initCategoriesList();
+    }
+
+    void shouldShowSplash() {
+
+        if (storeManager.getStore() == null) {
+
+            animWorker.animateSlash(binding.splashRoot, binding.splashRootRelative);
+
+        } else {
+
+            binding.splashRootRelative.setVisibility(View.GONE);
+        }
+    }
+
+    void setUpDrawer() {
 
         if (measurementsWorker.setScreenOrientation(this)) {
 
@@ -82,16 +113,6 @@ public class MainActivity extends AppCompatActivity {
             setupToolBar(false);
         }
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        busWorker.register(this);
-
-        initCategoriesList();
-    }
-
 
     void setupToolBar(boolean portrait) {
 
