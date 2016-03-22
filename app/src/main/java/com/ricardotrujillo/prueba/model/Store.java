@@ -102,6 +102,7 @@ public final class Store {
             public static final class name {
 
                 public String entryLabel;
+
                 public String label;
 
                 public name(String label) {

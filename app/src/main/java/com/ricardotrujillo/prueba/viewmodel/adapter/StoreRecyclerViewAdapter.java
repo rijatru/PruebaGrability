@@ -117,7 +117,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
             holder.binding.cardView.setAlpha(0f);
         }
 
-        if (storeManager.getColorDrawable(position) == null) {
+        if (storeManager.getColorDrawable(storeManager.getStore().feed.entry.get(position).name.label) == null) {
 
             loadImage(holder.binding.ivFeedCenter, position, new CustomCallback() {
                 @Override
@@ -140,9 +140,9 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
                                 storeManager.getStore().feed.entry.get(position).paletteColor = animWorker.getDarkColorDrawable(palette).getColor();
 
-                                holder.binding.ivContainer.setBackgroundDrawable(animWorker.getColorDrawable(palette)); // min supported API is 14
+                                holder.binding.ivContainer.setBackgroundDrawable(animWorker.getDarkColorDrawable(palette)); // min supported API is 14
 
-                                storeManager.addDrawables(position, animWorker.getColorDrawable(palette));
+                                storeManager.addDrawables(position, animWorker.getDarkColorDrawable(palette));
                             }
                         });
                     }
@@ -162,7 +162,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
                     holder.binding.cardView.animate().setDuration(500).alpha(1f);
 
-                    holder.binding.ivContainer.setBackgroundDrawable(storeManager.getColorDrawable(position)); // min supported API is 14
+                    holder.binding.ivContainer.setBackgroundDrawable(storeManager.getColorDrawable(storeManager.getStore().feed.entry.get(position).name.label)); // min supported API is 14
                 }
 
                 @Override

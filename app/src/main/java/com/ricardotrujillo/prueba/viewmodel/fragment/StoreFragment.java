@@ -97,6 +97,8 @@ public class StoreFragment extends Fragment {
         final ArrayList<Store.Feed.Entry> filteredModelList = filter(storeManager.getStore().feed.originalEntry, query);
 
         animateTo(filteredModelList);
+
+        binding.storeRecyclerView.scrollToPosition(0);
     }
 
     private ArrayList<Store.Feed.Entry> filter(ArrayList<Store.Feed.Entry> entries, String query) {
@@ -153,8 +155,6 @@ public class StoreFragment extends Fragment {
 
             if (!storeManager.getStore().feed.entry.contains(model)) {
 
-                logWorker.log("applyAndAnimateAdditions");
-
                 addItem(i, model);
             }
         }
@@ -169,8 +169,6 @@ public class StoreFragment extends Fragment {
             final int fromPosition = storeManager.getStore().feed.entry.indexOf(model);
 
             if (fromPosition >= 0 && fromPosition != toPosition) {
-
-                logWorker.log("applyAndAnimateMovedItems");
 
                 moveItem(fromPosition, toPosition);
             }

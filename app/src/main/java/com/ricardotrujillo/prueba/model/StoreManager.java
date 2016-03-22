@@ -3,13 +3,16 @@ package com.ricardotrujillo.prueba.model;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 
 public class StoreManager {
 
+    HashMap<String, ColorDrawable> colorDrawables = new HashMap<>();
     private Store store;
+    //private ColorDrawable[] colorDrawables;
     private Drawable[] drawables;
-    private ColorDrawable[] colorDrawables;
 
     @Inject
     public StoreManager() {
@@ -21,7 +24,6 @@ public class StoreManager {
         this.store = store;
 
         drawables = new Drawable[store.feed.entry.size()];
-        colorDrawables = new ColorDrawable[store.feed.entry.size()];
 
         for (int i = 0; i < store.feed.entry.size(); i++) {
 
@@ -40,17 +42,17 @@ public class StoreManager {
 
     public void addDrawables(int position, ColorDrawable colorDrawable) {
 
-        colorDrawables[position] = colorDrawable;
+        colorDrawables.put(store.feed.entry.get(position).name.label, colorDrawable);
     }
 
-    public Drawable getDrawable(int position) {
+    //public Drawable getDrawable(int position) {
 
-        return colorDrawables[position];
-    }
+    //    return colorDrawables[position];
+    //}
 
-    public ColorDrawable getColorDrawable(int position) {
+    public ColorDrawable getColorDrawable(String name) {
 
-        return colorDrawables[position];
+        return colorDrawables.get(name);
     }
 
     public int getDrawablesSize() {
