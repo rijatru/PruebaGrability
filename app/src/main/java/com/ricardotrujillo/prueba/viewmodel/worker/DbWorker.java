@@ -2,7 +2,6 @@ package com.ricardotrujillo.prueba.viewmodel.worker;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.ricardotrujillo.prueba.model.db.DaoMaster;
@@ -50,8 +49,6 @@ public class DbWorker {
         List<Store> storeList = storeDao.loadAll();
 
         if (storeList.size() > 0) {
-
-            Log.d("Test", "Got db results: " + storeList.size());
 
             return new Gson().fromJson(storeList.get(0).getObject(), com.ricardotrujillo.prueba.model.Store.class);
         }

@@ -3,7 +3,6 @@ package com.ricardotrujillo.prueba.viewmodel.worker;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.ricardotrujillo.prueba.viewmodel.Constants;
 
@@ -25,8 +24,6 @@ public class SharedPreferencesWorker {
 
         if (sharedPreferences == null) {
 
-            Log.d("Dagger", "saveString Initing shared prefs");
-
             sharedPreferences = activity.getSharedPreferences(Constants.PREFERENCES_KEY, Context.MODE_PRIVATE);
         }
 
@@ -38,8 +35,6 @@ public class SharedPreferencesWorker {
     public String getString(Activity activity, int key) {
 
         if (sharedPreferences == null) {
-
-            Log.d("Dagger", "getStringu* Initing shared prefs");
 
             sharedPreferences = activity.getSharedPreferences(Constants.PREFERENCES_KEY, Context.MODE_PRIVATE);
         }

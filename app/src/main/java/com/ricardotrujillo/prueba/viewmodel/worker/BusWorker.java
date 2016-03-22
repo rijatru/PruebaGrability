@@ -24,8 +24,6 @@ public class BusWorker {
 
         if (bus == null) {
 
-            Log.d("Dagger", "register bus == null");
-
             bus = new Bus();
         }
 
@@ -43,8 +41,6 @@ public class BusWorker {
     public void unRegister(Object object) {
 
         if (bus == null) {
-
-            Log.d("Dagger", "unRegister bus == null");
 
             bus = new Bus();
         }
