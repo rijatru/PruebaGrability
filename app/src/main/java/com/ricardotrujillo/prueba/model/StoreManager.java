@@ -3,8 +3,6 @@ package com.ricardotrujillo.prueba.model;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 
-import java.util.ArrayList;
-
 import javax.inject.Inject;
 
 public class StoreManager {
@@ -22,12 +20,12 @@ public class StoreManager {
 
         this.store = store;
 
-        drawables = new Drawable[store.feed.entry.length];
-        colorDrawables = new ColorDrawable[store.feed.entry.length];
+        drawables = new Drawable[store.feed.entry.size()];
+        colorDrawables = new ColorDrawable[store.feed.entry.size()];
 
-        for (int i = 0; i < store.feed.entry.length; i++) {
+        for (int i = 0; i < store.feed.entry.size(); i++) {
 
-            store.feed.entry[i].name.entryLabel = store.feed.entry[i].name.label;
+            store.feed.entry.get(i).name.entryLabel = store.feed.entry[i].name.label;
             store.feed.entry[i].name.label = (i+1) + ". " + store.feed.entry[i].name.label;
 
             store.feed.entry[i].summary.label = store.feed.entry[i].summary.label.length() < 400 ?
@@ -58,5 +56,10 @@ public class StoreManager {
     public int getDrawablesSize() {
 
         return drawables.length;
+    }
+
+    public void filterBy(String filter) {
+
+
     }
 }

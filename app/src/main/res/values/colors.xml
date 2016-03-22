@@ -9,7 +9,7 @@
     <color name="style_color_primary_dark">#21425d</color>
     <color name="style_color_accent">#01bcd5</color>
 
-    <color name="fab_color_pressed">#007787</color>
+    <color name="fab_color_pressed">#3F51B5</color>
     <color name="fab_color_shadow">#44000000</color>
     <color name="fragment_background">#ffffff</color>
 

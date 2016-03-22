@@ -1,10 +1,17 @@
 package com.ricardotrujillo.prueba.viewmodel.activity;
 
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.TransitionInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import com.google.gson.Gson;
 import com.ricardotrujillo.prueba.App;
@@ -13,12 +20,17 @@ import com.ricardotrujillo.prueba.databinding.ActivityMainBinding;
 import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.viewmodel.Constants;
+import com.ricardotrujillo.prueba.viewmodel.comparator.IgnoreCaseComparator;
 import com.ricardotrujillo.prueba.viewmodel.event.FetchedStoreDataEvent;
+import com.ricardotrujillo.prueba.viewmodel.event.RecyclerCellEvent;
 import com.ricardotrujillo.prueba.viewmodel.worker.BusWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.DbWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.LogWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.MeasurementsWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.NetWorker;
+import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -39,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
 
+    ArrayAdapter<String> adapter;
+
+    ActionBarDrawerToggle drawerToggle;
+
+    ArrayList<String> categories = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,12 +65,39 @@ public class MainActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        setupToolBar();
+
         initTransition();
 
+        addDrawerItems();
+
+        setupDrawer();
+
         measurementsWorker.setScreenHeight(this);
-        measurementsWorker.setScreenOrientation(this);
+        //measurementsWorker.setScreenOrientation(this);
 
         checkForLoadedData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        busWorker.register(this);
+
+        initCategoriesList();
+    }
+
+
+    void setupToolBar() {
+
+        setSupportActionBar(binding.toolbar);
+
+        if (getSupportActionBar() != null) {
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
     }
 
     void initTransition() {
@@ -124,6 +169,107 @@ public class MainActivity extends AppCompatActivity {
                 busWorker.getBus().post(new FetchedStoreDataEvent());
             }
         });
+    }
+
+    @Subscribe
+    public void recievedMessage(FetchedStoreDataEvent event) {
+
+        initCategoriesList();
+    }
+
+    void initCategoriesList() {
+
+        if (categories.size() == 0 && storeManager.getStore() != null) {
+
+            for (Store.Feed.Entry entry : storeManager.getStore().feed.entry) {
+
+                if (!categories.contains(entry.category.attributes.label))
+                    categories.add(entry.category.attributes.label);
+            }
+
+            IgnoreCaseComparator icc = new IgnoreCaseComparator();
+
+            java.util.Collections.sort(categories, icc);
+
+            categories.add(0, getString(R.string.all_apps));
+
+            adapter.notifyDataSetChanged();
+
+        } else {
+
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void addDrawerItems() {
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categories);
+        binding.navList.setAdapter(adapter);
+
+        binding.navList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
+
+                busWorker.getBus().post(new RecyclerCellEvent(categories.get(position)));
+            }
+        });
+    }
+
+    private void setupDrawer() {
+
+        drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, R.string.drawer_open, R.string.drawer_close) {
+
+            public void onDrawerOpened(View drawerView) {
+
+                super.onDrawerOpened(drawerView);
+
+                if (getSupportActionBar() != null)
+                    getSupportActionBar().setTitle(getString(R.string.categories));
+
+                invalidateOptionsMenu();
+            }
+
+            public void onDrawerClosed(View view) {
+
+                super.onDrawerClosed(view);
+
+                if (getSupportActionBar() != null)
+                    getSupportActionBar().setTitle(getString(R.string.app_name));
+
+                invalidateOptionsMenu();
+            }
+        };
+
+        drawerToggle.setDrawerIndicatorEnabled(true);
+
+        binding.drawerLayout.addDrawerListener(drawerToggle);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (drawerToggle.onOptionsItemSelected(item)) {
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     void inject() {

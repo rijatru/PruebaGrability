@@ -7,7 +7,7 @@
         <item name="colorAccent">@color/style_color_accent</item>
         <item name="colorControlHighlight">@color/fab_color_pressed</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:statusBarColor">@color/style_color_primary_dark</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
         <!-- shared element transitions -->

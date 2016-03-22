@@ -28,4 +28,10 @@
     <string name="author">Author</string>
     <string name="empty"></string>
 
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="categories">Categories</string>
+    <string name="all_apps">All Apps</string>
+
 </resources>

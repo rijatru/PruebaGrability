@@ -1,7 +1,6 @@
 package com.ricardotrujillo.prueba.viewmodel.activity;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -60,22 +59,14 @@ public class EntryActivity extends AppCompatActivity
         inject();
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_entry);
-        binding.appbar.addOnOffsetChangedListener(this);
-        binding.toolbar.inflateMenu(R.menu.actions);
 
-        setSupportActionBar(binding.toolbar);
-
-        if(getSupportActionBar() != null) {
-
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(null);
-        }
+        setupToolBar();
 
         animWorker.startAlphaAnimation(binding.textviewTitle, 0, View.INVISIBLE);
 
         initTransition();
 
-        measurementsWorker.setScreenOrientation(this);
+        //easurementsWorker.setScreenOrientation(this);
 
         if (savedInstanceState == null) {
 
@@ -85,18 +76,6 @@ public class EntryActivity extends AppCompatActivity
 
                 if (entry != null) setUpBarColor(entry.paletteColor);
             }
-        }
-    }
-
-    void setScreenOrientation() {
-
-        if (getResources().getBoolean(R.bool.isTab)) {
-
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        } else {
-
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
     }
 
@@ -143,7 +122,22 @@ public class EntryActivity extends AppCompatActivity
         float percentage = (float) Math.abs(offset) / (float) maxScroll;
 
         handleAlphaOnTitle(percentage);
+
         handleToolbarTitleVisibility(percentage);
+    }
+
+    void setupToolBar() {
+
+        binding.appbar.addOnOffsetChangedListener(this);
+        binding.toolbar.inflateMenu(R.menu.actions);
+
+        setSupportActionBar(binding.toolbar);
+
+        if (getSupportActionBar() != null) {
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(null);
+        }
     }
 
     private void handleToolbarTitleVisibility(float percentage) {

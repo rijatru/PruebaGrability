@@ -1,5 +1,7 @@
 package com.ricardotrujillo.prueba.model;
 
+import java.util.ArrayList;
+
 public final class Store {
 
     public final Feed feed;
@@ -10,7 +12,8 @@ public final class Store {
 
     public static final class Feed {
         public final Author author;
-        public final Entry entry[];
+        public final Entry originalEntry[];
+        public final ArrayList<Entry> entry = new ArrayList<>();
         public final Updated updated;
         public final Rights rights;
         public final Title title;
@@ -20,7 +23,13 @@ public final class Store {
 
         public Feed(Author author, Entry[] entry, Updated updated, Rights rights, Title title, Icon icon, Link[] link, Id id){
             this.author = author;
-            this.entry = entry;
+
+            for (Entry en : entry) {
+
+                this.entry.add(en);
+            }
+
+            this.originalEntry = entry;
             this.updated = updated;
             this.rights = rights;
             this.title = title;
@@ -57,10 +66,6 @@ public final class Store {
 
         public static final class Entry {
 
-            public boolean imageLoaded = false;
-            public int paletteColor;
-            public int likes = 0;
-            public boolean isLiked = false;
             public final name name;
             public final image image[];
             public final Summary summary;
@@ -73,6 +78,10 @@ public final class Store {
             public final artist artist;
             public final Category category;
             public final releaseDate releaseDate;
+            public boolean imageLoaded = false;
+            public int paletteColor;
+            public int likes = 0;
+            public boolean isLiked = false;
 
             public Entry(name name, image[] image, Summary summary, price price, contentType contentType, Rights rights, Title title, Link link, Id id, artist artist, Category category, releaseDate releaseDate){
                 this.name = name;
