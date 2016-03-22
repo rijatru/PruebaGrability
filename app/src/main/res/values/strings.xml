@@ -33,5 +33,6 @@
 
     <string name="categories">Categories</string>
     <string name="all_apps">All Apps</string>
+    <string name="apps">Apps</string>
 
 </resources>

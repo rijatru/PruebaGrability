@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.ricardotrujillo.prueba.App;
 import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.databinding.StoreFragmentBinding;
+import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.viewmodel.Constants;
 import com.ricardotrujillo.prueba.viewmodel.adapter.StoreRecyclerViewAdapter;
@@ -24,6 +25,8 @@ import com.ricardotrujillo.prueba.viewmodel.worker.BusWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.LogWorker;
 import com.ricardotrujillo.prueba.viewmodel.worker.NetWorker;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -86,7 +89,117 @@ public class StoreFragment extends Fragment {
     @Subscribe
     public void recievedMessage(RecyclerCellEvent event) {
 
-        storeManager.filterBy(event.getString());
+        filterBy(event.getString());
+    }
+
+    public void filterBy(String query) {
+
+        final ArrayList<Store.Feed.Entry> filteredModelList = filter(storeManager.getStore().feed.originalEntry, query);
+
+        animateTo(filteredModelList);
+    }
+
+    private ArrayList<Store.Feed.Entry> filter(ArrayList<Store.Feed.Entry> entries, String query) {
+
+        if (query.equals(getString(R.string.all_apps))) {
+
+            return entries;
+
+        } else {
+
+            query = query.toLowerCase();
+
+            final ArrayList<Store.Feed.Entry> filteredModelList = new ArrayList<>();
+
+            for (Store.Feed.Entry entry : entries) {
+
+                final String text = entry.category.attributes.label.toLowerCase();
+
+                if (text.contains(query)) {
+
+                    filteredModelList.add(entry);
+                }
+            }
+
+            return filteredModelList;
+        }
+    }
+
+    public void animateTo(ArrayList<Store.Feed.Entry> entries) {
+
+        applyAndAnimateRemovals(entries);
+        applyAndAnimateAdditions(entries);
+        applyAndAnimateMovedItems(entries);
+    }
+
+    private void applyAndAnimateRemovals(ArrayList<Store.Feed.Entry> newModels) {
+
+        for (int i = storeManager.getStore().feed.entry.size() - 1; i >= 0; i--) {
+
+            final Store.Feed.Entry model = storeManager.getStore().feed.entry.get(i);
+
+            if (!newModels.contains(model)) {
+
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(ArrayList<Store.Feed.Entry> newModels) {
+
+        for (int i = 0, count = newModels.size(); i < count; i++) {
+
+            final Store.Feed.Entry model = newModels.get(i);
+
+            if (!storeManager.getStore().feed.entry.contains(model)) {
+
+                logWorker.log("applyAndAnimateAdditions");
+
+                addItem(i, model);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(ArrayList<Store.Feed.Entry> newModels) {
+
+        for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
+
+            final Store.Feed.Entry model = newModels.get(toPosition);
+
+            final int fromPosition = storeManager.getStore().feed.entry.indexOf(model);
+
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+
+                logWorker.log("applyAndAnimateMovedItems");
+
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+    public Store.Feed.Entry removeItem(int position) {
+
+        final Store.Feed.Entry entry = storeManager.getStore().feed.entry.remove(position);
+
+        adapter.notifyItemRemoved(position);
+
+        return entry;
+    }
+
+    public void addItem(int position, Store.Feed.Entry model) {
+
+        storeManager.getStore().feed.entry.add(position, model);
+
+        adapter.notifyItemInserted(position);
+    }
+
+    public void moveItem(int fromPosition, int toPosition) {
+
+        final Store.Feed.Entry model = storeManager.getStore().feed.entry.remove(fromPosition);
+
+        storeManager.getStore().feed.entry.add(toPosition, model);
+
+        adapter.notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override

@@ -162,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Store store = new Gson().fromJson(result.replace(Constants.STRING_TO_ERASE, Constants.NEW_STRING), Store.class);
 
+                store.feed.fillOriginalEntry(store.feed.entry);
+
                 storeManager.addStore(store);
 
                 dbWorker.saveObject(MainActivity.this, store);
@@ -181,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (categories.size() == 0 && storeManager.getStore() != null) {
 
-            for (Store.Feed.Entry entry : storeManager.getStore().feed.entry) {
+            for (Store.Feed.Entry entry : storeManager.getStore().feed.originalEntry) {
 
                 if (!categories.contains(entry.category.attributes.label))
                     categories.add(entry.category.attributes.label);
@@ -213,6 +215,17 @@ public class MainActivity extends AppCompatActivity {
                 binding.drawerLayout.closeDrawer(GravityCompat.START);
 
                 busWorker.getBus().post(new RecyclerCellEvent(categories.get(position)));
+
+                if (!categories.get(position).equals(getString(R.string.all_apps))) {
+
+                    if (getSupportActionBar() != null)
+                        getSupportActionBar().setTitle(categories.get(position) + " " + getString(R.string.apps));
+
+                } else {
+
+                    if (getSupportActionBar() != null)
+                        getSupportActionBar().setTitle(getString(R.string.app_name));
+                }
             }
         });
     }
@@ -235,8 +248,8 @@ public class MainActivity extends AppCompatActivity {
 
                 super.onDrawerClosed(view);
 
-                if (getSupportActionBar() != null)
-                    getSupportActionBar().setTitle(getString(R.string.app_name));
+                //if (getSupportActionBar() != null)
+                //   getSupportActionBar().setTitle(getString(R.string.app_name));
 
                 invalidateOptionsMenu();
             }

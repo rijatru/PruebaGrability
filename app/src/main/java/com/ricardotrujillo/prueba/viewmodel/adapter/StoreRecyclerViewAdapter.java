@@ -36,6 +36,7 @@ import com.ricardotrujillo.prueba.App;
 import com.ricardotrujillo.prueba.R;
 import com.ricardotrujillo.prueba.databinding.StoreRowBinding;
 import com.ricardotrujillo.prueba.model.EntryViewModel;
+import com.ricardotrujillo.prueba.model.Store;
 import com.ricardotrujillo.prueba.model.StoreManager;
 import com.ricardotrujillo.prueba.view.LoadingFeedItemView;
 import com.ricardotrujillo.prueba.viewmodel.Constants;
@@ -48,6 +49,8 @@ import com.ricardotrujillo.prueba.viewmodel.worker.NetWorker;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 /**
@@ -156,6 +159,8 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
             loadImage(holder.binding.ivFeedCenter, position, new CustomCallback() {
                 @Override
                 public void onSuccess() {
+
+                    holder.binding.cardView.animate().setDuration(500).alpha(1f);
 
                     holder.binding.ivContainer.setBackgroundDrawable(storeManager.getColorDrawable(position)); // min supported API is 14
                 }
@@ -311,6 +316,15 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
             activity.startActivity(intent);
         }
+    }
+
+    public void updateList(ArrayList<Store.Feed.Entry> data) {
+
+        storeManager.getStore().feed.entry = new ArrayList<>();
+
+        storeManager.getStore().feed.entry.addAll(data);
+
+        notifyDataSetChanged();
     }
 
     public interface StoreClickHandler {

@@ -57,9 +57,4 @@ public class StoreManager {
 
         return drawables.length;
     }
-
-    public void filterBy(String filter) {
-
-
-    }
 }
